@@ -6,8 +6,6 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/node-auth').then(() => console.log('connection successful')).catch((err) => console.error(err));
 
-const Course = require("/models/Course");
-
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
