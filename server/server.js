@@ -14,3 +14,16 @@ app.get('/index', (req, res) => {
   res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
 });
 
+// https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js#
+app.get('/', (req, res) => {
+
+    const { spawn } = require('child_process');
+    const pyProg = spawn('python', ['./../parser.py']);
+
+    pyProg.stdout.on('data', function(data) {
+
+        console.log(data.toString());
+        res.write(data);
+        res.end('end');
+    });
+});
