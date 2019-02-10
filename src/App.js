@@ -199,10 +199,10 @@ class App extends Component {
             <Select
               mode="multiple"
               style={{ width: '100%' }}
-              placeholder="Select department/major (you can also search!)..."
+              placeholder="Select department/major (you can also search here!)..."
               onChange={this.handleSelectDeparment}
             >
-              <Option value="american-studes">American Studies</Option>
+              <Option value="american">American Studies</Option>
               <Option value="anthropology">Anthropology</Option>
               <Option value="art-histoy">Art & Art History</Option>
               <Option value="biology">Biology</Option>
