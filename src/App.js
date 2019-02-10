@@ -194,7 +194,7 @@ class App extends Component {
             <Select
               mode="multiple"
               style={{ width: '100%' }}
-              placeholder="Select department/major (try search!)..."
+              placeholder="Select department/major (you can also search!)..."
               onChange={this.handleSelectDeparment}
             >
               <Option value="american-studes">American Studies</Option>
@@ -210,11 +210,11 @@ class App extends Component {
               <Option value="computer-science">Computer Science</Option>
               <Option value="cricital-media-cultural">Critical Media & Cultural Studies</Option>
               <Option value="economics">Economics</Option>
-              <Option value="educatiom">Education</Option>
+              <Option value="education">Education</Option>
               <Option value="english">English</Option>
               <Option value="environmental">Environmental Studies</Option>
               <Option value="film">Film Studies</Option>
-              <Option value="globa-health">Global Health</Option>
+              <Option value="global-health">Global Health</Option>
               <Option value="health-professions">Health Professions Advising</Option>
               <Option value="health-phyiscal">Health and Physical Education </Option>
               <Option value="history">History</Option>
@@ -249,7 +249,7 @@ class App extends Component {
               <Option value="theatre">Theatre Arts</Option>
               <Option value="dance">Dance</Option>
               <OptGroup label="rFLA">
-                <Option value="rfsla">rFLA</Option>
+                <Option value="rfla">rFLA</Option>
                 <Option value="ice">ICE</Option>
                 <Option value="imw">IMW</Option>
                 <Option value="mm">MM</Option>
@@ -263,10 +263,10 @@ class App extends Component {
               placeholder="Select course level (100, 200, etc.)..."
               onChange={this.handleSelectLevel}
             >
-              <Option value="100">100+</Option>
-              <Option value="200">200+</Option>
-              <Option value="300">300+</Option>
-              <Option value="400">400+</Option>
+              <Option value="100">100s\</Option>
+              <Option value="200">200s</Option>
+              <Option value="300">300s</Option>
+              <Option value="400">400s</Option>
             </Select>
           </div>
           <div className = 'table'>
