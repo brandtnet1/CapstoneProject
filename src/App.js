@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Select, Row, Col, Slider, TimePicker, InputNumber } from 'antd';
+import { Table, Select, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 //import "./index.css";
@@ -43,7 +43,6 @@ class App extends Component {
   
   render() {
     const { Option, OptGroup } = Select;
-    const { inputValue } = this.state;
     //dataSource for table - currently only has dummy data
     //when the server is finished, delete the dummy data here and the line below should be all that is needed
     //const { data } = this.state;
@@ -147,9 +146,21 @@ class App extends Component {
         <header className="app-header">
           <h1 className="app-title">Rollins Course Schedule</h1>
           <div className = "ui-selectors">
+
+          <Select
+              mode="multiple"
+              style={{ width: '100%' }}
+              placeholder="Select status..."
+              onChange={this.handleSelectDay}
+            >
+              <Option value="open">Open</Option>
+              <Option value="filled">Filled</Option>
+              <Option value="cancelled">Cancelled</Option>
+            </Select>
+
             <Select
               mode="multiple"
-              style={{ width: '15%' }}
+              style={{ width: '100%' }}
               placeholder="Select day of the week..."
               onChange={this.handleSelectDay}
             >
@@ -162,7 +173,7 @@ class App extends Component {
             </Select>
 
             <TimePicker
-              style={{ width: '15%' }}
+              style={{ width: '100%' }}
               placeholder="Select start time..."
               minuteStep={5}
               format = 'hh:mm a'
@@ -171,7 +182,7 @@ class App extends Component {
             >
             </TimePicker >
             <TimePicker
-              style={{ width: '15%' }}
+              style={{ width: '100%' }}
               placeholder="Select end time..."
               minuteStep={5}
               format = 'hh:mm a'
@@ -182,7 +193,7 @@ class App extends Component {
 
             <Select
               mode="multiple"
-              style={{ width: '20%' }}
+              style={{ width: '100%' }}
               placeholder="Select department/major (try search!)..."
               onChange={this.handleSelectDeparment}
             >
@@ -245,10 +256,10 @@ class App extends Component {
                 <Option value="wcc">WCC</Option>
               </OptGroup>
             </Select>
-            
+
             <Select
               mode="multiple"
-              style={{ width: '15%' }}
+              style={{ width: '100%' }}
               placeholder="Select course level (100, 200, etc.)..."
               onChange={this.handleSelectLevel}
             >
