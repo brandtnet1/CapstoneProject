@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Select, TimePicker } from 'antd';
+import { Table, Select, TimePicker, BackTop } from 'antd';
 
 import "antd/dist/antd.css";
 //import "./index.css";
@@ -25,6 +25,11 @@ class App extends Component {
     }
     return body;
   };
+
+  handleSelectStatus(value) {
+    console.log(`selected ${value}`);
+  }
+
   handleSelectDay(value) {
     console.log(`selected ${value}`);
   }
@@ -145,13 +150,13 @@ class App extends Component {
       <div className="app">
         <header className="app-header">
           <h1 className="app-title">Rollins Course Schedule</h1>
-          <div className = "ui-selectors">
+          <div className="ui-selectors">
 
           <Select
               mode="multiple"
               style={{ width: '100%' }}
               placeholder="Select status..."
-              onChange={this.handleSelectDay}
+              onChange={this.handleSelectStatus}
             >
               <Option value="open">Open</Option>
               <Option value="filled">Filled</Option>
@@ -263,13 +268,14 @@ class App extends Component {
               placeholder="Select course level (100, 200, etc.)..."
               onChange={this.handleSelectLevel}
             >
-              <Option value="100">100s\</Option>
+              <Option value="100">100s</Option>
               <Option value="200">200s</Option>
               <Option value="300">300s</Option>
               <Option value="400">400s</Option>
             </Select>
+            <BackTop />
           </div>
-          <div className = 'table'>
+          <div className='table'>
             <Table dataSource={data} columns={columns} />
           </div>
         </header>
