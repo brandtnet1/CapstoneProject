@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Select } from 'antd';
+import { Table, Select, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 //import "./index.css";
@@ -26,6 +26,10 @@ class App extends Component {
     return body;
   };
   handleSelectDay(value) {
+    console.log(`selected ${value}`);
+  }
+
+  handleSelectTime(value) {
     console.log(`selected ${value}`);
   }
 
@@ -141,10 +145,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Rollins Course Schedule</h1>
-          <span>Day of the week</span>
+          <div>
           <Select
             mode="multiple"
-            style={{ width: '100%' }}
+            style={{ width: '15%' }}
             placeholder="Select day of the week..."
             onSelectDay={this.handleSelectDay}
           >
@@ -155,11 +159,19 @@ class App extends Component {
             <Option value="friday">Friday</Option>
             <Option value="saturday">Saturday</Option>
           </Select>
-          <span>Department/Major</span>
+          <TimePicker
+            style={{ width: '15%' }}
+            placeholder="Select time of the day..."
+            minuteStep={5}
+            format = 'hh:mm a'
+            use12Hours
+            onSelectDay={this.handleSelectDay}
+          >
+          </TimePicker >
           <Select
             mode="multiple"
-            style={{ width: '100%' }}
-            placeholder="Select department/major (you can also search!)..."
+            style={{ width: '20%' }}
+            placeholder="Select department/major (try search!)..."
             onSelectDeparment={this.handleSelectDeparment}
           >
             <Option value="american-studes">American Studies</Option>
@@ -221,10 +233,9 @@ class App extends Component {
               <Option value="wcc">WCC</Option>
             </OptGroup>
           </Select>
-          <span>Course level</span>
           <Select
             mode="multiple"
-            style={{ width: '100%' }}
+            style={{ width: '15%' }}
             placeholder="Select course level (100, 200, etc.)..."
             onSelectLevel={this.handleSelectLevel}
           >
@@ -233,6 +244,7 @@ class App extends Component {
             <Option value="300">300+</Option>
             <Option value="400">400+</Option>
           </Select>
+          </div>
           <Table dataSource={data} columns={columns} />
         </header>
         <p className="App-intro">{this.state.data}</p>
