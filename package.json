@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.13.2",
     "mongoose": "^5.4.9",
+    "nodemon": "^1.18.10",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"

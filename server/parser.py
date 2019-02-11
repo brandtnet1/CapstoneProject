@@ -1,6 +1,8 @@
 # Parse it like it's hot
 import codecs
+import json
 import re
+from collections import OrderedDict
 
 #Open HTML file
 f=codecs.open("html/rollins_course_schedule.html", 'r')
@@ -9,13 +11,12 @@ sections = sections.split("</tr>")
 
 courses_json = []
 
-def skip_intersession():
-    #skip over intersession courses
-    for first in range(0, len(sections)):
-        if("FULL TERM" in sections[first]):
-            break;
-    first += 3;
-    sections = sections[first:]
+#skip over intersession courses
+for first in range(0, len(sections)):
+    if("FULL TERM" in sections[first]):
+        break;
+first += 3;
+sections = sections[first:]
 
 
 def parseCourse(section):
@@ -32,7 +33,7 @@ def parseCourse(section):
     #get seats available
     seats_available = parts[2]
     seats_available = re.sub('.*><.*?>', '', seats_available)
-    seats_available = seats_available.replace(' ', '').split('\n')
+    seats_available = seats_available.strip()
     
     # get course_number department & level & section
     cn_d_l = parts[3]
@@ -60,6 +61,7 @@ def parseCourse(section):
     #get time
     times = parts[6]
     times = re.findall('([0-9]. ?:[0-9][0-9]-[0-9]. ?:[0-9][0-9][a-zA-z])', times)
+    times = [x for x in times if x]
     # Chris is the time master
     # times = time.split('<br>')
     # times[0] = times[0][44:]
@@ -72,11 +74,13 @@ def parseCourse(section):
     days = parts[7]
     days = re.sub('.*?><.*?>', '', days).replace('<br>', '')
     days = days.replace(' ', '').split('\n')
+    days = [x for x in days if x]
 
     #get location
     location = parts[8]
     location = re.sub('.*><.*?>', '', location).replace('<br>', '')
     location = location.replace(' ', '').split('\n')
+    location = [x for x in location if x]
 
     # instructor name
     instructor = parts[9]
@@ -92,25 +96,29 @@ def parseCourse(section):
     #get note
     note = parts[11]
     note = note[21: len(note) - 12]
-
-    return [status, seats_available, course_number, department, level, section, name, credits, times, days, location, instructor, competency, note]
-
-def parse_html():
-    skip_intersession()
     
-    #loop through all sections in HTML file
-    i = 0;
-    while(i<len(sections)):
-        section = sections[i]
-        
-        #if this sections contains course details, parse it
-        if("Open" in section or "Filled" in section or "Cancelled" in section):
-            courses_json.append(parseCourse(section))
-            
-        i += 1
-        
+    course = [("Status", status), ("Seats_Available", seats_available), 
+             ("Course_Registration_Number", course_number), 
+             ("Course_Department", department), ("Course_Level", level), 
+             ("Course_Section", section), ("Course_Title", name), 
+             ("Course_Credits", credits), ("Times", times), 
+             ("Days", days), ("Location", location), ("Instructor", instructor),
+             ("Competency", competency), ("Comments", note)]
 
-    return courses_json
+    return json.dumps(OrderedDict(course))
+
+#loop through all sections in HTML file
+i = 0;
+while(i<len(sections)):
+    section = sections[i]
+    
+    #if this sections contains course details, parse it
+    if("Open" in section or "Filled" in section or "Cancelled" in section):
+        courses_json.append(parseCourse(section))
+        
+    i += 1
     
 
-        
+for x in courses_json:
+    print x
+    
