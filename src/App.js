@@ -1,31 +1,39 @@
 import React, { Component } from 'react';
 import { Table, Select, TimePicker, BackTop } from 'antd';
+// import fetch from 'isomorphic-fetch';
 
 import "antd/dist/antd.css";
 //import "./index.css";
 
 class App extends Component {
   state = {
-    data: null
+    data: null,
+    courses: null
   };
 
-  componentDidMount() {
-      // Call our fetch function below once the component mounts
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
-  }
-    // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch('/fill_db');
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
+  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+  fillDatabase = () => {
+    fetch('/fill_db')
+    .then(res => this.setState({ data: res.express }))
+    .catch(err => console.log(err));
   };
-
+  
+  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+  queryDatabase = async () => {
+    const response =  await fetch('/query_db')
+    const body = response.json();
+    
+    console.log(body);
+    // .then(res => {
+    //   this.setState({ courses: res.express });
+    //   console.log(this.state.courses);
+    //   console.log("FINISHED");
+    // })
+    // .catch(err => console.log(err));
+  };
+  
+  // queryDatabase;
+  
   handleSelectStatus(value) {
     console.log(`selected ${value}`);
   }
@@ -45,12 +53,24 @@ class App extends Component {
   handleSelectLevel(value) {
     console.log(`selected ${value}`);
   }
+
   
   render() {
+    
     const { Option, OptGroup } = Select;
     //dataSource for table - currently only has dummy data
     //when the server is finished, delete the dummy data here and the line below should be all that is needed
-    //const { data } = this.state;
+    
+    // var { data } = null;
+    
+    if(this.state.courses === null) {
+      this.queryDatabase()
+      .then(() => {
+        console.log('Query done');
+      });
+    }
+   // const { data } = this.state.courses; // Might require some formating
+    
     const data = [{
       key: '1',
       status: 'Open',
@@ -91,6 +111,7 @@ class App extends Component {
       gened:'',
       comments:'FIL elective. SI Skills course.'
     }];
+    
     //columns for table
     const columns = [{
       title: 'Status',
@@ -151,7 +172,8 @@ class App extends Component {
         <header className="app-header">
           <h1 className="app-title">Rollins Course Schedule</h1>
           <div className="ui-selectors">
-
+          <div className="container">
+          <div className="row">
           <Select
               mode="multiple"
               style={{ width: '100%' }}
@@ -273,13 +295,16 @@ class App extends Component {
               <Option value="300">300s</Option>
               <Option value="400">400s</Option>
             </Select>
-            <BackTop />
+            </div>
+            </div>
           </div>
           <div className='table'>
             <Table dataSource={data} columns={columns} />
           </div>
         </header>
-        <p className="App-intro">{this.state.data}</p>
+        <button onClick={this.fillDatabase}> Fill Database </button>
+        <div>{this.state.data}</div>
+        <BackTop />
       </div>
     );
   }
