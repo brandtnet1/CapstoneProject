@@ -193,7 +193,6 @@ class App extends Component {
           </SubMenu>
         </Menu>
         <div className="ui-selectors">
-
           <Select
               mode="multiple"
               style={{ width: '100%' }}

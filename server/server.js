@@ -15,17 +15,20 @@ const Course = require("./models/Course");
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// create a GET route
-// app.get('/index', (req, res) => {
-//   res.send({ express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' });
-// });
-
 // THIS IS HOW YOU QUERY THE DB
 app.get('/query_db', (req, res) => {
     
-    var courses = Course.find();
-    res.send({ data : courses });
+    var courses = {};
+    // https://docs.mongodb.com/manual/reference/method/db.collection.find/
+    Course.find({}, function (err, course) {
+        course.forEach((c) => {
+            courses[c._id] = c;
+        });
+    }).then(() => {
+        res.send({ express : courses })
+    });
     
+
     // Course.
     //   find().
     //   where('Course_Department').equals('CMS').
@@ -61,9 +64,7 @@ app.get('/fill_db', (req, res) => {
 
             // Saves the course to the DB
             add_course.save()
-            .catch(err => {
-                console.log("Unable to save to database");
-            });
+            .catch(() => console.log("Unable to save to database"));
         });
         
         res.end(data);
