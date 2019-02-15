@@ -378,11 +378,13 @@ class App extends Component {
                     <Option value="400">400s</Option>
                   </Select>
                 </div>
-                <Icon
-                  className="trigger"
-                  type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                  onClick={this.toggleSider}
-                />
+                <div className='toggle-button-container'>
+                  <Icon
+                    className="trigger"
+                    type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                    onClick={this.toggleSider}
+                  />
+                </div>
             </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
             <Content style={{
