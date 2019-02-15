@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Input, Icon, Layout, Table, Select, TimePicker, BackTop } from 'antd';
 
 import "antd/dist/antd.css";
-//import "./index.css";
+import "./style.css";
 
 class App extends Component {
   state = {
@@ -400,7 +400,6 @@ class App extends Component {
           </Layout>
         </Layout>
       </Layout>
-      <p className="App-intro">{this.state.data}</p>
       <BackTop />
     </div>
     );
