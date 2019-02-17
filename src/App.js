@@ -153,8 +153,7 @@ class App extends Component {
     }];
 
     return (
-      <div className="app">
-        <Layout>
+        <Layout className="app-container">
           <Header className="header">
             <div className="logo" />
             <Search
@@ -301,7 +300,7 @@ class App extends Component {
                   />
                 </div>
             </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
+          <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
               background: '#fff', 
               padding: 24, 
@@ -324,7 +323,6 @@ class App extends Component {
       <br></br>
       <button onClick={this.queryDatabase}> Query Database </button>
       <BackTop />
-    </div>
     );
   }
 }
