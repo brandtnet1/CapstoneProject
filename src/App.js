@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Icon, Layout, Table, Select, TimePicker, BackTop } from 'antd';
+import { Button, Input, Icon, Layout, Table, Select, TimePicker, BackTop } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -79,13 +79,11 @@ class App extends Component {
     const { Header, Content, Sider } = Layout;
     const Search = Input.Search;
 
-    //dataSource for table - currently only has dummy data
-    //when the server is finished, delete the dummy data here and the line below should be all that is needed
     if(this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
     }
 
-    // columns for table
+    //specify columns format/behaviors for table
     const columns = [{
       title: 'Status',
       dataIndex: 'Status',
@@ -151,7 +149,16 @@ class App extends Component {
       dataIndex: 'Comments',
       key: 'Comments',
     }];
-
+    //specify rowSelection behavior for table
+    const rowSelection = {
+      onChange: (selectedRowKeys, selectedRows) => {
+        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      },
+      getCheckboxProps: record => ({
+        disabled: record.name === 'Disabled User', // Column configuration not to be checked
+        name: record.name,
+      }),
+    };
     return (
       <div className="app-container">
         <Layout className="app">
@@ -293,6 +300,10 @@ class App extends Component {
                     <Option value="400">400s</Option>
                   </Select>
                 </div>
+                <div className='go-button-container'>
+                  <Button type="primary">See Courses!</Button>
+                  <Button type="secondary">Clear Filters</Button>
+                </div>
                 <div className='toggle-button-container'>
                   <Icon
                     className="sider-toggle"
@@ -311,7 +322,12 @@ class App extends Component {
 
             { this.state.courses &&
               <div className='table'>
-                <Table dataSource={ this.state.courses } columns={ columns } />
+                <Table 
+                dataSource={ this.state.courses } 
+                columns={ columns }
+                rowSelection={rowSelection}
+                expandedRowRender={record => <p style={{ margin: 0 }}>{record.description} say something nice</p>}
+                />
               </div>
             }
 
