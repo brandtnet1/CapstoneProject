@@ -8,8 +8,26 @@ class App extends Component {
   state = {
     data: null,
     courses: null, 
-    collapsed: false
+    collapsed: false,
+    selectedRowKeys: [], // Check here to configure the default column
+    loading: false,
   };
+
+  start = () => {
+    this.setState({ loading: true });
+    // ajax request after empty completing
+    setTimeout(() => {
+      this.setState({
+        selectedRowKeys: [],
+        loading: false,
+      });
+    }, 1000);
+  }
+
+  onSelectChange = (selectedRowKeys) => {
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  }
 
   fillDatabase = () => {
     fetch('http://localhost:5000/fill_db')
@@ -78,6 +96,14 @@ class App extends Component {
     const { Option, OptGroup } = Select;
     const { Header, Content, Sider } = Layout;
     const Search = Input.Search;
+    const { loading, selectedRowKeys } = this.state;
+
+    //specify rowSelection behavior for table
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
 
     if(this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
@@ -149,16 +175,8 @@ class App extends Component {
       dataIndex: 'Comments',
       key: 'Comments',
     }];
-    //specify rowSelection behavior for table
-    const rowSelection = {
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      getCheckboxProps: record => ({
-        disabled: record.name === 'Disabled User', // Column configuration not to be checked
-        name: record.name,
-      }),
-    };
+    
+    
     return (
       <div className="app-container">
         <Layout className="app">
@@ -319,7 +337,17 @@ class App extends Component {
               margin: 0,
               minHeight: 280,}}
             >
-
+            <Button
+              type="primary"
+              onClick={this.start}
+              disabled={!hasSelected}
+              loading={loading}
+            >
+              Reload
+            </Button>
+            <span style={{ marginLeft: 8 }}>
+              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+            </span>
             { this.state.courses &&
               <div className='table'>
                 <Table 
