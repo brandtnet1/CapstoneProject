@@ -7,24 +7,41 @@ import "./style.css";
 class App extends Component {
   state = {
     data: null,
+    courses: null, 
     collapsed: false
   };
 
-  componentDidMount() {
-      // Call our fetch function below once the component mounts
-    this.callBackendAPI()
-      .then(res => this.setState({ data: res.express }))
-      .catch(err => console.log(err));
-  }
-    // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch('/fill_db');
-    const body = await response.json();
+  fillDatabase = () => {
+    fetch('http://localhost:5000/fill_db')
+    .then(response => {
+      return response.json();
+    })
+    .then((values) => { 
+      this.setState({ data: values.express }); 
+    })
+    .catch(err => console.log(err));
+  };
 
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    return body;
+  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+  queryDatabase() {
+    fetch('http://localhost:5000/query_db')
+    .then(response => {
+      return response.json();
+    })
+    .then((values) => { 
+      var data = [];
+
+      Object.keys(values.express).forEach((key) => {
+        data.push(values.express[key])
+      })
+
+      console.log(data);
+      this.setState({ courses: data }); 
+    })
+    .then(() => {
+      this.render()
+    })
+    .catch(err => console.log(err));
   };
 
   toggleSider = () => {
@@ -57,136 +74,22 @@ class App extends Component {
     console.log(`selected ${value}`);
   }
   
-  render() {
+  render = () => {
     const { Option, OptGroup } = Select;
     const { Header, Content, Sider } = Layout;
     const Search = Input.Search;
+
     //dataSource for table - currently only has dummy data
     //when the server is finished, delete the dummy data here and the line below should be all that is needed
-    //const { data } = this.state;
-    const data = [{
-      key: '1',
-      status: 'Open',
-      seats: 3,
-      course: '10102 CMS 167 1',
-      title: 'Problem Solving I: with Java',
-      credits:'4',
-      time:'1 :00-2 :15P',
-      days:'MW',
-      location:'BUSH 201',
-      instructor:'D Myers',
-      gened:'',
-      comments:'Co-requisite: CMS 167L'
-    }, {
-      key: '2',
-      status: 'Open',
-      seats: 3,
-      course: '10103 CMS 167L 1',
-      title: 'Problem Solving I Lab',
-      credits:'1',
-      time:'11:00-12:15P',
-      days:'F',
-      location:'BUSH 164',
-      instructor:'D Myers',
-      gened:'',
-      comments:'Co-requisite: CMS 167'
-    }, {
-      key: '3',
-      status: 'Open',
-      seats: 4,
-      course: '10104 CMS 170 1',
-      title: 'Problem Solving II: Java + Lab',
-      credits:'5',
-      time:'1 :00-1 :50P\n2 :30-3 :45P',
-      days:'F\nMW',
-      location:'BUSH 301\nBUSH201',
-      instructor:'D Myers',
-      gened:'',
-      comments:'CMS 167 & 167L'
-    }, {
-      key: '4',
-      status: 'Open',
-      seats: 9,
-      course: '10106 CMS 270 1',
-      title: 'Object-Oriented Design & Devel',
-      credits:'4',
-      time:' 2 :00-3 :15P',
-      days:'TR',
-      location:'BUSH 302',
-      instructor:'R Elva',
-      gened:'',
-      comments:'CMS 170'
-    }, {
-      key: '5',
-      status: 'Open',
-      seats: 3,
-      course: '10107 CMS 330 1X',
-      title: 'System Software Principles',
-      credits:'4',
-      time:' 2 :30-3 :45P',
-      days:'MW',
-      location:'BUSH 202',
-      instructor:'V Summet',
-      gened:'',
-      comments:'CMS 230'
-    }, {
-      key: '6',
-      status: 'Open',
-      seats: 7,
-      course: '10108 CMS 330 2X',
-      title: 'System Software Principles',
-      credits:'4',
-      time:'6 :45-8 :00P',
-      days:'MW',
-      location:'BUSH 202',
-      instructor:'V Summet',
-      gened:'',
-      comments:'CMS 230'
-    }, {
-      key: '7',
-      status: 'Open',
-      seats: 10,
-      course: '10109 CMS 375 1X',
-      title: 'Database Design & Dev',
-      credits:'4',
-      time:'5 :20-6 :35P',
-      days:'TR',
-      location:'BUSH 302',
-      instructor:'R Elva',
-      gened:'',
-      comments:'CMS 270'
-    }, {
-      key: '8',
-      status: 'Open',
-      seats: 8,
-      course: '10110 CMS 460 1X',
-      title: 'Algorithm Analysis',
-      credits:'4',
-      time:'4 :00-5 :15P',
-      days:'MW',
-      location:'BUSH 228',
-      instructor:'J Carrington',
-      gened:'',
-      comments:'CMS 270 and MAT 140'
-    }, {
-      key: '9',
-      status: 'Filled',
-      seats: 0,
-      course: '10095 CMC 110 1',
-      title: 'Digital Storytelling',
-      credits:'4',
-      time:'2 :00-3 :15P',
-      days:'TR',
-      location:'OLIN 220',
-      instructor:'S Schoen',
-      gened:'',
-      comments:'FIL elective. SI Skills course.'
-    }];
-    //columns for table
+    if(this.state.courses === null || this.state.courses === {}) {
+      this.queryDatabase();
+    }
+
+    // columns for table
     const columns = [{
       title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      dataIndex: 'Status',
+      key: 'Status',
       filters: [{
         text: 'Open',
         value: 'Open',
@@ -197,44 +100,56 @@ class App extends Component {
       onFilter: (value, record) => record.status.indexOf(value) === 0,
     }, {
       title: 'Seats Available',
-      dataIndex: 'seats',
-      key: 'seats',
+      dataIndex: 'Seats_Available',
+      key: 'Seats_Available',
     }, {
-      title: 'Course',
-      dataIndex: 'course',
-      key: 'course',
+      title: 'CRN',
+      dataIndex: 'Course_Registration_Number',
+      key: 'Course_Registration_Number',
+    }, {
+      title: 'Department',
+      dataIndex: 'Course_Department',
+      key: 'Course_Department',
+    }, {
+      title: 'Level',
+      dataIndex: 'Course_Level',
+      key: 'Course_Level',
+    }, {
+      title: 'Section',
+      dataIndex: 'Course_Section',
+      key: 'Course_Section',
     }, {
       title: 'Course Title',
-      dataIndex: 'title',
-      key: 'title',
+      dataIndex: 'Course_Title',
+      key: 'Course_Title',
     }, {
       title: 'Credits',
-      dataIndex: 'credits',
-      key: 'credits',
+      dataIndex: 'Course_Credits',
+      key: 'Course_Credits',
     }, {
       title: 'Time',
-      dataIndex: 'time',
-      key: 'time',
+      dataIndex: 'Times',
+      key: 'Times',
     }, {
       title: 'Days',
-      dataIndex: 'days',
-      key: 'days',
+      dataIndex: 'Days',
+      key: 'Days',
     }, {
       title: 'Location',
       dataIndex: 'Location',
       key: 'Location',
     }, {
       title: 'Instructor',
-      dataIndex: 'instructor',
-      key: 'instructor',
+      dataIndex: 'Instructor',
+      key: 'Instructor',
     }, {
       title: 'Competency/GenEd',
-      dataIndex: 'gened',
-      key: 'gened',
+      dataIndex: 'Competency',
+      key: 'Competency',
     }, {
       title: 'Pre-Reqs/Comments',
-      dataIndex: 'comments',
-      key: 'comments',
+      dataIndex: 'Comments',
+      key: 'Comments',
     }];
 
     return (
@@ -393,13 +308,21 @@ class App extends Component {
               margin: 0,
               minHeight: 280,}}
             >
+
+            { this.state.courses &&
               <div className='table'>
-                <Table dataSource={data} columns={columns} />
+                <Table dataSource={ this.state.courses } columns={ columns } />
               </div>
+            }
+
             </Content>
           </Layout>
         </Layout>
       </Layout>
+      <button onClick={this.fillDatabase}> Fill Database </button>
+      <div>{this.state.data}</div>
+      <br></br>
+      <button onClick={this.queryDatabase}> Query Database </button>
       <BackTop />
     </div>
     );

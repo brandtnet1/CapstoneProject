@@ -1,10 +1,13 @@
 const express = require('express');
-const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 5000;
+
+var app = express();
+app.use(cors());
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/node-auth').then(() => console.log('connection successful')).catch((err) => console.error(err));
+mongoose.connect('mongodb://localhost/capstone').then(() => console.log('connection successful')).catch((err) => console.error(err));
 
 // https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
 var db = mongoose.connection;
@@ -27,7 +30,6 @@ app.get('/query_db', (req, res) => {
     }).then(() => {
         res.send({ express : courses })
     });
-    
 
     // Course.
     //   find().
@@ -37,7 +39,6 @@ app.get('/query_db', (req, res) => {
     //   sort({ Seats_Available: -1 }). // how to sort them when we display -1 = reverse highest to lowest, 1 = lowest to highest
     //   select('Status Course_Title Course_Registration_Number'). // This tells the query what data we want from the courses, if you remove this you'll get everything
     //   exec(callback); // if there is a callback function for something to do when you find the query do it now
-    
 });
 
 // https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js#
@@ -52,7 +53,6 @@ let runPy = new Promise(function(success, nosuccess) {
 });
 
 app.get('/fill_db', (req, res) => {
-
     res.send({ express : 'welcome\n' });
 
     runPy.then(function(data) {
