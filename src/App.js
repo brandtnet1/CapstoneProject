@@ -153,7 +153,8 @@ class App extends Component {
     }];
 
     return (
-        <Layout className="app-container">
+      <div className="app-container">
+        <Layout className="app">
           <Header className="header">
             <div className="logo" />
             <Search
@@ -318,11 +319,14 @@ class App extends Component {
           </Layout>
         </Layout>
       </Layout>
-      <button onClick={this.fillDatabase}> Fill Database </button>
-      <div>{this.state.data}</div>
-      <br></br>
-      <button onClick={this.queryDatabase}> Query Database </button>
+      <div>
+        <button onClick={this.fillDatabase}> Fill Database </button>
+        <div>{this.state.data}</div>
+        <br></br>
+        <button onClick={this.queryDatabase}> Query Database </button>
+      </div>
       <BackTop />
+     </div>
     );
   }
 }
