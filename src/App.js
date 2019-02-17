@@ -295,7 +295,7 @@ class App extends Component {
                 </div>
                 <div className='toggle-button-container'>
                   <Icon
-                    className="trigger"
+                    className="sider-toggle"
                     type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                     onClick={this.toggleSider}
                   />
@@ -318,6 +318,7 @@ class App extends Component {
             </Content>
           </Layout>
         </Layout>
+        <BackTop />
       </Layout>
       <div>
         <button onClick={this.fillDatabase}> Fill Database </button>
@@ -325,7 +326,6 @@ class App extends Component {
         <br></br>
         <button onClick={this.queryDatabase}> Query Database </button>
       </div>
-      <BackTop />
      </div>
     );
   }
