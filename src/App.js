@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Input, Icon, Layout, Table, Select, TimePicker, BackTop } from 'antd';
+import Highlighter from 'react-highlight-words';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -11,23 +12,8 @@ class App extends Component {
     collapsed: false,
     selectedRowKeys: [], // Check here to configure the default column
     loading: false,
+    searchText: '',
   };
-
-  start = () => {
-    this.setState({ loading: true });
-    // ajax request after empty completing
-    setTimeout(() => {
-      this.setState({
-        selectedRowKeys: [],
-        loading: false,
-      });
-    }, 1000);
-  }
-
-  onSelectChange = (selectedRowKeys) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
-  }
 
   fillDatabase = () => {
     fetch('http://localhost:5000/fill_db')
@@ -62,6 +48,22 @@ class App extends Component {
     .catch(err => console.log(err));
   };
 
+  start = () => {
+    this.setState({ loading: true });
+    // ajax request after empty completing
+    setTimeout(() => {
+      this.setState({
+        selectedRowKeys: [],
+        loading: false,
+      });
+    }, 1000);
+  }
+
+  onSelectChange = (selectedRowKeys) => {
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  }
+
   toggleSider = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -91,6 +93,64 @@ class App extends Component {
   handleSelectLevel(value) {
     console.log(`selected ${value}`);
   }
+
+  getColumnSearchProps = (dataIndex) => ({
+    filterDropdown: ({
+      setSelectedKeys, selectedKeys, confirm, clearFilters,
+    }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={node => { this.searchInput = node; }}
+          placeholder={`Search ${dataIndex}`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
+        />
+        <Button
+          type="primary"
+          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          icon="search"
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          Search
+        </Button>
+        <Button
+          onClick={() => this.handleReset(clearFilters)}
+          size="small"
+          style={{ width: 90 }}
+        >
+          Reset
+        </Button>
+      </div>
+    ),
+    filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilterDropdownVisibleChange: (visible) => {
+      if (visible) {
+        setTimeout(() => this.searchInput.select());
+      }
+    },
+    render: (text) => (
+      <Highlighter
+        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+        searchWords={[this.state.searchText]}
+        autoEscape
+        textToHighlight={text.toString()}
+      />
+    ),
+  })
+
+  handleSearch = (selectedKeys, confirm) => {
+    confirm();
+    this.setState({ searchText: selectedKeys[0] });
+  }
+
+  handleReset = (clearFilters) => {
+    clearFilters();
+    this.setState({ searchText: '' });
+  }
   
   render = () => {
     const { Option, OptGroup } = Select;
@@ -99,6 +159,7 @@ class App extends Component {
     const { loading, selectedRowKeys } = this.state;
 
     //specify rowSelection behavior for table
+    //this needs work - is not currently working like it's supposed to
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -114,14 +175,14 @@ class App extends Component {
       title: 'Status',
       dataIndex: 'Status',
       key: 'Status',
-      filters: [{
+       /* filters: [{
         text: 'Open',
         value: 'Open',
       }, {
         text: 'Filled',
         value: 'Filled',
       }],
-      onFilter: (value, record) => record.status.indexOf(value) === 0,
+      onFilter: (value, record) => record.status.indexOf(value) === 0, */
     }, {
       title: 'Seats Available',
       dataIndex: 'Seats_Available',
@@ -130,50 +191,62 @@ class App extends Component {
       title: 'CRN',
       dataIndex: 'Course_Registration_Number',
       key: 'Course_Registration_Number',
+      ...this.getColumnSearchProps('Course_Registration_Number'),
     }, {
       title: 'Department',
       dataIndex: 'Course_Department',
       key: 'Course_Department',
+      ...this.getColumnSearchProps('Course_Department'),
     }, {
       title: 'Level',
       dataIndex: 'Course_Level',
       key: 'Course_Level',
+      ...this.getColumnSearchProps('Course_Level'),
     }, {
       title: 'Section',
       dataIndex: 'Course_Section',
       key: 'Course_Section',
+      ...this.getColumnSearchProps('Course_Section'),
     }, {
       title: 'Course Title',
       dataIndex: 'Course_Title',
       key: 'Course_Title',
+      ...this.getColumnSearchProps('Course_Title'),
     }, {
       title: 'Credits',
       dataIndex: 'Course_Credits',
       key: 'Course_Credits',
+      ...this.getColumnSearchProps('Course_Credits'),
     }, {
       title: 'Time',
       dataIndex: 'Times',
       key: 'Times',
+      ...this.getColumnSearchProps('Times'),
     }, {
       title: 'Days',
       dataIndex: 'Days',
       key: 'Days',
+      ...this.getColumnSearchProps('Days'),
     }, {
       title: 'Location',
       dataIndex: 'Location',
       key: 'Location',
+      ...this.getColumnSearchProps('Location'),
     }, {
       title: 'Instructor',
       dataIndex: 'Instructor',
       key: 'Instructor',
+      ...this.getColumnSearchProps('Instructor'),
     }, {
       title: 'Competency/GenEd',
       dataIndex: 'Competency',
       key: 'Competency',
+      ...this.getColumnSearchProps('Competency'),
     }, {
       title: 'Pre-Reqs/Comments',
       dataIndex: 'Comments',
       key: 'Comments',
+      ...this.getColumnSearchProps('Comments'),
     }];
     
     
@@ -353,8 +426,13 @@ class App extends Component {
                 <Table 
                 dataSource={ this.state.courses } 
                 columns={ columns }
-                rowSelection={rowSelection}
-                expandedRowRender={record => <p style={{ margin: 0 }}>{record.description} say something nice</p>}
+                rowSelection={ rowSelection }
+                expandedRowRender={record => <p style={{ margin: 0 }}>{record.Comments} Add course description here</p>}
+                expandRowByClick={true}
+                //expandIconColumnIndex = { "5" }
+                expandIconAsCell={false}
+                //pagination = { false }
+                //scroll={{y:5000}}
                 />
               </div>
             }
@@ -362,7 +440,6 @@ class App extends Component {
             </Content>
           </Layout>
         </Layout>
-        <BackTop />
       </Layout>
       <div>
         <button onClick={this.fillDatabase}> Fill Database </button>
