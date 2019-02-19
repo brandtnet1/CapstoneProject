@@ -253,10 +253,11 @@ class App extends Component {
     return (
       <div className="app-container">
         <Layout className="app">
-          <Header className="header">
-            <div className="logo" />
+          <Header className="header" style={{background: '#0071ba'}}>
+          <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
+            {/* <div className="logo" /> */}
             <Search
-            placeholder="input search text"
+            placeholder="Search"
             onSearch={this.handleSearch}
             style={{ width: 200 }}
             />
@@ -271,7 +272,6 @@ class App extends Component {
             collapsible
             collapsed={this.state.collapsed}
             >
-              <div className="logo" />
               <div className="ui-selectors">
                 <Select
                     mode="multiple"
@@ -440,6 +440,7 @@ class App extends Component {
             </Content>
           </Layout>
         </Layout>
+        <BackTop/>
       </Layout>
       <div>
         <button onClick={this.fillDatabase}> Fill Database </button>
