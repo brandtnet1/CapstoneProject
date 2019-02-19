@@ -155,7 +155,7 @@ class App extends Component {
   render = () => {
     const { Option, OptGroup } = Select;
     const { Header, Content, Sider } = Layout;
-    const Search = Input.Search;
+    //const Search = Input.Search;
     const { loading, selectedRowKeys } = this.state;
 
     //specify rowSelection behavior for table
@@ -246,7 +246,6 @@ class App extends Component {
       title: 'Pre-Reqs/Comments',
       dataIndex: 'Comments',
       key: 'Comments',
-      ...this.getColumnSearchProps('Comments'),
     }];
     
     
@@ -254,13 +253,12 @@ class App extends Component {
       <div className="app-container">
         <Layout className="app">
           <Header className="header" style={{background: '#0071ba'}}>
-          <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
-            {/* <div className="logo" /> */}
-            <Search
+            <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
+            {/* <Search
             placeholder="Search"
             onSearch={this.handleSearch}
             style={{ width: 200 }}
-            />
+            /> */}
           </Header>
           <Layout>
             <Sider 
@@ -427,12 +425,12 @@ class App extends Component {
                 dataSource={ this.state.courses } 
                 columns={ columns }
                 rowSelection={ rowSelection }
-                expandedRowRender={record => <p style={{ margin: 0 }}>{record.Comments} Add course description here</p>}
+                expandedRowRender={record => <p style={{ margin: 0 }}>Prereqs/Comments:{record.Comments}</p>}
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
                 //pagination = { false }
-                //scroll={{y:5000}}
+                //scroll={{y:2000}}
                 />
               </div>
             }
