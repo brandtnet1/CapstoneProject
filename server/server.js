@@ -5,15 +5,16 @@ const port = process.env.PORT || 5000;
 var app = express();
 app.use(cors());
 
+const Course = require("./models/Course");
+
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/capstone').then(() => console.log('connection successful')).catch((err) => console.error(err));
 
-// https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+// mongoose.connect('mongodb://localhost/capstone')
+mongoose.connect('mongodb+srv://admin:root@cluster0-pmazi.mongodb.net/Capstone?retryWrites=true')
+.then(() => console.log('connection successful'))
+.catch((err) => console.error(err));
 
-const Course = require("./models/Course");
 
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
@@ -55,21 +56,7 @@ let runPy = new Promise(function(success, nosuccess) {
 app.get('/fill_db', (req, res) => {
     res.send({ express : 'welcome\n' });
 
-    runPy.then(function(data) {
-
-        data.toString().split('\n').forEach((item) => {
-
-            var course = JSON.parse(item);
-            var add_course = new Course(course);
-
-            // Saves the course to the DB
-            add_course.save()
-            .catch(() => console.log("Unable to save to database"));
-        });
-        
-        res.end(data);
-        
-    }).then(() => {
+    runPy.then(() => {
         console.log("Courses saved to database");
     }).catch(function () {
      console.log("Promise Rejected");

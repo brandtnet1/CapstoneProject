@@ -39,11 +39,7 @@ class App extends Component {
         data.push(values.express[key])
       })
 
-      console.log(data);
       this.setState({ courses: data }); 
-    })
-    .then(() => {
-      this.render()
     })
     .catch(err => console.log(err));
   };
@@ -132,14 +128,15 @@ class App extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    render: (text) => (
-      <Highlighter
-        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-        searchWords={[this.state.searchText]}
-        autoEscape
-        textToHighlight={text.toString()}
-      />
-    ),
+    // render: (text) => (
+    //   <Highlighter
+    //     highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+    //     searchWords={[this.state.searchText]}
+    //     autoEscape
+    //     textToHighlight={text.toString()}
+
+    //   />
+    // ),
   })
 
   handleSearch = (selectedKeys, confirm) => {
@@ -439,6 +436,7 @@ class App extends Component {
                 //scroll={{x:500,y:1800}}
                 size={"middle"}
                 //loading={true}
+                rowKey = "_id"
                 />
               </div>
             }

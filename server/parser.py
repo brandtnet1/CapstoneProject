@@ -2,7 +2,12 @@
 import codecs
 import json
 import re
+import pymongo
 from collections import OrderedDict
+
+myclient = pymongo.MongoClient('mongodb+srv://admin:root@cluster0-pmazi.mongodb.net/Capstone?retryWrites=true')
+mydb = myclient['Capstone']
+mycol = mydb['courses']
 
 #Open HTML file
 f=codecs.open("html/rollins_course_schedule.html", 'r')
@@ -15,6 +20,7 @@ courses_json = []
 for first in range(0, len(sections)):
     if("FULL TERM" in sections[first]):
         break;
+
 first += 3;
 sections = sections[first:]
 
@@ -104,8 +110,9 @@ def parseCourse(section):
              ("Course_Credits", credits), ("Times", times), 
              ("Days", days), ("Location", location), ("Instructor", instructor),
              ("Competency", competency), ("Comments", note)]
-
-    return json.dumps(OrderedDict(course))
+    
+    # https://www.w3schools.com/python/python_mongodb_insert.asp
+    mycol.insert_one(OrderedDict(course))
 
 #loop through all sections in HTML file
 i = 0;
@@ -117,8 +124,5 @@ while(i<len(sections)):
         courses_json.append(parseCourse(section))
         
     i += 1
-    
 
-for x in courses_json:
-    print x
-    
+print "Done"
