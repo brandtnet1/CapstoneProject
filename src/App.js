@@ -276,6 +276,7 @@ class App extends Component {
                     style={{ width: '100%' }}
                     placeholder="Select status..."
                     onChange={this.handleSelectStatus}
+                    allowClear={true}
                   >
                     <Option value="open">Open</Option>
                     <Option value="filled">Filled</Option>
@@ -286,6 +287,7 @@ class App extends Component {
                     style={{ width: '100%' }}
                     placeholder="Select day of the week..."
                     onChange={this.handleSelectDay}
+                    allowClear={true}
                   >
                     <Option value="monday">Monday</Option>
                     <Option value="tuesday">Tuesday</Option>
@@ -301,6 +303,7 @@ class App extends Component {
                     format = 'hh:mm a'
                     use12Hours
                     onChange={this.handleSelectDay}
+                    allowClear={true}
                   >
                   </TimePicker >
                   <TimePicker
@@ -310,6 +313,7 @@ class App extends Component {
                     format = 'hh:mm a'
                     use12Hours
                     onChange={this.handleSelectDay}
+                    allowClear={true}
                   >
                   </TimePicker >
                   <Select
@@ -317,6 +321,7 @@ class App extends Component {
                     style={{ width: '100%' }}
                     placeholder="Select department/major (you can also search here!)..."
                     onChange={this.handleSelectDeparment}
+                    allowClear={true}
                   >
                     <Option value="american">American Studies</Option>
                     <Option value="anthropology">Anthropology</Option>
@@ -382,6 +387,7 @@ class App extends Component {
                     style={{ width: '100%' }}
                     placeholder="Select course level (100, 200, etc.)..."
                     onChange={this.handleSelectLevel}
+                    allowClear={true}
                   >
                     <Option value="100">100s</Option>
                     <Option value="200">200s</Option>
@@ -389,7 +395,7 @@ class App extends Component {
                     <Option value="400">400s</Option>
                   </Select>
                 </div>
-                <div className='go-button-container'>
+                <div className='sider-buttons-container'>
                   <Button type="primary">See Courses!</Button>
                   <Button type="secondary">Clear Filters</Button>
                 </div>
@@ -429,8 +435,10 @@ class App extends Component {
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
-                //pagination = { false }
-                //scroll={{y:2000}}
+                pagination = {false}
+                //scroll={{x:500,y:1800}}
+                size={"middle"}
+                //loading={true}
                 />
               </div>
             }
