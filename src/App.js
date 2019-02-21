@@ -66,7 +66,7 @@ class App extends Component {
     });
   }
 
-  handleSearch(value) {
+  handleSearchTopBox(value) {
     console.log(`searched ${value}`);
   }
 
@@ -88,6 +88,10 @@ class App extends Component {
 
   handleSelectLevel(value) {
     console.log(`selected ${value}`);
+  }
+  
+  handleClickSeeCoursesButton() {
+
   }
 
   getColumnSearchProps = (dataIndex) => ({
@@ -128,14 +132,14 @@ class App extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    // render: (text) => (
-    //   <Highlighter
-    //     highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-    //     searchWords={[this.state.searchText]}
-    //     autoEscape
-    //     textToHighlight={text.toString()}
-    //   />
-    // ),
+    /* render: (text) => (
+       <Highlighter
+         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+         searchWords={[this.state.searchText]}
+         autoEscape
+         textToHighlight={text.toString()}
+       />
+    ), */
   })
 
   handleSearch = (selectedKeys, confirm) => {
@@ -256,7 +260,7 @@ class App extends Component {
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
             {/* <Search
             placeholder="Search"
-            onSearch={this.handleSearch}
+            onSearch={this.handleSearchTopBox}
             style={{ width: 200 }}
             /> */}
           </Header>
@@ -431,7 +435,11 @@ class App extends Component {
                 dataSource={ this.state.courses }
                 columns={ columns }
                 //rowSelection={ rowSelection }
+<<<<<<< HEAD
                 expandedRowRender={record => <p style={{ margin: 0 }}>CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
+=======
+                expandedRowRender={record => <p style={{ margin: 0 }}>Prereqs/Comments:{record.Comments}</p>}
+>>>>>>> refs/remotes/origin/master
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
