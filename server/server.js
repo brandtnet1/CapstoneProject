@@ -22,13 +22,36 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 // THIS IS HOW YOU QUERY THE DB
 app.get('/query_db', (req, res) => {
 
-    // https://stackoverflow.com/questions/17007997/how-to-access-the-get-parameters-after-in-express
-    // TO FIND THE VALUES AFTER ? IN LINK
-    // req.query.*
-    
     var courses = {};
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/
     Course.find({}, function (err, course) {
+        course.forEach((c) => {
+            courses[c._id] = c;
+        });
+    }).then(() => {
+        res.send({ express : courses })
+    });
+
+});
+
+app.get('/query_db_filters', (req, res) => {
+    // https://stackoverflow.com/questions/17007997/how-to-access-the-get-parameters-after-in-express
+    // TO FIND THE VALUES AFTER ? IN LINK
+    // Object.keys(req.query) should be all fields
+    // Object.keys(req.query).forEach((key) => {
+    //     combine { key: req.query.key } 
+    // })
+
+    // req.query."key"
+
+    var courses = {};
+
+    // https://docs.mongodb.com/manual/reference/method/db.collection.find/
+    // { field1: <value>, field2: <value> ... }
+
+    
+
+    Course.find( {} , function (err, course) {
         course.forEach((c) => {
             courses[c._id] = c;
         });
