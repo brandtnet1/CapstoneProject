@@ -21,6 +21,10 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // THIS IS HOW YOU QUERY THE DB
 app.get('/query_db', (req, res) => {
+
+    // https://stackoverflow.com/questions/17007997/how-to-access-the-get-parameters-after-in-express
+    // TO FIND THE VALUES AFTER ? IN LINK
+    // req.query.*
     
     var courses = {};
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/

@@ -134,7 +134,6 @@ class App extends Component {
     //     searchWords={[this.state.searchText]}
     //     autoEscape
     //     textToHighlight={text.toString()}
-
     //   />
     // ),
   })
@@ -447,10 +446,10 @@ class App extends Component {
         <BackTop/>
       </Layout>
       <div>
-        <button onClick={this.fillDatabase}> Fill Database </button>
-        <div>{this.state.data}</div>
-        <br></br>
-        <button onClick={this.queryDatabase}> Query Database </button>
+        {/* <button onClick={this.fillDatabase}> Fill Database </button> */}
+        {/* <div>{this.state.data}</div> */}
+        {/* <br></br> */}
+        {/* <button onClick={this.queryDatabase}> Query Database </button> */}
       </div>
      </div>
     );
