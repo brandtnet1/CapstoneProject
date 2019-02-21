@@ -47,23 +47,23 @@ app.get('/query_db', (req, res) => {
 });
 
 // https://stackoverflow.com/questions/23450534/how-to-call-a-python-function-from-node-js#
-let runPy = new Promise(function(success, nosuccess) {
-    const { spawn } = require('child_process');
-    const pyprog = spawn('python', ['parser.py']);
+// let runPy = new Promise(function(success, nosuccess) {
+//     const { spawn } = require('child_process');
+//     const pyprog = spawn('python', ['parser.py']);
 
-    pyprog.stdout.on('data', (data) => success(data) );
-    pyprog.stderr.on('data', (data) => nosuccess(data) );
-}).catch(error => {
-    console.log('caught', error.message);
-});
+//     pyprog.stdout.on('data', (data) => success(data) );
+//     pyprog.stderr.on('data', (data) => nosuccess(data) );
+// }).catch(error => {
+//     console.log('caught', error.message);
+// });
 
-app.get('/fill_db', (req, res) => {
-    res.send({ express : 'welcome\n' });
+// app.get('/fill_db', (req, res) => {
+//     res.send({ express : 'welcome\n' });
 
-    runPy.then(() => {
-        console.log("Courses saved to database");
-    }).catch(function () {
-     console.log("Promise Rejected");
-    });
-});
+//     runPy.then(() => {
+//         console.log("Courses saved to database");
+//     }).catch(function () {
+//      console.log("Promise Rejected");
+//     });
+// });
 
