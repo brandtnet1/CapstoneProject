@@ -44,28 +44,6 @@ class App extends Component {
     .catch(err => console.log(err));
   };
 
-  // queryDatabaseFilters(filters) {
-
-  // make string append { "ColumnName":"value" , ...}
-  // ? Course_Department=ANT&Course_Level=200&
-  // ? 
-
-  //   fetch('http://localhost:5000/query_db_filters?')
-  //   .then(response => {
-  //     return response.json();
-  //   })
-  //   .then((values) => { 
-  //     var data = [];
-
-  //     Object.keys(values.express).forEach((key) => {
-  //       data.push(values.express[key])
-  //     })
-
-  //     this.setState({ courses: data }); 
-  //   })
-  //   .catch(err => console.log(err));
-  // };
-
   start = () => {
     this.setState({ loading: true });
     // ajax request after empty completing
@@ -111,7 +89,7 @@ class App extends Component {
   handleSelectLevel(value) {
     console.log(`selected ${value}`);
   }
-  
+
   handleClickSeeCoursesButton() {
 
   }
@@ -457,11 +435,7 @@ class App extends Component {
                 dataSource={ this.state.courses }
                 columns={ columns }
                 //rowSelection={ rowSelection }
-<<<<<<< HEAD
                 expandedRowRender={record => <p style={{ margin: 0 }}>CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
-=======
-                expandedRowRender={record => <p style={{ margin: 0 }}>Prereqs/Comments:{record.Comments}</p>}
->>>>>>> refs/remotes/origin/master
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
