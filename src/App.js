@@ -440,7 +440,7 @@ class App extends Component {
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
                 pagination = {false}
-                //scroll={{x:500,y:1800}}
+                scroll={{x:500,y:600}}
                 size={"middle"}
                 //loading={true}
                 rowKey = "_id"
