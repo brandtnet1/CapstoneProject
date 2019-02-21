@@ -39,9 +39,11 @@ def parseCourse(section):
     #get status of course
     status = parts[1]
     if("Open" in status):
-        status = True
+        status = "Open"
+    else if ("Filled" in status):
+        status = "Filled"
     else:
-        status = False
+        status = "Canceled"
 
     #get seats available
     seats_available = parts[2]

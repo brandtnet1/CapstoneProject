@@ -8,7 +8,7 @@ import "./style.css";
 class App extends Component {
   state = {
     data: null,
-    courses: null, 
+    courses: null,
     collapsed: false,
     selectedRowKeys: [], // Check here to configure the default column
     loading: false,
@@ -20,8 +20,8 @@ class App extends Component {
     .then(response => {
       return response.json();
     })
-    .then((values) => { 
-      this.setState({ data: values.express }); 
+    .then((values) => {
+      this.setState({ data: values.express });
     })
     .catch(err => console.log(err));
   };
@@ -32,14 +32,14 @@ class App extends Component {
     .then(response => {
       return response.json();
     })
-    .then((values) => { 
+    .then((values) => {
       var data = [];
 
       Object.keys(values.express).forEach((key) => {
         data.push(values.express[key])
       })
 
-      this.setState({ courses: data }); 
+      this.setState({ courses: data });
     })
     .catch(err => console.log(err));
   };
@@ -147,7 +147,7 @@ class App extends Component {
     clearFilters();
     this.setState({ searchText: '' });
   }
-  
+
   render = () => {
     const { Option, OptGroup } = Select;
     const { Header, Content, Sider } = Layout;
@@ -183,12 +183,14 @@ class App extends Component {
       title: 'Seats Available',
       dataIndex: 'Seats_Available',
       key: 'Seats_Available',
-    }, {
-      title: 'CRN',
-      dataIndex: 'Course_Registration_Number',
-      key: 'Course_Registration_Number',
-      ...this.getColumnSearchProps('Course_Registration_Number'),
-    }, {
+    },
+    // {
+    //  title: 'CRN',
+    //  dataIndex: 'Course_Registration_Number',
+    //  key: 'Course_Registration_Number',
+    //  ...this.getColumnSearchProps('Course_Registration_Number'),
+  //  },
+     {
       title: 'Department',
       dataIndex: 'Course_Department',
       key: 'Course_Department',
@@ -198,12 +200,14 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-    }, {
-      title: 'Section',
-      dataIndex: 'Course_Section',
-      key: 'Course_Section',
-      ...this.getColumnSearchProps('Course_Section'),
-    }, {
+    },
+    // {
+      // title: 'Section',
+      // dataIndex: 'Course_Section',
+      // key: 'Course_Section',
+      // ...this.getColumnSearchProps('Course_Section'),
+    // }, 
+    {
       title: 'Course Title',
       dataIndex: 'Course_Title',
       key: 'Course_Title',
@@ -243,8 +247,8 @@ class App extends Component {
       dataIndex: 'Comments',
       key: 'Comments',
     }];
-    
-    
+
+
     return (
       <div className="app-container">
         <Layout className="app">
@@ -257,10 +261,10 @@ class App extends Component {
             /> */}
           </Header>
           <Layout>
-            <Sider 
-            width={200} 
-            style={{ background: '#fff' }} 
-            position='fixed' 
+            <Sider
+            width={200}
+            style={{ background: '#fff' }}
+            position='fixed'
             overflow='auto'
             trigger={null}
             collapsible
@@ -304,7 +308,7 @@ class App extends Component {
                   </TimePicker >
                   <TimePicker
                     style={{ width: '100%' }}
-                    placeholder="Select end time..."  
+                    placeholder="Select end time..."
                     minuteStep={5}
                     format = 'hh:mm a'
                     use12Hours
@@ -405,8 +409,8 @@ class App extends Component {
             </Sider>
           <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
-              background: '#fff', 
-              padding: 24, 
+              background: '#fff',
+              padding: 24,
               margin: 0,
               minHeight: 280,}}
             >
@@ -423,11 +427,11 @@ class App extends Component {
             </span>
             { this.state.courses &&
               <div className='table'>
-                <Table 
-                dataSource={ this.state.courses } 
+                <Table
+                dataSource={ this.state.courses }
                 columns={ columns }
-                rowSelection={ rowSelection }
-                expandedRowRender={record => <p style={{ margin: 0 }}>Prereqs/Comments:{record.Comments}</p>}
+                //rowSelection={ rowSelection }
+                expandedRowRender={record => <p style={{ margin: 0 }}>CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
