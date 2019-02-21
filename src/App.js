@@ -44,6 +44,28 @@ class App extends Component {
     .catch(err => console.log(err));
   };
 
+  // queryDatabaseFilters(filters) {
+
+  // make string append { "ColumnName":"value" , ...}
+  // ? Course_Department=ANT&Course_Level=200&
+  // ? 
+
+  //   fetch('http://localhost:5000/query_db_filters?')
+  //   .then(response => {
+  //     return response.json();
+  //   })
+  //   .then((values) => { 
+  //     var data = [];
+
+  //     Object.keys(values.express).forEach((key) => {
+  //       data.push(values.express[key])
+  //     })
+
+  //     this.setState({ courses: data }); 
+  //   })
+  //   .catch(err => console.log(err));
+  // };
+
   start = () => {
     this.setState({ loading: true });
     // ajax request after empty completing
