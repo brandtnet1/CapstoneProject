@@ -49,8 +49,6 @@ app.get('/query_db_filters', (req, res) => {
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/
     // { field1: <value>, field2: <value> ... }
 
-    
-
     Course.find( {} , function (err, course) {
         course.forEach((c) => {
             courses[c._id] = c;

@@ -44,6 +44,28 @@ class App extends Component {
     .catch(err => console.log(err));
   };
 
+  // queryDatabaseFilters(filters) {
+
+  // make string append { "ColumnName":"value" , ...}
+  // ? Course_Department=ANT&Course_Level=200&
+  // ? 
+
+  //   fetch('http://localhost:5000/query_db_filters?')
+  //   .then(response => {
+  //     return response.json();
+  //   })
+  //   .then((values) => { 
+  //     var data = [];
+
+  //     Object.keys(values.express).forEach((key) => {
+  //       data.push(values.express[key])
+  //     })
+
+  //     this.setState({ courses: data }); 
+  //   })
+  //   .catch(err => console.log(err));
+  // };
+
   start = () => {
     this.setState({ loading: true });
     // ajax request after empty completing
@@ -187,14 +209,12 @@ class App extends Component {
       title: 'Seats Available',
       dataIndex: 'Seats_Available',
       key: 'Seats_Available',
-    },
-    // {
-    //  title: 'CRN',
-    //  dataIndex: 'Course_Registration_Number',
-    //  key: 'Course_Registration_Number',
-    //  ...this.getColumnSearchProps('Course_Registration_Number'),
-  //  },
-     {
+    }, {
+      title: 'CRN',
+      dataIndex: 'Course_Registration_Number',
+      key: 'Course_Registration_Number',
+      ...this.getColumnSearchProps('Course_Registration_Number'),
+    }, {
       title: 'Department',
       dataIndex: 'Course_Department',
       key: 'Course_Department',
@@ -204,14 +224,12 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-    },
-    // {
-      // title: 'Section',
-      // dataIndex: 'Course_Section',
-      // key: 'Course_Section',
-      // ...this.getColumnSearchProps('Course_Section'),
-    // }, 
-    {
+    }, {
+      title: 'Section',
+      dataIndex: 'Course_Section',
+      key: 'Course_Section',
+      ...this.getColumnSearchProps('Course_Section'),
+    }, {
       title: 'Course Title',
       dataIndex: 'Course_Title',
       key: 'Course_Title',
@@ -435,7 +453,7 @@ class App extends Component {
                 dataSource={ this.state.courses }
                 columns={ columns }
                 //rowSelection={ rowSelection }
-                expandedRowRender={record => <p style={{ margin: 0 }}>CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
+                expandedRowRender={record => <p style={{ margin: 0 }}>Prereqs/Comments:{record.Comments}</p>}
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
