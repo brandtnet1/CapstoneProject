@@ -48,20 +48,20 @@ class App extends Component {
 
   // make string append { "ColumnName":"value" , ...}
   // ? Course_Department=ANT&Course_Level=200&
-  // ? 
+  // ?
 
   //   fetch('http://localhost:5000/query_db_filters?')
   //   .then(response => {
   //     return response.json();
   //   })
-  //   .then((values) => { 
+  //   .then((values) => {
   //     var data = [];
 
   //     Object.keys(values.express).forEach((key) => {
   //       data.push(values.express[key])
   //     })
 
-  //     this.setState({ courses: data }); 
+  //     this.setState({ courses: data });
   //   })
   //   .catch(err => console.log(err));
   // };
@@ -209,12 +209,14 @@ class App extends Component {
       title: 'Seats Available',
       dataIndex: 'Seats_Available',
       key: 'Seats_Available',
-    }, {
-      title: 'CRN',
-      dataIndex: 'Course_Registration_Number',
-      key: 'Course_Registration_Number',
-      ...this.getColumnSearchProps('Course_Registration_Number'),
-    }, {
+    },
+    // {
+    //   title: 'CRN',
+    //   dataIndex: 'Course_Registration_Number',
+    //   key: 'Course_Registration_Number',
+    //   ...this.getColumnSearchProps('Course_Registration_Number'),
+    // },
+    {
       title: 'Department',
       dataIndex: 'Course_Department',
       key: 'Course_Department',
@@ -224,12 +226,14 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-    }, {
-      title: 'Section',
-      dataIndex: 'Course_Section',
-      key: 'Course_Section',
-      ...this.getColumnSearchProps('Course_Section'),
-    }, {
+    },
+    // {
+    //   title: 'Section',
+    //   dataIndex: 'Course_Section',
+    //   key: 'Course_Section',
+    //   ...this.getColumnSearchProps('Course_Section'),
+    // },
+    {
       title: 'Course Title',
       dataIndex: 'Course_Title',
       key: 'Course_Title',
@@ -249,26 +253,35 @@ class App extends Component {
       dataIndex: 'Days',
       key: 'Days',
       ...this.getColumnSearchProps('Days'),
-    }, {
-      title: 'Location',
-      dataIndex: 'Location',
-      key: 'Location',
-      ...this.getColumnSearchProps('Location'),
-    }, {
+    },
+    //{
+    //   title: 'Location',
+    //   dataIndex: 'Location',
+    //   key: 'Location',
+    //
+    //   ...this.getColumnSearchProps('Location'),
+    //
+    //
+    //
+    //
+    // },
+    {
       title: 'Instructor',
       dataIndex: 'Instructor',
       key: 'Instructor',
       ...this.getColumnSearchProps('Instructor'),
-    }, {
-      title: 'Competency/GenEd',
-      dataIndex: 'Competency',
-      key: 'Competency',
-      ...this.getColumnSearchProps('Competency'),
-    }, {
-      title: 'Pre-Reqs/Comments',
-      dataIndex: 'Comments',
-      key: 'Comments',
-    }];
+    },
+    // {
+    //   title: 'Competency/GenEd',
+    //   dataIndex: 'Competency',
+    //   key: 'Competency',
+    //   ...this.getColumnSearchProps('Competency'),
+    // }, {
+    //   title: 'Pre-Reqs/Comments',
+    //   dataIndex: 'Comments',
+    //   key: 'Comments',
+    //  }
+  ];
 
 
     return (
@@ -448,18 +461,20 @@ class App extends Component {
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
             </span>
             { this.state.courses &&
-              <div className='table'>
+              <div className='table' >
+
                 <Table
+                
                 dataSource={ this.state.courses }
                 columns={ columns }
                 //rowSelection={ rowSelection }
-                expandedRowRender={record => <p style={{ margin: 0 }}>Prereqs/Comments:{record.Comments}</p>}
+                expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
                 pagination = {false}
-                scroll={{x:500,y:600}}
-                size={"middle"}
+                //scroll={{y:600}}
+                size={"small"}
                 //loading={true}
                 rowKey = "_id"
                 />
