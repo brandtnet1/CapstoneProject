@@ -303,6 +303,7 @@ class App extends Component {
             overflow='auto'
             trigger={null}
             collapsible
+            collapsedWidth={0}
             collapsed={this.state.collapsed}
             >
               <div className="ui-selectors">
