@@ -7,3 +7,9 @@
 .see-courses-button-container{
     text-align: center;
 }
+.table{
+  height: 600px;
+  overflow: auto;
+
+
+}
