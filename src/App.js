@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Icon, Layout, Table, Select, TimePicker, BackTop } from 'antd';
+import { Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import "antd/dist/antd.css";
@@ -440,15 +440,15 @@ class App extends Component {
                   onChange={this.handleSelectLevel}
                 >Clear Filters</Button>
               </div>
-              <div className='toggle-button-container'>
+              {/* <div className='toggle-button-container'>
                 <Icon
                   className="sider-toggle"
                   type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                   onClick={this.toggleSider}
                 />
-              </div>
+              </div> */}
             </Sider>
-          <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
+            <Layout className="content-container" onClick={this.toggleSider} style={{ padding: '0 24px 24px' }}>
             <Content style={{
               background: '#fff',
               padding: 24,
@@ -486,11 +486,9 @@ class App extends Component {
                 />
               </div>
             }
-
             </Content>
           </Layout>
         </Layout>
-        <BackTop/>
       </Layout>
       <div>
         {/* <button onClick={this.fillDatabase}> Fill Database </button> */}
