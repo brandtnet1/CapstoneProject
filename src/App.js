@@ -429,10 +429,16 @@ class App extends Component {
                     <Option value="300">300s</Option>
                     <Option value="400">400s</Option>
                   </Select>
-              </div>
-              <div className='sider-buttons-container'>
-                <Button type="primary">See Courses!</Button>
-                <Button type="secondary">Clear Filters</Button>
+                <Button 
+                  type="primary"
+                  style={{ width: '100%' }}
+                  onChange={this.handleSelectLevel}
+                >See Courses!</Button>
+                <Button 
+                  type="secondary"
+                  style={{ width: '100%' }}
+                  onChange={this.handleSelectLevel}
+                >Clear Filters</Button>
               </div>
               <div className='toggle-button-container'>
                 <Icon
