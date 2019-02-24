@@ -40,7 +40,7 @@ def parseCourse(section):
     status = parts[1]
     if("Open" in status):
         status = "Open"
-    else if ("Filled" in status):
+    elif ("Filled" in status):
         status = "Filled"
     else:
         status = "Canceled"
@@ -111,6 +111,9 @@ def parseCourse(section):
     #get note
     note = parts[11]
     note = note[21: len(note) - 12]
+    if("nbsp" in note):
+        note = "n/a"
+
 
     course = [("Status", status), ("Seats_Available", seats_available),
              ("Course_Registration_Number", course_number),
