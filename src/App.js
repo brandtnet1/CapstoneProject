@@ -469,18 +469,18 @@ class App extends Component {
             </span>
             { this.state.courses &&
               <div className='table' >
-              //this is for the loading wheel
-              //<div className='loader'></div>
+              {/* this is for the loading wheel */}
+              <div className='loader'></div>
                 <Table
 
                 dataSource={ this.state.courses }
                 columns={ columns }
-                //rowSelection={ rowSelection }
+                rowSelection={ rowSelection }
                 expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
                 expandRowByClick={true}
                 //expandIconColumnIndex = { "5" }
                 expandIconAsCell={false}
-                pagination = {false}
+                pagination={false}
                 //scroll={{y:600}}
                 size={"small"}
                 //loading={true}
