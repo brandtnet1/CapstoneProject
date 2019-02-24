@@ -181,7 +181,6 @@ class App extends Component {
     const { loading, selectedRowKeys } = this.state;
 
     //specify rowSelection behavior for table
-    //this needs work - is not currently working like it's supposed to
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
@@ -197,14 +196,17 @@ class App extends Component {
       title: 'Status',
       dataIndex: 'Status',
       key: 'Status',
-       /* filters: [{
+      filters: [{
         text: 'Open',
         value: 'Open',
       }, {
         text: 'Filled',
         value: 'Filled',
+      }, {
+        text: 'Cancelled',
+        value: 'Cancelled',
       }],
-      onFilter: (value, record) => record.status.indexOf(value) === 0, */
+      onFilter: (value, record) => record.status.indexOf(value) === 0,
     }, {
       title: 'Seats Available',
       dataIndex: 'Seats_Available',
@@ -260,10 +262,6 @@ class App extends Component {
     //   key: 'Location',
     //
     //   ...this.getColumnSearchProps('Location'),
-    //
-    //
-    //
-    //
     // },
     {
       title: 'Instructor',
