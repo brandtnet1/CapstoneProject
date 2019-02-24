@@ -37,19 +37,23 @@ app.get('/query_db', (req, res) => {
 app.get('/query_db_filters', (req, res) => {
     // https://stackoverflow.com/questions/17007997/how-to-access-the-get-parameters-after-in-express
     // TO FIND THE VALUES AFTER ? IN LINK
-    // Object.keys(req.query) should be all fields
-    // Object.keys(req.query).forEach((key) => {
-    //     combine { key: req.query.key } 
-    // })
-
-    // req.query."key"
 
     var courses = {};
+    var s = '{ ';
+
+    // Object.keys(req.query) should be all fields
+    // req.query."key"
+    Object.keys(req.query).forEach((key) => {
+        s = s.concat(key + ' : ' + req.query.key + ', ');
+    });
+
+    s = s.slice(0, len(s) - 2);
+    s = s.concat('}');
 
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/
     // { field1: <value>, field2: <value> ... }
 
-    Course.find( {} , function (err, course) {
+    Course.find( s, function (err, course) {
         course.forEach((c) => {
             courses[c._id] = c;
         });
