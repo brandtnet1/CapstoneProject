@@ -13,3 +13,21 @@
 
 
 }
+/*This is for the loading wheel, we can edit the attributes of the wheel in here.
+hoping to place this in the section of the table, if not possible, just put in
+the center of the page*/
+/*Eventual plans: I hope to make the colors shift from blue to yellow to orange,
+I also plan on making a running fox animation for it :)*/
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue, has a blue thing swing around the circle*/
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+/*This controls the animation, source https://www.w3schools.com/howto/howto_css_loader.asp*/
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

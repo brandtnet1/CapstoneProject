@@ -429,12 +429,12 @@ class App extends Component {
                     <Option value="300">300s</Option>
                     <Option value="400">400s</Option>
                   </Select>
-                <Button 
+                <Button
                   type="primary"
                   style={{ width: '100%' }}
                   onChange={this.handleSelectLevel}
                 >See Courses!</Button>
-                <Button 
+                <Button
                   type="secondary"
                   style={{ width: '100%' }}
                   onChange={this.handleSelectLevel}
@@ -468,9 +468,10 @@ class App extends Component {
             </span>
             { this.state.courses &&
               <div className='table' >
-
+              //this is for the loading wheel
+              //<div className='loader'></div>
                 <Table
-                
+
                 dataSource={ this.state.courses }
                 columns={ columns }
                 //rowSelection={ rowSelection }
