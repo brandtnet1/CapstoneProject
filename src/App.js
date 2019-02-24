@@ -317,7 +317,7 @@ class App extends Component {
                     <Option value="filled">Filled</Option>
                     <Option value="cancelled">Cancelled</Option>
                   </Select>
-                  <Select
+                <Select
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Select day of the week..."
@@ -331,7 +331,7 @@ class App extends Component {
                     <Option value="friday">Friday</Option>
                     <Option value="saturday">Saturday</Option>
                   </Select>
-                  <TimePicker
+                <TimePicker
                     style={{ width: '100%' }}
                     placeholder="Select start time..."
                     minuteStep={5}
@@ -341,7 +341,7 @@ class App extends Component {
                     allowClear={true}
                   >
                   </TimePicker >
-                  <TimePicker
+                <TimePicker
                     style={{ width: '100%' }}
                     placeholder="Select end time..."
                     minuteStep={5}
@@ -351,7 +351,7 @@ class App extends Component {
                     allowClear={true}
                   >
                   </TimePicker >
-                  <Select
+                <Select
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Select department/major (you can also search here!)..."
@@ -417,7 +417,7 @@ class App extends Component {
                       <Option value="wcc">WCC</Option>
                     </OptGroup>
                   </Select>
-                  <Select
+                <Select
                     mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Select course level (100, 200, etc.)..."
@@ -429,18 +429,18 @@ class App extends Component {
                     <Option value="300">300s</Option>
                     <Option value="400">400s</Option>
                   </Select>
-                </div>
-                <div className='sider-buttons-container'>
-                  <Button type="primary">See Courses!</Button>
-                  <Button type="secondary">Clear Filters</Button>
-                </div>
-                <div className='toggle-button-container'>
-                  <Icon
-                    className="sider-toggle"
-                    type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                    onClick={this.toggleSider}
-                  />
-                </div>
+              </div>
+              <div className='sider-buttons-container'>
+                <Button type="primary">See Courses!</Button>
+                <Button type="secondary">Clear Filters</Button>
+              </div>
+              <div className='toggle-button-container'>
+                <Icon
+                  className="sider-toggle"
+                  type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                  onClick={this.toggleSider}
+                />
+              </div>
             </Sider>
           <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
