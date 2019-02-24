@@ -439,13 +439,6 @@ class App extends Component {
                   onChange={this.handleSelectLevel}
                 >Clear Filters</Button>
               </div>
-              {/* <div className='toggle-button-container'>
-                <Icon
-                  className="sider-toggle"
-                  type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                  onClick={this.toggleSider}
-                />
-              </div> */}
             </Sider>
             <Layout className="content-container" onClick={this.toggleSider} style={{ padding: '0 24px 24px' }}>
             <Content style={{
