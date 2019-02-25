@@ -12,7 +12,7 @@ class App extends Component {
     collapsed: false,
     selectedRowKeys: [], // Check here to configure the default column
     cart: [],
-    loading: false,
+    loading: true,
     searchText: '',
   };
 
