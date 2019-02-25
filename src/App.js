@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
+import { Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
 import Highlighter from 'react-highlight-words';
 
 import "antd/dist/antd.css";
@@ -11,7 +11,7 @@ class App extends Component {
     courses: null,
     collapsed: false,
     selectedRowKeys: [], // Check here to configure the default column
-    loading: false,
+    loading: true,
     searchText: '',
   };
 
@@ -26,7 +26,7 @@ class App extends Component {
     .catch(err => console.log(err));
   };
 
-  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js\
   queryDatabase() {
     fetch('http://localhost:5000/query_db')
     .then(response => {
@@ -38,10 +38,10 @@ class App extends Component {
       Object.keys(values.express).forEach((key) => {
         data.push(values.express[key])
       })
-
-      this.setState({ courses: data });
+ 
+      this.setState({ courses: data, loading: false });
     })
-    .catch(err => console.log(err));
+    .catch(() => this.setState({ loading: false }));
   };
 
   // queryDatabaseFilters(filters) {
@@ -279,8 +279,7 @@ class App extends Component {
     //   dataIndex: 'Comments',
     //   key: 'Comments',
     //  }
-  ];
-
+    ];
 
     return (
       <div className="app-container">
@@ -447,37 +446,54 @@ class App extends Component {
               margin: 0,
               minHeight: 280,}}
             >
-            <Button
-              type="primary"
-              onClick={this.start}
-              disabled={!hasSelected}
-              loading={loading}
-            >
-              Reload
-            </Button>
-            <span style={{ marginLeft: 8 }}>
-              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-            </span>
-            { this.state.courses &&
-              <div className='table' >
-              {/* this is for the loading wheel */}
-              <div className='loader'></div>
-                <Table
-
-                dataSource={ this.state.courses }
-                columns={ columns }
-                rowSelection={ rowSelection }
-                expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
-                expandRowByClick={true}
-                //expandIconColumnIndex = { "5" }
-                expandIconAsCell={false}
-                pagination={false}
-                //scroll={{y:600}}
-                size={"small"}
-                //loading={true}
-                rowKey = "_id"
-                />
-              </div>
+              <Button
+                type="primary"
+                onClick={this.start}
+                disabled={!hasSelected}
+                loading={loading}
+              >
+                Reload
+              </Button>
+              <span style={{ marginLeft: 8 }}>
+                {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+              </span>
+              {loading ? 
+                <Spin tip="Loading... :)"> 
+                    <Table
+                    dataSource={ this.state.courses }
+                    columns={ columns }
+                    rowSelection={ rowSelection }
+                    hideDefaultSelections= {true}
+                    expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
+                    expandRowByClick={true}
+                    //expandIconColumnIndex = { "5" }
+                    expandIconAsCell={false}
+                    pagination={false}
+                    //scroll={{y:600}}
+                    size={"small"}
+                    rowKey = "_id"
+                    />
+              </Spin>
+              : <div>{ this.state.courses &&
+                  <div className='table' >
+                  {/* this is for the loading wheel */}
+                  {/* <div className='loader'></div> */}
+                    <Table
+                    dataSource={ this.state.courses }
+                    columns={ columns }
+                    rowSelection={ rowSelection }
+                    hideDefaultSelections= {true}
+                    expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
+                    expandRowByClick={true}
+                    //expandIconColumnIndex = { "5" }
+                    expandIconAsCell={false}
+                    pagination={false}
+                    //scroll={{y:600}}
+                    size={"small"}
+                    rowKey = "_id"
+                    />
+                  </div>}
+                </div>
             }
             </Content>
           </Layout>
