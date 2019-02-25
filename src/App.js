@@ -11,6 +11,7 @@ class App extends Component {
     courses: null,
     collapsed: false,
     selectedRowKeys: [], // Check here to configure the default column
+    cart: [],
     loading: false,
     searchText: '',
   };
@@ -86,6 +87,16 @@ class App extends Component {
     this.setState({
       collapsed: !this.state.collapsed,
     });
+  }
+
+  onAddToCart = () => {
+    for(var i = 0; i<this.state.selectedRowKeys.length; i++){
+      this.state.cart.push(this.state.selectedRowKeys[i]);
+    }
+    console.log('Cart changed: ', this.state.cart);
+    this.start();
+
+    //document.getElementById("cart").innerHTML = this.state.cart
   }
 
   handleSearchTopBox(value) {
@@ -454,6 +465,14 @@ class App extends Component {
               loading={loading}
             >
               Reload
+            </Button>
+            <Button
+              type="primary"
+              onClick={this.onAddToCart}
+              disabled={!hasSelected}
+              loading={loading}
+            >
+              Add to Cart
             </Button>
             <span style={{ marginLeft: 8 }}>
               {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
