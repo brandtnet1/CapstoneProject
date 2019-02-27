@@ -39,7 +39,7 @@ class App extends Component {
       Object.keys(values.express).forEach((key) => {
         data.push(values.express[key])
       })
- 
+
       this.setState({ courses: data, loading: false });
     })
     .catch(() => this.setState({ loading: false }));
@@ -201,6 +201,8 @@ class App extends Component {
     if(this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
     }
+
+
 
     //specify columns format/behaviors for table
     const columns = [{
@@ -448,6 +450,12 @@ class App extends Component {
                   style={{ width: '100%' }}
                   onChange={this.handleSelectLevel}
                 >Clear Filters</Button>
+
+                <div>
+                <p> this is the cart </p>
+
+
+                </div>
               </div>
             </Sider>
             <Layout className="content-container" onClick={this.toggleSider} style={{ padding: '0 24px 24px' }}>
@@ -465,11 +473,20 @@ class App extends Component {
               >
                 Reload
               </Button>
+
+              <Button
+                type="primary"
+                onClick={this.onAddToCart}
+                disabled={!hasSelected}
+                loading={loading}
+              >
+                Add to Cart
+              </Button>
               <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
               </span>
-              {loading ? 
-                <Spin tip="Loading... :)"> 
+              {loading ?
+                <Spin tip="Loading... :)">
                     <Table
                     dataSource={ this.state.courses }
                     columns={ columns }
