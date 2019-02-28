@@ -228,8 +228,8 @@ Spin.setDefaultIndicator(loadWheel);
       onFilter: (value, record) => record.Status.indexOf(value) === 0,
     }, {
       title: 'Seats',
-      dataIndex: 'Seats',
-      key: 'Seats',
+      dataIndex: 'Seats_Available',
+      key: 'Seats_Available',
     },
     // {
     //   title: 'CRN',
