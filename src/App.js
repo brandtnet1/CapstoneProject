@@ -11,6 +11,7 @@ class App extends Component {
     courses: null,
     collapsed: false,
     selectedRowKeys: [], // Check here to configure the default column
+    selectedRows: [],
     cart: [],
     loading: true,
     searchText: '',
@@ -78,9 +79,12 @@ class App extends Component {
     }, 1000);
   }
 
-  onSelectChange = (selectedRowKeys) => {
+  onSelectChange = (selectedRowKeys,rowInfo) => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
+    this.setState({ selectedRowKeys })
+    this.setState({selectedRows: rowInfo});
+    console.log('selectedRows: ' + this.state.selectedRows)
+
   }
 
   toggleSider = () => {
@@ -90,10 +94,11 @@ class App extends Component {
   }
 
   onAddToCart = () => {
-    for(var i = 0; i<this.state.selectedRowKeys.length; i++){
-      this.state.cart.push(this.state.selectedRowKeys[i]);
+    for(var i = 0; i<this.state.selectedRows.length; i++){
+      this.state.cart.push(this.state.selectedRows[i]);
     }
     console.log('Cart changed: ', this.state.cart);
+
     this.start();
 
     //document.getElementById("cart").innerHTML = this.state.cart
@@ -220,9 +225,9 @@ Spin.setDefaultIndicator(loadWheel);
         text: 'Cancelled',
         value: 'Cancelled',
       }],
-      onFilter: (value, record) => record.status.indexOf(value) === 0,
+      onFilter: (value, record) => record.Status.indexOf(value) === 0,
     }, {
-      title: 'Seats Available',
+      title: 'Seats',
       dataIndex: 'Seats_Available',
       key: 'Seats_Available',
     },
@@ -233,7 +238,7 @@ Spin.setDefaultIndicator(loadWheel);
     //   ...this.getColumnSearchProps('Course_Registration_Number'),
     // },
     {
-      title: 'Department',
+      title: 'Dept.',
       dataIndex: 'Course_Department',
       key: 'Course_Department',
       ...this.getColumnSearchProps('Course_Department'),
@@ -453,8 +458,13 @@ Spin.setDefaultIndicator(loadWheel);
                   onChange={this.handleSelectLevel}
                 >Clear Filters</Button>
 
-                <div>
-                <p> this is the cart </p>
+                <div className='cart'>
+                <p> Course Cart </p>
+
+                {this.state.cart.map(function(d, idx){
+                  return (<li key={idx}>{d.Course_Title}</li>)
+                })}
+
 
 
                 </div>
