@@ -202,7 +202,8 @@ class App extends Component {
       this.queryDatabase();
     }
 
-
+const loadWheel = React.createElement('div', {className: 'loaderWheel'});
+Spin.setDefaultIndicator(loadWheel);
 
     //specify columns format/behaviors for table
     const columns = [{
@@ -486,7 +487,7 @@ class App extends Component {
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
               </span>
               {loading ?
-                <Spin tip="Loading... :)">
+                <Spin>
                     <Table
                     dataSource={ this.state.courses }
                     columns={ columns }

@@ -70,3 +70,16 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Swapping the Default spinner, Gracie
+
+The Antd documentation has a Spin.setDefaultIndicator() function which takes a
+React Element as an argument.
+
+On line 205 of App.js, I created an React Element(const loadWheel) that contains
+the connection to the css class loader.
+
+On line 206 I called the Spin.setDefaultIndicator(loadWheel) function to
+implement our own wheel
+
+Lastly I removed the tip component on the <Spin> tag on line 490
