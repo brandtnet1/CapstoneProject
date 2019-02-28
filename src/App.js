@@ -263,6 +263,7 @@ Spin.setDefaultIndicator(loadWheel);
       title: 'Time',
       dataIndex: 'Times',
       key: 'Times',
+      render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
       ...this.getColumnSearchProps('Times'),
     }, {
       title: 'Days',
@@ -505,8 +506,6 @@ Spin.setDefaultIndicator(loadWheel);
               </Spin>
               : <div>{ this.state.courses &&
                   <div className='table' >
-                  {/* this is for the loading wheel */}
-                  {/* <div className='loader'></div> */}
                     <Table
                     dataSource={ this.state.courses }
                     columns={ columns }
@@ -528,12 +527,6 @@ Spin.setDefaultIndicator(loadWheel);
           </Layout>
         </Layout>
       </Layout>
-      <div>
-        {/* <button onClick={this.fillDatabase}> Fill Database </button> */}
-        {/* <div>{this.state.data}</div> */}
-        {/* <br></br> */}
-        {/* <button onClick={this.queryDatabase}> Query Database </button> */}
-      </div>
      </div>
     );
   }
