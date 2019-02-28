@@ -74,7 +74,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ### Swapping the Default spinner, Gracie
 
 The Antd documentation has a Spin.setDefaultIndicator() function which takes a
-React Element as an argument.
+React Element as an argument. https://ant.design/components/spin/#Static-Method
 
 On line 205 of App.js, I created an React Element(const loadWheel) that contains
 the connection to the css class loader.
