@@ -220,11 +220,11 @@ Spin.setDefaultIndicator(loadWheel);
         text: 'Cancelled',
         value: 'Cancelled',
       }],
-      onFilter: (value, record) => record.status.indexOf(value) === 0,
+      onFilter: (value, record) => record.Status.indexOf(value) === 0,
     }, {
-      title: 'Seats Available',
-      dataIndex: 'Seats_Available',
-      key: 'Seats_Available',
+      title: 'Seats',
+      dataIndex: 'Seats',
+      key: 'Seats',
     },
     // {
     //   title: 'CRN',
@@ -233,7 +233,7 @@ Spin.setDefaultIndicator(loadWheel);
     //   ...this.getColumnSearchProps('Course_Registration_Number'),
     // },
     {
-      title: 'Department',
+      title: 'Dept.',
       dataIndex: 'Course_Department',
       key: 'Course_Department',
       ...this.getColumnSearchProps('Course_Department'),
