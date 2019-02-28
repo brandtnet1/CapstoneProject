@@ -268,7 +268,23 @@ class App extends Component {
       title: 'Days',
       dataIndex: 'Days',
       key: 'Days',
-      ...this.getColumnSearchProps('Days'),
+      filters: [{
+        text: 'Monday',
+        value: 'M',
+      }, {
+        text: 'Tuesday',
+        value: 'T',
+      }, {
+        text: 'Wednesday',
+        value: 'W',
+      }, {
+        text: 'Thursday',
+        value: 'Tr',
+      }, {
+        text: 'Friday',
+        value: 'F',
+      }],
+      onFilter: (value, record) => record.Days.includes(value),
     },
     //{
     //   title: 'Location',
