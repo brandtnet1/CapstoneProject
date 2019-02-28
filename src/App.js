@@ -103,6 +103,9 @@ class App extends Component {
 
     //document.getElementById("cart").innerHTML = this.state.cart
   }
+  handleDelete = () => {
+    console.log("Delete");
+  }
 
   handleSearchTopBox(value) {
     console.log(`searched ${value}`);
@@ -459,11 +462,19 @@ Spin.setDefaultIndicator(loadWheel);
                 >Clear Filters</Button>
 
                 <div className='cart'>
-                <p> Course Cart </p>
+                  <p> Course Cart </p>
+                  <ul>
+                  {this.state.cart.map(item => (
+                    <li key={item._id}>{item.Course_Title}
+                    <Button
+                    onClick = {this.handleDelete}
+                    >
+                    X
+                    </Button>
 
-                {this.state.cart.map(function(d, idx){
-                  return (<li key={idx}>{d.Course_Title}</li>)
-                })}
+                    </li>
+                  ))}
+                  </ul>
 
 
 
