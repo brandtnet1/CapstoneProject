@@ -300,6 +300,9 @@ class App extends Component {
         <Layout className="app">
           <Header className="header" style={{background: '#0071ba'}}>
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
+            <Button id="shoppingCart">
+            Shopping Cart
+            </Button>
           </Header>
           <Layout>
             <Sider
