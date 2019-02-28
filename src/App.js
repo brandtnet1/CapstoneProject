@@ -107,10 +107,6 @@ class App extends Component {
     console.log("Delete");
   }
 
-  handleSearchTopBox(value) {
-    console.log(`searched ${value}`);
-  }
-
   handleSelectStatus(value) {
     console.log(`selected ${value}`);
   }
@@ -210,9 +206,8 @@ class App extends Component {
       this.queryDatabase();
     }
 
-const loadWheel = React.createElement('div', {className: 'loaderWheel'});
-Spin.setDefaultIndicator(loadWheel);
-
+    const loadWheel = React.createElement('div', {className: 'loaderWheel'});
+    Spin.setDefaultIndicator(loadWheel);
     //specify columns format/behaviors for table
     const columns = [{
       title: 'Status',
@@ -246,7 +241,7 @@ Spin.setDefaultIndicator(loadWheel);
       key: 'Course_Department',
       ...this.getColumnSearchProps('Course_Department'),
     }, {
-      title: 'Level',
+      title: 'Course No.',
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
@@ -266,7 +261,6 @@ Spin.setDefaultIndicator(loadWheel);
       title: 'Credits',
       dataIndex: 'Course_Credits',
       key: 'Course_Credits',
-      ...this.getColumnSearchProps('Course_Credits'),
     }, {
       title: 'Time',
       dataIndex: 'Times',
@@ -277,7 +271,23 @@ Spin.setDefaultIndicator(loadWheel);
       title: 'Days',
       dataIndex: 'Days',
       key: 'Days',
-      ...this.getColumnSearchProps('Days'),
+      filters: [{
+        text: 'Monday',
+        value: 'M',
+      }, {
+        text: 'Tuesday',
+        value: 'T',
+      }, {
+        text: 'Wednesday',
+        value: 'W',
+      }, {
+        text: 'Thursday',
+        value: 'Tr',
+      }, {
+        text: 'Friday',
+        value: 'F',
+      }],
+      onFilter: (value, record) => record.Days.includes(value),
     },
     //{
     //   title: 'Location',
@@ -309,11 +319,9 @@ Spin.setDefaultIndicator(loadWheel);
         <Layout className="app">
           <Header className="header" style={{background: '#0071ba'}}>
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
-            {/* <Search
-            placeholder="Search"
-            onSearch={this.handleSearchTopBox}
-            style={{ width: 200 }}
-            /> */}
+            <Button id="shoppingCart">
+            Shopping Cart
+            </Button>
           </Header>
           <Layout>
             <Sider
