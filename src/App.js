@@ -95,16 +95,22 @@ class App extends Component {
 
   onAddToCart = () => {
     for(var i = 0; i<this.state.selectedRows.length; i++){
-      this.state.cart.push(this.state.selectedRows[i]);
+
+        this.state.cart.push(this.state.selectedRows[i]);
+
     }
+
     console.log('Cart changed: ', this.state.cart);
 
     this.start();
 
     //document.getElementById("cart").innerHTML = this.state.cart
   }
-  handleDelete = () => {
-    console.log("Delete");
+  handleDelete = (item) => {
+    var index = this.state.cart.indexOf(item);
+    this.state.cart.splice(index,1);
+    this.start();
+    console.log("Removed " + item.Course_Title + " from cart.")
   }
 
   handleSelectStatus(value) {
@@ -475,7 +481,7 @@ class App extends Component {
                   {this.state.cart.map(item => (
                     <li key={item._id}>{item.Course_Title}
                     <Button
-                    onClick = {this.handleDelete}
+                    onClick = {() => this.handleDelete(item)}
                     >
                     X
                     </Button>
