@@ -168,6 +168,26 @@ class App extends Component {
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
+        {/* <TimePicker
+                    style={{ width: '100%' }}
+                    placeholder="Select start time..."
+                    minuteStep={5}
+                    format = 'hh:mm a'
+                    use12Hours
+                    onChange={this.handleSelectDay}
+                    allowClear={true}
+        >
+        </TimePicker>
+        <TimePicker
+          style={{ width: '100%' }}
+          placeholder="Select end time..."
+          minuteStep={5}
+          format = 'hh:mm a'
+          use12Hours
+          onChange={this.handleSelectDay}
+          allowClear={true}
+        >
+        </TimePicker> */}
         <Button
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
@@ -273,11 +293,11 @@ class App extends Component {
       dataIndex: 'Course_Title',
       key: 'Course_Title',
       ...this.getColumnSearchProps('Course_Title'),
-    }, {
+    }, /* {
       title: 'Credits',
       dataIndex: 'Course_Credits',
       key: 'Course_Credits',
-    }, {
+    }, */ {
       title: 'Time',
       dataIndex: 'Times',
       key: 'Times',
@@ -362,7 +382,7 @@ class App extends Component {
 
           </Header>
           <Layout>
-            <Sider
+            {/* <Sider
             width={200}
             style={{ background: '#fff' }}
             position='fixed'
@@ -524,7 +544,7 @@ class App extends Component {
 
                 </div>
               </div>
-            </Sider>
+            </Sider> */}
             <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
               background: '#fff',
@@ -565,6 +585,7 @@ class App extends Component {
                     expandedRowRender={record => 
                       <p style={{ margin: 0 }}> 
                       Location: {record.Location} <br /> 
+                      Credits: {record.Course_Credits} <br />
                       CRN: {record.Course_Registration_Number} <br /> 
                       Section: {record.Course_Section} <br /> 
                       Prereqs/Comments:{record.Comments} 
@@ -585,7 +606,14 @@ class App extends Component {
                     columns={ columns }
                     rowSelection={ rowSelection }
                     hideDefaultSelections= {true}
-                    expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
+                    expandedRowRender={record => 
+                      <p style={{ margin: 0 }}>
+                      Location: {record.Location} <br /> 
+                      Credits: {record.Course_Credits} <br />
+                      CRN: {record.Course_Registration_Number} <br /> 
+                      Section: {record.Course_Section} <br /> 
+                      Prereqs/Comments:{record.Comments}
+                      </p>}
                     expandRowByClick={true}
                     //expandIconColumnIndex = { "5" }
                     expandIconAsCell={false}
