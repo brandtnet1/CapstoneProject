@@ -97,6 +97,7 @@ class App extends Component {
     for(var i = 0; i<this.state.selectedRows.length; i++){
 
         this.state.cart.push(this.state.selectedRows[i]);
+        this.setState({ selectedRowKeys : [] });
 
     }
 
@@ -110,7 +111,6 @@ class App extends Component {
   handleDelete = (item) => {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
-    this.start();
     console.log("Removed " + item.Course_Title + " from cart.")
   }
 
