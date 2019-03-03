@@ -97,9 +97,10 @@ class App extends Component {
     for(var i = 0; i<this.state.selectedRows.length; i++){
 
         this.state.cart.push(this.state.selectedRows[i]);
-        this.setState({ selectedRowKeys : [] });
 
     }
+
+    this.setState({ selectedRowKeys : [] });
     this.setState({visible: true});
 
     console.log('Cart changed: ', this.state.cart);
@@ -231,10 +232,12 @@ class App extends Component {
         value: 'Cancelled',
       }],
       onFilter: (value, record) => record.Status.indexOf(value) === 0,
+      width: '10%',
     }, {
       title: 'Seats',
       dataIndex: 'Seats_Available',
       key: 'Seats_Available',
+      width: '10%',
     },
     // {
     //   title: 'CRN',
@@ -247,11 +250,13 @@ class App extends Component {
       dataIndex: 'Course_Department',
       key: 'Course_Department',
       ...this.getColumnSearchProps('Course_Department'),
+      width: '10%',
     }, {
       title: 'Course No.',
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
+      width: '10%',
     },
     // {
     //   title: 'Section',
@@ -264,16 +269,19 @@ class App extends Component {
       dataIndex: 'Course_Title',
       key: 'Course_Title',
       ...this.getColumnSearchProps('Course_Title'),
+      width: '20%',
     }, {
       title: 'Credits',
       dataIndex: 'Course_Credits',
       key: 'Course_Credits',
+      width: '10%',
     }, {
       title: 'Time',
       dataIndex: 'Times',
       key: 'Times',
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
       ...this.getColumnSearchProps('Times'),
+      width: '10%',
     }, {
       title: 'Days',
       dataIndex: 'Days',
@@ -296,19 +304,21 @@ class App extends Component {
       }],
       onFilter: (value, record) => record.Days.includes(value),
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
+      width: '10%',
     },
-    //{
+    // {
     //   title: 'Location',
     //   dataIndex: 'Location',
     //   key: 'Location',
-    //
     //   ...this.getColumnSearchProps('Location'),
+    //   width: '10%',
     // },
     {
       title: 'Instructor',
       dataIndex: 'Instructor',
       key: 'Instructor',
       ...this.getColumnSearchProps('Instructor'),
+      width: '10%',
     },
     // {
     //   title: 'Competency/GenEd',
@@ -548,7 +558,7 @@ class App extends Component {
                     //expandIconColumnIndex = { "5" }
                     expandIconAsCell={false}
                     pagination={false}
-                    //scroll={{y:600}}
+                    scroll={{y:600}}
                     size={"small"}
                     rowKey = "_id"
                     />
@@ -565,7 +575,7 @@ class App extends Component {
                     //expandIconColumnIndex = { "5" }
                     expandIconAsCell={false}
                     pagination={false}
-                    //scroll={{y:600}}
+                    scroll={{y:600}}
                     size={"small"}
                     rowKey = "_id"
                     />
