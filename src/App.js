@@ -116,10 +116,14 @@ class App extends Component {
 
     if(this.state.cart.length === 0){
       this.setState({ visible: false});
-    } 
+    }
 
     console.log("Removed " + item.Course_Title + " from cart.");
 
+  }
+
+  clearAll = () => {
+    this.setState({cart: []});
   }
 
   handleSelectStatus(value) {
@@ -330,14 +334,20 @@ class App extends Component {
 
             <Popover
               content={
-                this.state.cart.map(item => (
+                <div>
+                {this.state.cart.map(item => (
                     <li key={item._id}>{item.Course_Title}
-                    <Button onClick = {() => this.handleDelete(item)}> X </Button>
+                    <Button onClick = {() => this.handleDelete(item)} className = "miniButton"> X </Button>
                     </li>
                 ))}
+                <Button onClick = {this.clearAll} className = "clearButton"> delete all </Button>
+                </div>
+
+              }
+
               title="Course Cart"
               trigger="click"
-              style={{ width: 500 }} 
+              style={{ width: 500 }}
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
