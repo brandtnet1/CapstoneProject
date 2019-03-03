@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover, Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
+import { Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -516,23 +516,26 @@ class App extends Component {
               margin: 0,
               minHeight: 280,}}
             >
-              <Button
-                type="primary"
-                onClick={this.start}
-                disabled={!hasSelected}
-                loading={loading}
-              >
-                Reload
-              </Button>
-
-              <Button
-                type="primary"
-                onClick={this.onAddToCart}
-                disabled={!hasSelected}
-                loading={loading}
-              >
-                Add to Cart
-              </Button>
+              <Tooltip title="Clear your current selection">
+                <Button
+                  type="primary"
+                  onClick={this.start}
+                  disabled={!hasSelected}
+                  loading={loading}
+                >
+                  Clear
+                </Button>
+              </Tooltip>
+              <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
+                <Button
+                  type="primary"
+                  onClick={this.onAddToCart}
+                  disabled={!hasSelected}
+                  loading={loading}
+                >
+                  Add to Cart
+                </Button>
+              </Tooltip>
               <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
               </span>
@@ -543,7 +546,13 @@ class App extends Component {
                     columns={ columns }
                     rowSelection={ rowSelection }
                     hideDefaultSelections= {true}
-                    expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
+                    expandedRowRender={record => 
+                      <p style={{ margin: 0 }}> 
+                      Location: {record.Location} <br /> 
+                      CRN: {record.Course_Registration_Number} <br /> 
+                      Section: {record.Course_Section} <br /> 
+                      Prereqs/Comments:{record.Comments} 
+                      </p>}
                     expandRowByClick={true}
                     //expandIconColumnIndex = { "5" }
                     expandIconAsCell={false}
