@@ -325,15 +325,12 @@ class App extends Component {
       }],
       onFilter: (value, record) => record.Days.includes(value),
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
-    },
-    //{
-    //   title: 'Location',
-    //   dataIndex: 'Location',
-    //   key: 'Location',
-    //
-    //   ...this.getColumnSearchProps('Location'),
-    // },
-    {
+    }, {
+       title: 'Location',
+       dataIndex: 'Location',
+       key: 'Location',
+       ...this.getColumnSearchProps('Location'),
+    }, {
       title: 'Instructor',
       dataIndex: 'Instructor',
       key: 'Instructor',
@@ -583,8 +580,7 @@ class App extends Component {
                     rowSelection={ rowSelection }
                     hideDefaultSelections= {true}
                     expandedRowRender={record => 
-                      <p style={{ margin: 0 }}> 
-                      Location: {record.Location} <br /> 
+                      <p style={{ margin: 0 }}>
                       Credits: {record.Course_Credits} <br />
                       CRN: {record.Course_Registration_Number} <br /> 
                       Section: {record.Course_Section} <br /> 
@@ -608,7 +604,6 @@ class App extends Component {
                     hideDefaultSelections= {true}
                     expandedRowRender={record => 
                       <p style={{ margin: 0 }}>
-                      Location: {record.Location} <br /> 
                       Credits: {record.Course_Credits} <br />
                       CRN: {record.Course_Registration_Number} <br /> 
                       Section: {record.Course_Section} <br /> 
