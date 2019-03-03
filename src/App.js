@@ -100,6 +100,7 @@ class App extends Component {
         this.setState({ selectedRowKeys : [] });
 
     }
+    this.setState({visible: true});
 
     console.log('Cart changed: ', this.state.cart);
   }
@@ -111,7 +112,9 @@ class App extends Component {
   handleDelete = (item) => {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
-    console.log("Removed " + item.Course_Title + " from cart.")
+    this.setState({cart: this.state.cart});
+    console.log("Removed " + item.Course_Title + " from cart.");
+
   }
 
   handleSelectStatus(value) {
@@ -320,20 +323,21 @@ class App extends Component {
           <Header className="header" style={{background: '#0071ba'}}>
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
 
-            <Popover 
+            <Popover
               content={this.state.cart.map(item => (
                     <li key={item._id}>{item.Course_Title}
                     <Button onClick = {() => this.handleDelete(item)}> X </Button>
                     </li>
                   ))}
               title="Course Cart"
+        
               trigger="click"
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
               <Button className="shoppingcart" id="shoppingCart"> Shopping Cart </Button>
             </Popover>
-            
+
           </Header>
           <Layout>
             <Sider
