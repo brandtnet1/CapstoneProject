@@ -113,6 +113,11 @@ class App extends Component {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
     this.setState({cart: this.state.cart});
+
+    if(this.state.cart.length === 0){
+      this.setState({ visible: false});
+    } 
+
     console.log("Removed " + item.Course_Title + " from cart.");
 
   }
@@ -324,14 +329,15 @@ class App extends Component {
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
 
             <Popover
-              content={this.state.cart.map(item => (
+              content={
+                this.state.cart.map(item => (
                     <li key={item._id}>{item.Course_Title}
                     <Button onClick = {() => this.handleDelete(item)}> X </Button>
                     </li>
-                  ))}
+                ))}
               title="Course Cart"
-        
               trigger="click"
+              style={{ width: 500 }} 
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
