@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover, Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
+import { Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -96,6 +96,7 @@ class App extends Component {
   onAddToCart = () => {
     for(var i = 0; i<this.state.selectedRows.length; i++){
 
+      if(!this.state.cart.includes(this.state.selectedRows[i])){
         this.state.cart.push(this.state.selectedRows[i]);
 
     }
@@ -117,11 +118,15 @@ class App extends Component {
 
     if(this.state.cart.length === 0){
       this.setState({ visible: false});
-    } 
+    }
 
     console.log("Removed " + item.Course_Title + " from cart.");
 
   }
+
+  clearAll = () => {
+    this.setState({cart: []});
+  };
 
   handleSelectStatus(value) {
     console.log(`selected ${value}`);
@@ -340,14 +345,21 @@ class App extends Component {
 
             <Popover
               content={
-                this.state.cart.map(item => (
+                <div>
+                {this.state.cart.map(item => (
                     <li key={item._id}>{item.Course_Title}
-                    <Button onClick = {() => this.handleDelete(item)}> X </Button>
+                    <Button onClick = {() => this.handleDelete(item)} className = "miniButton"> X </Button>
                     </li>
                 ))}
+                <Button onClick = {this.clearAll} className = "clearButton"> delete all </Button>
+
+                </div>
+
+              }
+
               title="Course Cart"
               trigger="click"
-              style={{ width: 500 }} 
+              style={{ width: 500 }}
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
@@ -526,23 +538,26 @@ class App extends Component {
               margin: 0,
               minHeight: 280,}}
             >
-              <Button
-                type="primary"
-                onClick={this.start}
-                disabled={!hasSelected}
-                loading={loading}
-              >
-                Reload
-              </Button>
-
-              <Button
-                type="primary"
-                onClick={this.onAddToCart}
-                disabled={!hasSelected}
-                loading={loading}
-              >
-                Add to Cart
-              </Button>
+              <Tooltip title="Clear your current selection">
+                <Button
+                  type="primary"
+                  onClick={this.start}
+                  disabled={!hasSelected}
+                  loading={loading}
+                >
+                  Clear
+                </Button>
+              </Tooltip>
+              <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
+                <Button
+                  type="primary"
+                  onClick={this.onAddToCart}
+                  disabled={!hasSelected}
+                  loading={loading}
+                >
+                  Add to Cart
+                </Button>
+              </Tooltip>
               <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
               </span>
@@ -553,7 +568,13 @@ class App extends Component {
                     columns={ columns }
                     rowSelection={ rowSelection }
                     hideDefaultSelections= {true}
-                    expandedRowRender={record => <p style={{ margin: 0 }}> Location: {record.Location} <br /> CRN: {record.Course_Registration_Number} <br /> Section: {record.Course_Section} <br /> Prereqs/Comments:{record.Comments}</p>}
+                    expandedRowRender={record => 
+                      <p style={{ margin: 0 }}> 
+                      Location: {record.Location} <br /> 
+                      CRN: {record.Course_Registration_Number} <br /> 
+                      Section: {record.Course_Section} <br /> 
+                      Prereqs/Comments:{record.Comments} 
+                      </p>}
                     expandRowByClick={true}
                     //expandIconColumnIndex = { "5" }
                     expandIconAsCell={false}
