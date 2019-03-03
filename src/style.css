@@ -10,8 +10,11 @@
 .table{
   height: 600px;
   overflow: auto;
+}
 
-
+.shoppingcart{
+  float: right;
+  top: 25%;
 }
 /*This is for the loading wheel, we can edit the attributes of the wheel in here.
 hoping to place this in the section of the table, if not possible, just put in

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
-import Highlighter from 'react-highlight-words';
+import { Popover, Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -9,7 +8,7 @@ class App extends Component {
   state = {
     data: null,
     courses: null,
-    collapsed: false,
+    collapsed: true,
     selectedRowKeys: [], // Check here to configure the default column
     selectedRows: [],
     cart: [],
@@ -326,9 +325,17 @@ class App extends Component {
         <Layout className="app">
           <Header className="header" style={{background: '#0071ba'}}>
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
-            <Button id="shoppingCart">
-            Shopping Cart
-            </Button>
+
+            <Popover content={this.state.cart.map(item => (
+                    <li key={item._id}>{item.Course_Title}
+                    <Button onClick = {() => this.handleDelete(item)}> X </Button>
+                    </li>
+                  ))}
+                   title="Title"
+            >
+              <Button className="shoppingcart" id="shoppingCart"> Shopping Cart </Button>
+            </Popover>
+            
           </Header>
           <Layout>
             <Sider
@@ -496,7 +503,7 @@ class App extends Component {
                 </div>
               </div>
             </Sider>
-            <Layout className="content-container" onClick={this.toggleSider} style={{ padding: '0 24px 24px' }}>
+            <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
               background: '#fff',
               padding: 24,
