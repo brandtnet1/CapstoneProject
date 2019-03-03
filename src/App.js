@@ -96,10 +96,15 @@ class App extends Component {
   onAddToCart = () => {
     for(var i = 0; i<this.state.selectedRows.length; i++){
 
+      if(!this.state.cart.includes(this.state.selectedRows[i])){
         this.state.cart.push(this.state.selectedRows[i]);
-        this.setState({ selectedRowKeys : [] });
+
+      }
 
     }
+    this.setState({ selectedRowKeys : [] });
+
+
     this.setState({visible: true});
 
     console.log('Cart changed: ', this.state.cart);
@@ -341,6 +346,7 @@ class App extends Component {
                     </li>
                 ))}
                 <Button onClick = {this.clearAll} className = "clearButton"> delete all </Button>
+
                 </div>
 
               }
