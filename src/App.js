@@ -294,6 +294,7 @@ class App extends Component {
         value: 'F',
       }],
       onFilter: (value, record) => record.Days.includes(value),
+      render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
     },
     //{
     //   title: 'Location',
