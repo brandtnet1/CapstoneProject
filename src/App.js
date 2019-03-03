@@ -14,6 +14,7 @@ class App extends Component {
     cart: [],
     loading: true,
     searchText: '',
+    visible: false,
   };
 
   fillDatabase = () => {
@@ -79,10 +80,10 @@ class App extends Component {
   }
 
   onSelectChange = (selectedRowKeys,rowInfo) => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    // console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys })
     this.setState({selectedRows: rowInfo});
-    console.log('selectedRows: ' + this.state.selectedRows)
+    // console.log('selectedRows: ' + this.state.selectedRows)
 
   }
 
@@ -100,11 +101,12 @@ class App extends Component {
     }
 
     console.log('Cart changed: ', this.state.cart);
-
-    this.start();
-
-    //document.getElementById("cart").innerHTML = this.state.cart
   }
+
+  handleVisibleChange = (visible) => {
+    this.setState({ visible });
+  }
+
   handleDelete = (item) => {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
@@ -174,14 +176,6 @@ class App extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    /* render: (text) => (
-       <Highlighter
-         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-         searchWords={[this.state.searchText]}
-         autoEscape
-         textToHighlight={text.toString()}
-       />
-    ), */
   })
 
   handleSearch = (selectedKeys, confirm) => {
@@ -326,12 +320,16 @@ class App extends Component {
           <Header className="header" style={{background: '#0071ba'}}>
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
 
-            <Popover content={this.state.cart.map(item => (
+            <Popover 
+              content={this.state.cart.map(item => (
                     <li key={item._id}>{item.Course_Title}
                     <Button onClick = {() => this.handleDelete(item)}> X </Button>
                     </li>
                   ))}
-                   title="Title"
+              title="Course Cart"
+              trigger="click"
+              visible={this.state.visible}
+              onVisibleChange={this.handleVisibleChange}
             >
               <Button className="shoppingcart" id="shoppingCart"> Shopping Cart </Button>
             </Popover>
@@ -497,8 +495,6 @@ class App extends Component {
                     </li>
                   ))}
                   </ul>
-
-
 
                 </div>
               </div>
