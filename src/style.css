@@ -16,6 +16,19 @@
   float: right;
   top: 25%;
 }
+.miniButton{
+  background: none;
+  border: none;
+  font-size: 8px;
+  padding: 5px;
+}
+.clearButton{
+  background: none;
+  border: none;
+  font-size: 12px;
+  padding: 5px;
+  background-color: #f44336;
+}
 /*This is for the loading wheel, we can edit the attributes of the wheel in here.
 hoping to place this in the section of the table, if not possible, just put in
 the center of the page*/
