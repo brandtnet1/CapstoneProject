@@ -378,7 +378,7 @@ class App extends Component {
             </Popover>
 
           </Header>
-          <Layout>
+          <Layout className="sider-and-content-container">
             {/* <Sider
             width={200}
             style={{ background: '#fff' }}
@@ -591,7 +591,7 @@ class App extends Component {
                     expandIconAsCell={false}
                     pagination={false}
                     //scroll={{y:600}}
-                    size={"small"}
+                    size={"medium"}
                     rowKey = "_id"
                     />
               </Spin>
@@ -614,7 +614,7 @@ class App extends Component {
                     expandIconAsCell={false}
                     pagination={false}
                     //scroll={{y:600}}
-                    size={"small"}
+                    size={"medium"}
                     rowKey = "_id"
                     />
                   </div>}
