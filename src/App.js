@@ -96,11 +96,11 @@ class App extends Component {
   onAddToCart = () => {
     for(var i = 0; i<this.state.selectedRows.length; i++){
 
-      if(!this.state.cart.includes(this.state.selectedRows[i])){
+      if(!this.state.cart.includes(this.state.selectedRows[i])) {
         this.state.cart.push(this.state.selectedRows[i]);
-
+      }
     }
-
+    
     this.setState({ selectedRowKeys : [] });
     this.setState({visible: true});
 
@@ -109,24 +109,23 @@ class App extends Component {
 
   handleVisibleChange = (visible) => {
     this.setState({ visible });
-  }
+  };
 
   handleDelete = (item) => {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
     this.setState({cart: this.state.cart});
 
-    if(this.state.cart.length === 0){
+    if(this.state.cart.length === 0) {
       this.setState({ visible: false});
     }
 
     console.log("Removed " + item.Course_Title + " from cart.");
-
   }
 
   clearAll = () => {
     this.setState({cart: []});
-  };
+  }
 
   handleSelectStatus(value) {
     console.log(`selected ${value}`);
