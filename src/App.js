@@ -4,13 +4,15 @@ import { Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, Select, Tim
 import "antd/dist/antd.css";
 import "./style.css";
 
-class App extends Component {
+class App extends Component {  
   state = {
     data: null,
     courses: null,
     collapsed: true,
     selectedRowKeys: [], // Check here to configure the default column
     selectedRows: [],
+    startTime: null,
+    endTime: null,
     cart: [],
     loading: true,
     searchText: '',
@@ -92,16 +94,14 @@ class App extends Component {
 
   onAddToCart = () => {
     for(var i = 0; i<this.state.selectedRows.length; i++){
-
       if(!this.state.cart.includes(this.state.selectedRows[i])) {
         this.state.cart.push(this.state.selectedRows[i]);
       }
     }
-    
     this.setState({ selectedRowKeys : [] });
     this.setState({visible: true});
 
-    console.log('Cart changed: ', this.state.cart);
+    // console.log('Cart changed: ', this.state.cart);
   }
 
   handleVisibleChange = (visible) => {
@@ -117,7 +117,7 @@ class App extends Component {
       this.setState({ visible: false});
     }
 
-    console.log("Removed " + item.Course_Title + " from cart.");
+    // console.log("Removed " + item.Course_Title + " from cart.");
   }
 
   clearAll = () => {
@@ -132,8 +132,12 @@ class App extends Component {
     console.log(`selected ${value}`);
   }
 
-  handleSelectTime(value) {
-    console.log(`selected ${value}`);
+  handleSelectStartTime = (value) => {
+    this.setState({ startTime : value._i.substring(0,5) });
+  }
+
+  handleSelectEndTime = (value) => {
+    this.setState({ endTime : value._i.substring(0,5) });
   }
 
   handleSelectDeparment(value) {
@@ -279,6 +283,10 @@ class App extends Component {
       key: 'Times',
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
       ...this.getColumnSearchProps('Times'),
+      onFilter: (value, record) => {
+        console.log(record.Times.toString());
+        if(record.Times.toString) return true;
+      },
       filterDropdown: ({
         setSelectedKeys, selectedKeys, confirm, clearFilters,
       }) => (
@@ -289,7 +297,7 @@ class App extends Component {
             minuteStep={5}
             format = 'hh:mm a'
             use12Hours
-            onChange={this.handleSelectDay}
+            onChange={this.handleSelectStartTime}
             allowClear={true}
           >
           </TimePicker>
@@ -299,14 +307,17 @@ class App extends Component {
             minuteStep={5}
             format = 'hh:mm a'
             use12Hours
-            onChange={this.handleSelectDay}
+            onChange={this.handleSelectEndTime}
             allowClear={true}
           >
           </TimePicker>
           <div className="timeButtons">
             <Button
             type="primary"
-            onClick={() => this.handleSearch(selectedKeys, confirm)}
+            onClick={() => {
+                this.handleSearch([this.state.startTime, this.state.endTime], confirm)
+              }
+            }
             icon="search"
             size="small"
             style={{ width: 90, marginRight: 8 }}
@@ -314,7 +325,7 @@ class App extends Component {
               Search
             </Button>
             <Button
-              onClick={() => this.handleReset(clearFilters)}
+              onClick={() => this.setState({ startTime: null, endTime: null})}
               size="small"
               style={{ width: 90 }}
             >
