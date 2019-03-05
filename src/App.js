@@ -80,11 +80,8 @@ class App extends Component {
   }
 
   onSelectChange = (selectedRowKeys,rowInfo) => {
-    // console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys })
+    this.setState({ selectedRowKeys });
     this.setState({selectedRows: rowInfo});
-    // console.log('selectedRows: ' + this.state.selectedRows)
-
   }
 
   toggleSider = () => {
@@ -164,26 +161,6 @@ class App extends Component {
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
-        {/* <TimePicker
-                    style={{ width: '100%' }}
-                    placeholder="Select start time..."
-                    minuteStep={5}
-                    format = 'hh:mm a'
-                    use12Hours
-                    onChange={this.handleSelectDay}
-                    allowClear={true}
-        >
-        </TimePicker>
-        <TimePicker
-          style={{ width: '100%' }}
-          placeholder="Select end time..."
-          minuteStep={5}
-          format = 'hh:mm a'
-          use12Hours
-          onChange={this.handleSelectDay}
-          allowClear={true}
-        >
-        </TimePicker> */}
         <Button
           type="primary"
           onClick={() => this.handleSearch(selectedKeys, confirm)}
@@ -302,6 +279,50 @@ class App extends Component {
       key: 'Times',
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
       ...this.getColumnSearchProps('Times'),
+      filterDropdown: ({
+        setSelectedKeys, selectedKeys, confirm, clearFilters,
+      }) => (
+        <div>
+          <TimePicker
+            style={{ width: '50%' }}
+            placeholder="Start Time"
+            minuteStep={5}
+            format = 'hh:mm a'
+            use12Hours
+            onChange={this.handleSelectDay}
+            allowClear={true}
+          >
+          </TimePicker>
+          <TimePicker
+            style={{ width: '50%' }}
+            placeholder="End Time"
+            minuteStep={5}
+            format = 'hh:mm a'
+            use12Hours
+            onChange={this.handleSelectDay}
+            allowClear={true}
+          >
+          </TimePicker>
+          <div className="timeButtons">
+            <Button
+            type="primary"
+            onClick={() => this.handleSearch(selectedKeys, confirm)}
+            icon="search"
+            size="small"
+            style={{ width: 90, marginRight: 8 }}
+            >
+              Search
+            </Button>
+            <Button
+              onClick={() => this.handleReset(clearFilters)}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+          </div> 
+        </div>
+      ),
     }, {
       title: 'Days',
       dataIndex: 'Days',

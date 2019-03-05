@@ -16,9 +16,6 @@
   float: right;
   top: 25%;
 }
-<<<<<<< HEAD
-
-=======
 .miniButton{
   background: none;
   border: none;
@@ -32,7 +29,10 @@
   padding: 5px;
   background-color: #f44336;
 }
->>>>>>> 30e4fc42b34a372fa3adc218856c12facf79384d
+
+.timeButtons{
+  left: 50%;
+}
 /*This is for the loading wheel, we can edit the attributes of the wheel in here.
 hoping to place this in the section of the table, if not possible, just put in
 the center of the page*/
