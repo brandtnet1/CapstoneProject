@@ -256,12 +256,10 @@ class App extends Component {
         value: 'Cancelled',
       }],
       onFilter: (value, record) => record.Status.indexOf(value) === 0,
-      width: '10%',
     }, {
       title: 'Seats',
       dataIndex: 'Seats_Available',
       key: 'Seats_Available',
-      width: '10%',
     },
     // {
     //   title: 'CRN',
@@ -274,13 +272,12 @@ class App extends Component {
       dataIndex: 'Course_Department',
       key: 'Course_Department',
       ...this.getColumnSearchProps('Course_Department'),
-      width: '10%',
     }, {
-      title: 'Course No.',
+      title: 'Course Level',
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-      width: '10%',
+      onFilter: (value, record) => record.Course_Level >= value,
     },
     // {
     //   title: 'Section',
@@ -293,19 +290,18 @@ class App extends Component {
       dataIndex: 'Course_Title',
       key: 'Course_Title',
       ...this.getColumnSearchProps('Course_Title'),
-      width: '20%',
-    }, {
-      title: 'Credits',
-      dataIndex: 'Course_Credits',
-      key: 'Course_Credits',
-      width: '10%',
-    }, {
+    }, 
+    // {
+    //   title: 'Credits',
+    //   dataIndex: 'Course_Credits',
+    //   key: 'Course_Credits',
+    // }, 
+    {
       title: 'Time',
       dataIndex: 'Times',
       key: 'Times',
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
       ...this.getColumnSearchProps('Times'),
-      width: '10%',
     }, {
       title: 'Days',
       dataIndex: 'Days',
@@ -326,9 +322,8 @@ class App extends Component {
         text: 'Friday',
         value: 'F',
       }],
-      onFilter: (value, record) => record.Days.includes(value),
+      // onFilter: (value, record) => record.Days.includes(value),
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
-      width: '10%',
     }, {
        title: 'Location',
        dataIndex: 'Location',
@@ -339,7 +334,6 @@ class App extends Component {
       dataIndex: 'Instructor',
       key: 'Instructor',
       ...this.getColumnSearchProps('Instructor'),
-      width: '10%',
     },
     // {
     //   title: 'Competency/GenEd',
@@ -596,7 +590,7 @@ class App extends Component {
                     expandIconAsCell={false}
                     pagination={false}
                     size={"medium"}
-                    scroll={{y:600}}
+                    // scroll={{y:600}}
                     rowKey = "_id"
                     />
               </Spin>
@@ -619,7 +613,7 @@ class App extends Component {
                     expandIconAsCell={false}
                     pagination={false}
                     size={"medium"}
-                    scroll={{y:600}}
+                    // scroll={{y:600}}
                     rowKey = "_id"
                     />
                   </div>}
