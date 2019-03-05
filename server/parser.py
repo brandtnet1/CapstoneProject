@@ -21,8 +21,6 @@ except:
 
 sections = sections.split("</tr>")
 
-courses_json = []
-
 #skip over intersession courses
 for first in range(0, len(sections)):
     if("FULL TERM" in sections[first]):
@@ -76,13 +74,10 @@ def parseCourse(section):
     #get time
     times = parts[6]
     times = re.findall('([0-9]. ?:[0-9][0-9]-[0-9]. ?:[0-9][0-9][a-zA-z])', times)
-    times = [x for x in times if x]
+    times = [x.replace(' ', '') for x in times if x]
     # Chris is the time master
-    # times = time.split('<br>')
-    # times[0] = times[0][44:]
-    # times[len(time)]
-    # ([0-9].:[0-9][0-9]-[0-9][0-9]:[0-9][0-9][a-zA-z])
-    #([0-9]. ?:[0-9][0-9]-[0-9]. ?:[0-9][0-9][a-zA-z])
+    # ([0-9].:[0-9][0-9]-[0-9][0-9]:[0-9][0-9][a-zA-z]) first, incorrect
+    # ([0-9]. ?:[0-9][0-9]-[0-9]. ?:[0-9][0-9][a-zA-z])
 
 
     #get day
@@ -133,7 +128,7 @@ while(i<len(sections)):
 
     #if this sections contains course details, parse it
     if("Open" in section or "Filled" in section or "Cancelled" in section):
-        courses_json.append(parseCourse(section))
+        parseCourse(section)
 
     i += 1
 
