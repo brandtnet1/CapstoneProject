@@ -84,15 +84,14 @@ app.get('/query_db_filters', (req, res) => {
           console.log('caught', error.message);
       });
 
-      console.log("EXPORT")
-      runExport.then((data) => {
+    runExport.then((data) => {
 
           res.send(data.toString());
 
-      }).catch(function () {
-       console.log("Promise Rejected");
-      });
-  });
+    }).catch(function () {
+    console.log("Promise Rejected");
+    });
+});
 
 
 
