@@ -4,7 +4,7 @@ import { Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, Select, Tim
 import "antd/dist/antd.css";
 import "./style.css";
 
-class App extends Component {  
+class App extends Component {
   state = {
     data: null,
     courses: null,
@@ -17,6 +17,7 @@ class App extends Component {
     loading: true,
     searchText: '',
     visible: false,
+    exported: false,
   };
 
   fillDatabase = () => {
@@ -29,6 +30,21 @@ class App extends Component {
     })
     .catch(err => console.log(err));
   };
+
+  exportCart = () => {
+
+    fetch('http://localhost:5000/export_cart')
+    .then(response => {
+      return response.json();
+    })
+    .then((values) => {
+      this.setState({ exported: values.exported });
+    })
+    .catch(err => console.log(err));
+
+    window.open("http://localhost:5000/export_cart");
+
+  }
 
   // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js\
   queryDatabase() {
@@ -120,6 +136,7 @@ class App extends Component {
   clearAll = () => {
     this.setState({cart: []});
   }
+
 
   handleSelectStatus(value) {
     console.log(`selected ${value}`);
@@ -268,12 +285,12 @@ class App extends Component {
       dataIndex: 'Course_Title',
       key: 'Course_Title',
       ...this.getColumnSearchProps('Course_Title'),
-    }, 
+    },
     // {
     //   title: 'Credits',
     //   dataIndex: 'Course_Credits',
     //   key: 'Course_Credits',
-    // }, 
+    // },
     {
       title: 'Time',
       dataIndex: 'Times',
@@ -328,7 +345,7 @@ class App extends Component {
             >
               Reset
             </Button>
-          </div> 
+          </div>
         </div>
       ),
     }, {
@@ -390,7 +407,9 @@ class App extends Component {
                     <Button onClick = {() => this.handleDelete(item)} className = "miniButton"> X </Button>
                     </li>
                 ))}
+                <Button onClick = {this.exportCart}> Export </Button>
                 <Button onClick = {this.clearAll} className = "clearButton"> delete all </Button>
+
 
                 </div>
 
@@ -607,12 +626,12 @@ class App extends Component {
                     columns={ columns }
                     rowSelection={ rowSelection }
                     hideDefaultSelections= {true}
-                    expandedRowRender={record => 
+                    expandedRowRender={record =>
                       <p style={{ margin: 0 }}>
                       Credits: {record.Course_Credits} <br />
-                      CRN: {record.Course_Registration_Number} <br /> 
-                      Section: {record.Course_Section} <br /> 
-                      Prereqs/Comments:{record.Comments} 
+                      CRN: {record.Course_Registration_Number} <br />
+                      Section: {record.Course_Section} <br />
+                      Prereqs/Comments:{record.Comments}
                       </p>}
                     expandRowByClick={true}
                     //expandIconColumnIndex = { "5" }
@@ -630,11 +649,11 @@ class App extends Component {
                     columns={ columns }
                     rowSelection={ rowSelection }
                     hideDefaultSelections= {true}
-                    expandedRowRender={record => 
+                    expandedRowRender={record =>
                       <p style={{ margin: 0 }}>
                       Credits: {record.Course_Credits} <br />
-                      CRN: {record.Course_Registration_Number} <br /> 
-                      Section: {record.Course_Section} <br /> 
+                      CRN: {record.Course_Registration_Number} <br />
+                      Section: {record.Course_Section} <br />
                       Prereqs/Comments:{record.Comments}
                       </p>}
                     expandRowByClick={true}
