@@ -71,28 +71,27 @@ app.get('/query_db_filters', (req, res) => {
     //   exec(callback); // if there is a callback function for something to do when you find the query do it now
 });
 
-  let runExport = new Promise(function(success, nosuccess) {
-      const { spawn } = require('child_process');
-      const pyprog = spawn('python', ['course_generator.py']);
+let runExport = new Promise(function(success, nosuccess) {
+    const { spawn } = require('child_process');
+    const pyprog = spawn('python', ['course_generator.py']);
 
-      pyprog.stdout.on('data', (data) => success(data) );
-      pyprog.stderr.on('data', (data) => nosuccess(data) );
-  }).catch(error => {
-      console.log('caught', error.message);
-  });
+    pyprog.stdout.on('data', (data) => success(data) );
+    pyprog.stderr.on('data', (data) => nosuccess(data) );
+}).catch(error => {
+    console.log('caught', error.message);
+});
 
-  app.get('/export_cart', (req, res) => {
-      //res.send({ exported : true });
+app.get('/export_cart', (req, res) => {
+    //res.send({ exported : true });
 
-      console.log("EXPORT")
-      runExport.then((data) => {
+    runExport.then((data) => {
 
-          res.send( data.toString());
+        res.send( data.toString());
 
-      }).catch(function () {
-       console.log("Promise Rejected");
-      });
-  });
+    }).catch(function () {
+    console.log("Promise Rejected");
+    });
+});
 
 
 

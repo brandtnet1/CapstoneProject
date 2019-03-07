@@ -272,7 +272,7 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-      onFilter: (value, record) => record.Course_Level >= value,
+      onFilter: (value, record) => record.Course_Level >= value && record.Course_Level <= parseInt(value) + 100,
     },
     // {
     //   title: 'Section',
@@ -409,10 +409,7 @@ class App extends Component {
                 ))}
                 <Button onClick = {this.exportCart}> Export </Button>
                 <Button onClick = {this.clearAll} className = "clearButton"> delete all </Button>
-
-
                 </div>
-
               }
 
               title="Course Cart"
