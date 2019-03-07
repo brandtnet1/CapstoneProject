@@ -43,9 +43,9 @@ class App extends Component {
         data.push(values.express[key])
       })
 
-      this.setState({ courses: data, loading: false });
+      this.setState({ courses : data, loading : false });
     })
-    .catch(() => this.setState({ loading: false }));
+    .catch(() => this.setState({ loading : false }));
   };
 
   // queryDatabaseFilters(filters) {
@@ -72,7 +72,6 @@ class App extends Component {
 
   start = () => {
     this.setState({ loading: true });
-    // ajax request after empty completing
     setTimeout(() => {
       this.setState({
         selectedRowKeys: [],
@@ -82,8 +81,7 @@ class App extends Component {
   }
 
   onSelectChange = (selectedRowKeys,rowInfo) => {
-    this.setState({ selectedRowKeys });
-    this.setState({selectedRows: rowInfo});
+    this.setState({ selectedRowKeys, selectedRows : rowInfo });
   }
 
   toggleSider = () => {
@@ -98,8 +96,7 @@ class App extends Component {
         this.state.cart.push(this.state.selectedRows[i]);
       }
     }
-    this.setState({ selectedRowKeys : [] });
-    this.setState({visible: true});
+    this.setState({ selectedRowKeys : [], visible : true });
 
     // console.log('Cart changed: ', this.state.cart);
   }
@@ -111,10 +108,10 @@ class App extends Component {
   handleDelete = (item) => {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
-    this.setState({cart: this.state.cart});
+    this.setState({cart : this.state.cart});
 
     if(this.state.cart.length === 0) {
-      this.setState({ visible: false});
+      this.setState({ visible : false});
     }
 
     // console.log("Removed " + item.Course_Title + " from cart.");
@@ -199,7 +196,7 @@ class App extends Component {
 
   handleReset = (clearFilters) => {
     clearFilters();
-    this.setState({ searchText: '' });
+    this.setState({ searchText : '' });
   }
 
   render = () => {
@@ -354,7 +351,7 @@ class App extends Component {
         text: 'Friday',
         value: 'F',
       }],
-      // onFilter: (value, record) => record.Days.includes(value),
+      onFilter: (value, record) => record.Days.includes(value),
       render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
     }, {
        title: 'Location',
