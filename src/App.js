@@ -107,8 +107,10 @@ class App extends Component {
   }
 
   onAddToCart = () => {
-    if(this.state.cart.length <= 5) {
+    if(this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
+      console.log(this.state.selectedRows.length);
       for(var i = 0; i<this.state.selectedRows.length; i++){
+        console.log(this.state.selectedRows[i].Status);
         if(!this.state.cart.includes(this.state.selectedRows[i])) {
           this.state.cart.push(this.state.selectedRows[i]);
         }
@@ -117,9 +119,9 @@ class App extends Component {
     else {
       alert("Slow down there, hotshot.")
     }
-    if(this.state.selectedRows.Status == "Filled") {
-      alert("This class is full")
-    }
+    // if(this.state.selectedRows[i].Status == "Filled") {
+    //   alert("This class is full");
+    // }
     this.setState({ selectedRowKeys : [], visible : true });
 
     // console.log('Cart changed: ', this.state.cart);
