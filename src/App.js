@@ -107,10 +107,15 @@ class App extends Component {
   }
 
   onAddToCart = () => {
-    for(var i = 0; i<this.state.selectedRows.length; i++){
-      if(!this.state.cart.includes(this.state.selectedRows[i])) {
-        this.state.cart.push(this.state.selectedRows[i]);
+    if(this.state.cart.length <= 5) {
+      for(var i = 0; i<this.state.selectedRows.length; i++){
+        if(!this.state.cart.includes(this.state.selectedRows[i])) {
+          this.state.cart.push(this.state.selectedRows[i]);
+        }
       }
+    }
+    else {
+      alert("Slow down there, hotshot.")
     }
     this.setState({ selectedRowKeys : [], visible : true });
 
