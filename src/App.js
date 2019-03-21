@@ -39,7 +39,7 @@ class App extends Component {
     this.state.cart.forEach((course) => {
       query = query + "CRN=" + course.Course_Registration_Number + "&";
     });
-    console.log(query);
+    console.log("Export: " + query);
 
     fetch('http://localhost:5000/export_cart' + query)
     .then(response => {
