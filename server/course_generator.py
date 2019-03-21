@@ -20,9 +20,33 @@ crns = crns[1:]
 s = ""
 
 for crn in crns:
-    s += crn + " "
-    x = mycol.find_one({"Course_Registration_Number": crn})
-    s += x.get("Course_Title") + " "
+
+    course = mycol.find_one({"Course_Registration_Number": crn})
+
+    s += "<p><b>" + course.get("Course_Title") + " </b>"
+
+    #Add Times
+    for time in course.get("Times"):
+        s += time + " "
+
+
+    for day in course.get("Days"):
+        s += day + " "
+    s += '<br>'
+
+
+    s += "Location: "
+    for loc in course.get("Location"):
+        s+= loc + " "
+    s += "<br>"
+
+    s += "Department: " + course.get("Course_Department") + "<br>"
+    s += "Instructor: " + course.get("Instructor") + "<br>"
+    s += "CRN: "  + crn + "<br>"
+
+
+    s+= "</p>"
+
 
 
 
@@ -30,10 +54,9 @@ html = """<html>
 <head></head>
 <body>
 
-<p>Course Schedule</p>
+<p><font size="24">Course Schedule</font></p>
 
-
-<p>""" + s +  """</P>
+""" + s +  """
 
 
 </body>
