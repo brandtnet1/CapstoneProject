@@ -115,11 +115,21 @@ class App extends Component {
   }
 
   onAddToCart = () => {
-    for(var i = 0; i<this.state.selectedRows.length; i++){
-      if(!this.state.cart.includes(this.state.selectedRows[i])) {
-        this.state.cart.push(this.state.selectedRows[i]);
+    if(this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
+      console.log(this.state.selectedRows.length);
+      for(var i = 0; i<this.state.selectedRows.length; i++){
+        console.log(this.state.selectedRows[i].Status);
+        if(!this.state.cart.includes(this.state.selectedRows[i])) {
+          this.state.cart.push(this.state.selectedRows[i]);
+        }
       }
     }
+    else {
+      alert("Slow down there, hotshot.")
+    }
+    // if(this.state.selectedRows[i].Status == "Filled") {
+    //   alert("This class is full");
+    // }
     this.setState({ selectedRowKeys : [], visible : true });
 
     // console.log('Cart changed: ', this.state.cart);
@@ -280,7 +290,7 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-      onFilter: (value, record) => record.Course_Level >= value && record.Course_Level <= parseInt(value) + 100,
+      onFilter: (value, record) => record.Course_Level >= value && record.Course_Level <= ((parseInt(value)/100) * 100) + 99,
     },
     // {
     //   title: 'Section',
