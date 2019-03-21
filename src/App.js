@@ -33,7 +33,15 @@ class App extends Component {
 
   exportCart = () => {
 
-    fetch('http://localhost:5000/export_cart')
+
+
+    var query = "?";
+    this.state.cart.forEach((course) => {
+      query = query + "CRN=" + course.Course_Registration_Number + "&";
+    });
+    console.log(query);
+
+    fetch('http://localhost:5000/export_cart' + query)
     .then(response => {
       return response.json();
     })
@@ -42,7 +50,7 @@ class App extends Component {
     })
     .catch(err => console.log(err));
 
-    window.open("http://localhost:5000/export_cart");
+    window.open("http://localhost:5000/export_cart" + query);
 
   }
 

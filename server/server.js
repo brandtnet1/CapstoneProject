@@ -76,7 +76,8 @@ app.get('/query_db_filters', (req, res) => {
       //res.send({ exported : true });
       let runExport = new Promise(function(success, nosuccess) {
           const { spawn } = require('child_process');
-          const pyprog = spawn('python', ['course_generator.py',req.query]);
+          console.log(req.query);
+          const pyprog = spawn('python', ['course_generator.py', JSON.stringify(req.query)]);
 
           pyprog.stdout.on('data', (data) => success(data) );
           pyprog.stderr.on('data', (data) => nosuccess(data) );
@@ -85,11 +86,11 @@ app.get('/query_db_filters', (req, res) => {
       });
 
     runExport.then((data) => {
-
+          
           res.send(data.toString());
 
-    }).catch(function () {
-    console.log("Promise Rejected");
+    }).catch(error => {
+        console.log('caught', error.message);
     });
 });
 
