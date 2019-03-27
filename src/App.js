@@ -265,8 +265,8 @@ class App extends Component {
         text: 'Filled',
         value: 'Filled',
       }, {
-        text: 'Cancelled',
-        value: 'Cancelled',
+        text: 'Canceled',
+        value: 'Canceled',
       }],
       onFilter: (value, record) => record.Status.indexOf(value) === 0,
     }, {

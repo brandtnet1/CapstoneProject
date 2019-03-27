@@ -30,36 +30,53 @@ var mailOptions = {
   text: 'That was easy!'
 };
 
+/* The methods below should take the course as a parameter*/
+
 //when the user signs up for notifications
-function newbie(){
-  var courseInfo = "Course Information goes here";
+function newSubscriber(course, email){
+  var courseInfo = course.toString();
+  mailOptions.to = email;
   mailOptions.subject = 'Thank you for Subscribing for Notifications';
   mailOptions.text = 'You have just signed up for notifications for the class": \n'
-                     + courseInfo
+                     + courseInfo + "If you wish to unsubscribe, please click the link below"
+}
+function subscriberLeaves(course, email){
+  var courseInfo = course.toString();
+  mailOptions.to = email;
+  mailOptions.subject = 'Unsubscribed!'';
+  mailOptions.text = 'You have just unsubscribed for notifications about the class:\n'
+                     + courseInfo + "If you did not mean to do this, please click this link";
 }
 
 //This will eventually work with Rene's export courses program
-function exportCourses(){
+function exportCourses(course, email){
+  mailOptions.to = email;//users email should go here
   mailOptions.subject = 'Exported List of Courses'
   mailOptions.text = 'List of Course Info :)'; //the list of course
 }
 
 //These will be on an inividual course basis
-function courseUpdate(){
-  var courseInfo = "Course Information Goes Here"
+function courseUpdate(course){
+  var subscribers = course.subscribers;
+  var courseInfo = course.toString();
   mailOptions.subject =  'Updated Course Information!';
   mailOptions.text = 'There has been a revision to the course you have favorited.\n'
                     + courseInfo;
-//for every subscriber
-  send();
+  for sub in subscribers{
+    mailOptions.to = sub;
+    send();
+  }       
 }
-function courseDeletion(){
-  var courseInfo = "Course Information Goes Here"
+function courseDeletion(course){
+  var subscribers = course.subscribers;
+  var courseInfo = course.toString();
   mailOptions.subject = 'Course Deletion Notification!';
   mailOptions.text = 'The course that you have favorited has been deleted!\n'
                      + courseInfo;
-  //for every subscriber
-  send();
+  for sub in subscribers{
+    mailOptions.to = sub;
+    send();
+  }
 }
 
 
