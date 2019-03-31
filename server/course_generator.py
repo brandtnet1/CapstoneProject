@@ -19,12 +19,15 @@ crns = crns[1:]
 
 #build Arrays for Days and Colors
 MTWRF = ['M','T','W','R','F']
-tableColors = ["<td bgcolor=\"#000080\"> </td>","<td bgcolor=\"#FFC0CB\">  </td>","<td bgcolor=\"#00FF00\">  </td>", "<td bgcolor=\"#FF00FF\">  </td>", "<td bgcolor=\"#0000FF\">  </td>"]
 colors = ["#000080","#FFC0CB","00FF00","#FF00FF","0000FF"]
+
+tableColors = []
+for color in colors:
+    tableColors.append("<td bgcolor=\"" + color + "\"> </td>")
 
 #Build base Table
 table  = [[-2,-2,-2,-2,-2]]
-for i in range(51):
+for i in range(52):
     table.append([-2,-2,-2,-2,-2])
 
 #Takes integer and converts it to string time
