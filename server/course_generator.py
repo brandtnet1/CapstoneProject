@@ -17,10 +17,13 @@ x = mycol.find_one({"Course_Title": "Human Evolution"})
 crns = re.findall(r'"(.*?)"', str(sys.argv[1]))
 crns = crns[1:]
 
-table  = [[0,0,0,0,0]]
+table  = [[-2,-2,-2,-2,-2]]
 MTWRF = ['M','T','W','R','F']
+tableColors = ["<td bgcolor=\"#000080\"> </td>","<td bgcolor=\"#FFC0CB\">  </td>","<td bgcolor=\"#00FF00\">  </td>", "<td bgcolor=\"#FF00FF\">  </td>", "<td bgcolor=\"#0000FF\">  </td>"]
+colors = ["#000080","#FFC0CB","00FF00","#FF00FF","0000FF"]
+
 for i in range(51):
-    table.append([0,0,0,0,0])
+    table.append([-2,-2,-2,-2,-2])
 
 def intToTime(i):
     hour = i//4 + 8
@@ -55,41 +58,45 @@ def timeToInt(time):
     end -= 32
     return start,end
 
-def addToTable(time,days):
+def addToTable(time,days,c):
     time = timeToInt(time)
     start = time[0]
     end = time[1]
 
-
     for d in range(len(days)):
         for t in range(start,end+1):
-            table[t][MTWRF.index(days[d])] += 1
+            if(table[t][MTWRF.index(days[d])] == -2):
+                table[t][MTWRF.index(days[d])] = c
+            else:
+                table[t][MTWRF.index(days[d])] = -1
 
 def buildSchedule():
     s = ""
+    c = 0
+
     for crn in crns:
 
         course = mycol.find_one({"Course_Registration_Number": crn})
 
         s += "<p><b>" + course.get("Course_Title") + " </b>"
 
-        #Add Times
-        #for time in course.get("Times"):
-        #    s += time + " "
-
-
-        #for day in course.get("Days"):
-        #    s += day + " "
-        #s += '<br>'
-
         times = course.get("Times")
         days = course.get("Days")
 
-        for i in range(len(times)):
-            time = times[i]
-            day = days[i]
-            s += time + " " + day
-            addToTable(time,day)
+        if(len(days) == 0 or days[0] == "TBA"):
+            s+= " TBA"
+        else:
+            for i in range(len(times)):
+                time = times[i]
+                day = days[i]
+                s += time + " " + day
+                addToTable(time,day,c)
+
+        #+ "<font color=\"" + colors[c] + "\">This is some text!</font>"
+
+            s +="<b><font color=\"" + colors[c] + "\" size=\"30\">.</font></b>"
+            c = (c+1)%len(tableColors)
+
 
 
         s += '<br>'
@@ -127,14 +134,13 @@ def buildTable():
         t+= "<tr>"
         t += "<td> " + intToTime(i) + " </td>"
         i += 1
-        #t+= "<td height=\"2\" bgcolor=\"#FF0000\"> </td> <td height=\"2\"> </td> <td height=\"2\"> </td> <td height=\"2\"> </td> <td height=\"2\"> </td>"
         for x in row:
-            if(x == 0):
-                t += "<td bgcolor=\"#FFFFFF\">  </td>"
-            elif(x >=2):
+            if(x == -2):
+                t += "<td>  </td>"
+            elif(x == -1):
                 t += "<td bgcolor=\"#FF0000\">  </td>"
             else:
-                t += "<td bgcolor=\"#00FF00\">  </td>"
+                t += tableColors[x]
 
         t += "</tr>"
     t += "</table>"
