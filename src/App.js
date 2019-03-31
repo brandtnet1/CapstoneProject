@@ -116,9 +116,7 @@ class App extends Component {
 
   onAddToCart = () => {
     if(this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
-      console.log(this.state.selectedRows.length);
       for(var i = 0; i<this.state.selectedRows.length; i++){
-        console.log(this.state.selectedRows[i].Status);
         if(!this.state.cart.includes(this.state.selectedRows[i])) {
           this.state.cart.push(this.state.selectedRows[i]);
         }
@@ -155,6 +153,20 @@ class App extends Component {
     this.setState({cart: []});
   }
 
+  convertTime = (time, modifier) => {
+    let [hours, minutes] = time.split(':');
+
+    if (hours === '12') {
+      hours = '00';
+    }
+
+    if (modifier === 'P') {
+      hours = parseInt(hours, 10) + 12;
+    }
+
+    return `${hours}${minutes}`;
+  }
+
 
   handleSelectStatus(value) {
     console.log(`selected ${value}`);
@@ -165,11 +177,23 @@ class App extends Component {
   }
 
   handleSelectStartTime = (value) => {
-    this.setState({ startTime : value._i.substring(0,5) });
+    if(value){
+      if(value._d.getMinutes() === 0){
+        this.setState({ startTime : value._d.getHours() + ":00" });
+      } else {
+        this.setState({ startTime : value._d.getHours() + ":" + value._d.getMinutes() });
+      }
+    }
   }
 
   handleSelectEndTime = (value) => {
-    this.setState({ endTime : value._i.substring(0,5) });
+    if(value){
+      if(value._d.getMinutes() === 0){
+        this.setState({ endTime : value._d.getHours() + ":00" });
+      } else {
+        this.setState({ endTime : value._d.getHours() + ":" + value._d.getMinutes() });
+      }
+    }
   }
 
   handleSelectDeparment(value) {
@@ -189,17 +213,53 @@ class App extends Component {
       setSelectedKeys, selectedKeys, confirm, clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
-        <Input
-          ref={node => { this.searchInput = node; }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        />
+
+        { dataIndex !== "Times" &&
+          <Input
+            ref={node => { this.searchInput = node; }}
+            placeholder={`Search ${dataIndex}`}
+            value={selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+        }
+        { dataIndex === "Times" &&
+
+          <Input.Group compact>
+            <TimePicker
+              style={{ width: '50%' }}
+              placeholder="Start Time"
+              minuteStep={5}
+              format = 'hh:mm a'
+              use12Hours
+              onChange={this.handleSelectStartTime}
+              allowClear={true}
+            >
+            </TimePicker>
+            <TimePicker
+              style={{ width: '50%' }}
+              placeholder="End Time"
+              minuteStep={5}
+              format = 'hh:mm a'
+              use12Hours
+              onChange={this.handleSelectEndTime}
+              allowClear={true}
+            >
+            </TimePicker>
+          </Input.Group>
+
+        }
+    
         <Button
           type="primary"
-          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          onClick={() => {
+            if(dataIndex === "Times") {
+              setSelectedKeys([this.state.startTime + "-" + this.state.endTime]);
+            }
+            this.handleSearch(selectedKeys, confirm)
+          }
+        }
           icon="search"
           size="small"
           style={{ width: 90, marginRight: 8 }}
@@ -216,7 +276,9 @@ class App extends Component {
       </div>
     ),
     filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value, record) => {
+      return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
+    },
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => this.searchInput.select());
@@ -224,9 +286,11 @@ class App extends Component {
     },
   })
 
+
+
   handleSearch = (selectedKeys, confirm) => {
     confirm();
-    this.setState({ searchText: selectedKeys[0] });
+    this.setState({ searchText: selectedKeys[0] }); 
   }
 
   handleReset = (clearFilters) => {
@@ -313,59 +377,28 @@ class App extends Component {
       title: 'Time',
       dataIndex: 'Times',
       key: 'Times',
-      render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
       ...this.getColumnSearchProps('Times'),
       onFilter: (value, record) => {
-        console.log(record.Times.toString());
-        if(record.Times.toString) return true;
-      },
-      filterDropdown: ({
-        setSelectedKeys, selectedKeys, confirm, clearFilters,
-      }) => (
-        <div>
-          <TimePicker
-            style={{ width: '50%' }}
-            placeholder="Start Time"
-            minuteStep={5}
-            format = 'hh:mm a'
-            use12Hours
-            onChange={this.handleSelectStartTime}
-            allowClear={true}
-          >
-          </TimePicker>
-          <TimePicker
-            style={{ width: '50%' }}
-            placeholder="End Time"
-            minuteStep={5}
-            format = 'hh:mm a'
-            use12Hours
-            onChange={this.handleSelectEndTime}
-            allowClear={true}
-          >
-          </TimePicker>
-          <div className="timeButtons">
-            <Button
-            type="primary"
-            onClick={() => {
-                this.handleSearch([this.state.startTime, this.state.endTime], confirm)
-              }
-            }
-            icon="search"
-            size="small"
-            style={{ width: 90, marginRight: 8 }}
-            >
-              Search
-            </Button>
-            <Button
-              onClick={() => this.setState({ startTime: null, endTime: null})}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Reset
-            </Button>
-          </div>
-        </div>
-      ),
+        var filter_times = value.split("-");
+        var t = false;
+
+        record['Times'].forEach((time) => {
+          var modifier = time[time.length -1];
+          time = time.slice(0, -1).split("-");
+          var end = this.convertTime(time[1], modifier);
+          if(end.includes("12")){
+            modifier = "A"
+          }
+          var start = this.convertTime(time[0], modifier);
+        
+          if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
+            t = true;
+          }
+        });
+
+        return t;
+    },
+      render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
     }, {
       title: 'Days',
       dataIndex: 'Days',
