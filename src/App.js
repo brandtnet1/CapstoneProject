@@ -33,8 +33,13 @@ class App extends Component {
   };
 
   exportCart = () => {
+    var query = "?";
+    this.state.cart.forEach((course) => {
+      query = query + "CRN=" + course.Course_Registration_Number + "&";
+    });
+    console.log("Export: " + query);
 
-    fetch('http://localhost:5000/export_cart')
+    fetch('http://localhost:5000/export_cart' + query)
     .then(response => {
       return response.json();
     })
@@ -43,7 +48,7 @@ class App extends Component {
     })
     .catch(err => console.log(err));
 
-    window.open("http://localhost:5000/export_cart");
+    window.open("http://localhost:5000/export_cart" + query);
 
   }
 
@@ -119,14 +124,21 @@ class App extends Component {
   }
 
   onAddToCart = () => {
-    for(var i = 0; i<this.state.selectedRows.length; i++){
-      if(!this.state.cart.includes(this.state.selectedRows[i])) {
-        this.state.cart.push(this.state.selectedRows[i]);
+    if(this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
+      for(var i = 0; i<this.state.selectedRows.length; i++){
+        if(!this.state.cart.includes(this.state.selectedRows[i])) {
+          this.state.cart.push(this.state.selectedRows[i]);
+        }
       }
     }
+    else {
+      alert("Slow down there, hotshot.")
+    }
+    // if(this.state.selectedRows[i].Status == "Filled") {
+    //   alert("This class is full");
+    // }
+    
     this.setState({ selectedRowKeys : [], visible : true });
-
-    // console.log('Cart changed: ', this.state.cart);
   }
 
   handleVisibleChange = (visible) => {
@@ -142,11 +154,24 @@ class App extends Component {
       this.setState({ visible : false});
     }
 
-    // console.log("Removed " + item.Course_Title + " from cart.");
   }
 
   clearAll = () => {
     this.setState({cart: []});
+  }
+
+  convertTime = (time, modifier) => {
+    let [hours, minutes] = time.split(':');
+
+    if (hours === '12') {
+      hours = '00';
+    }
+
+    if (modifier === 'P') {
+      hours = parseInt(hours, 10) + 12;
+    }
+
+    return `${hours}${minutes}`;
   }
 
   handleSelectStatus(value) {
@@ -158,11 +183,23 @@ class App extends Component {
   }
 
   handleSelectStartTime = (value) => {
-    this.setState({ startTime : value._i.substring(0,5) });
+    if(value){
+      if(value._d.getMinutes() === 0){
+        this.setState({ startTime : value._d.getHours() + ":00" });
+      } else {
+        this.setState({ startTime : value._d.getHours() + ":" + value._d.getMinutes() });
+      }
+    }
   }
 
   handleSelectEndTime = (value) => {
-    this.setState({ endTime : value._i.substring(0,5) });
+    if(value){
+      if(value._d.getMinutes() === 0){
+        this.setState({ endTime : value._d.getHours() + ":00" });
+      } else {
+        this.setState({ endTime : value._d.getHours() + ":" + value._d.getMinutes() });
+      }
+    }
   }
 
   handleSelectDeparment(value) {
@@ -178,17 +215,53 @@ class App extends Component {
       setSelectedKeys, selectedKeys, confirm, clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
-        <Input
-          ref={node => { this.searchInput = node; }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        />
+
+        { dataIndex !== "Times" &&
+          <Input
+            ref={node => { this.searchInput = node; }}
+            placeholder={`Search ${dataIndex}`}
+            value={selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+          />
+        }
+        { dataIndex === "Times" &&
+
+          <Input.Group compact>
+            <TimePicker
+              style={{ width: '50%' }}
+              placeholder="Start Time"
+              minuteStep={5}
+              format = 'hh:mm a'
+              use12Hours
+              onChange={this.handleSelectStartTime}
+              allowClear={true}
+            >
+            </TimePicker>
+            <TimePicker
+              style={{ width: '50%' }}
+              placeholder="End Time"
+              minuteStep={5}
+              format = 'hh:mm a'
+              use12Hours
+              onChange={this.handleSelectEndTime}
+              allowClear={true}
+            >
+            </TimePicker>
+          </Input.Group>
+
+        }
+    
         <Button
           type="primary"
-          onClick={() => this.handleSearch(selectedKeys, confirm)}
+          onClick={() => {
+            if(dataIndex === "Times") {
+              setSelectedKeys([this.state.startTime + "-" + this.state.endTime]);
+            }
+            this.handleSearch(selectedKeys, confirm)
+          }
+        }
           icon="search"
           size="small"
           style={{ width: 90, marginRight: 8 }}
@@ -205,7 +278,9 @@ class App extends Component {
       </div>
     ),
     filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) => record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    onFilter: (value, record) => {
+      return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
+    },
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => this.searchInput.select());
@@ -215,7 +290,7 @@ class App extends Component {
 
   handleSearch = (selectedKeys, confirm) => {
     confirm();
-    this.setState({ searchText: selectedKeys[0] });
+    this.setState({ searchText: selectedKeys[0] }); 
   }
 
   handleReset = (clearFilters) => {
@@ -224,9 +299,7 @@ class App extends Component {
   }
 
   render = () => {
-    const { Option, OptGroup } = Select;
     const { Header, Content, Sider } = Layout;
-    //const Search = Input.Search;
     const { loading, selectedRowKeys } = this.state;
 
     //specify rowSelection behavior for table
@@ -258,8 +331,8 @@ class App extends Component {
         text: 'Filled',
         value: 'Filled',
       }, {
-        text: 'Cancelled',
-        value: 'Cancelled',
+        text: 'Canceled',
+        value: 'Canceled',
       }],
       filteredValue: filteredInfo.Status || null,
       onFilter: (value, record) => record.Status.indexOf(value) === 0,
@@ -306,59 +379,28 @@ class App extends Component {
       title: 'Time',
       dataIndex: 'Times',
       key: 'Times',
-      render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
       ...this.getColumnSearchProps('Times'),
       onFilter: (value, record) => {
-        console.log(record.Times.toString());
-        if(record.Times.toString) return true;
-      },
-      filterDropdown: ({
-        setSelectedKeys, selectedKeys, confirm, clearFilters,
-      }) => (
-        <div>
-          <TimePicker
-            style={{ width: '50%' }}
-            placeholder="Start Time"
-            minuteStep={5}
-            format = 'hh:mm a'
-            use12Hours
-            onChange={this.handleSelectStartTime}
-            allowClear={true}
-          >
-          </TimePicker>
-          <TimePicker
-            style={{ width: '50%' }}
-            placeholder="End Time"
-            minuteStep={5}
-            format = 'hh:mm a'
-            use12Hours
-            onChange={this.handleSelectEndTime}
-            allowClear={true}
-          >
-          </TimePicker>
-          <div className="timeButtons">
-            <Button
-            type="primary"
-            onClick={() => {
-                this.handleSearch([this.state.startTime, this.state.endTime], confirm)
-              }
-            }
-            icon="search"
-            size="small"
-            style={{ width: 90, marginRight: 8 }}
-            >
-              Search
-            </Button>
-            <Button
-              onClick={() => this.setState({ startTime: null, endTime: null})}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Reset
-            </Button>
-          </div>
-        </div>
-      ),
+        var filter_times = value.split("-");
+        var t = false;
+
+        record['Times'].forEach((time) => {
+          var modifier = time[time.length -1];
+          time = time.slice(0, -1).split("-");
+          var end = this.convertTime(time[1], modifier);
+          if(end.includes("12")){
+            modifier = "A"
+          }
+          var start = this.convertTime(time[0], modifier);
+        
+          if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
+            t = true;
+          }
+        });
+
+        return t;
+    },
+      render: (props) => <span>{ props.map(prop => <li> {prop} </li>) }</span>,
     }, {
       title: 'Days',
       dataIndex: 'Days',
@@ -434,169 +476,6 @@ class App extends Component {
 
           </Header>
           <Layout className="sider-and-content-container">
-            {/* <Sider
-            width={200}
-            style={{ background: '#fff' }}
-            position='fixed'
-            overflow='auto'
-            trigger={null}
-            collapsible
-            collapsedWidth={0}
-            collapsed={this.state.collapsed}
-            >
-              <div className="ui-selectors">
-                <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    placeholder="Select status..."
-                    onChange={this.handleSelectStatus}
-                    allowClear={true}
-                  >
-                    <Option value="open">Open</Option>
-                    <Option value="filled">Filled</Option>
-                    <Option value="cancelled">Cancelled</Option>
-                  </Select>
-                <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    placeholder="Select day of the week..."
-                    onChange={this.handleSelectDay}
-                    allowClear={true}
-                  >
-                    <Option value="monday">Monday</Option>
-                    <Option value="tuesday">Tuesday</Option>
-                    <Option value="wednesday">Wednesday</Option>
-                    <Option value="thursday">Thursday</Option>
-                    <Option value="friday">Friday</Option>
-                    <Option value="saturday">Saturday</Option>
-                  </Select>
-                <TimePicker
-                    style={{ width: '100%' }}
-                    placeholder="Select start time..."
-                    minuteStep={5}
-                    format = 'hh:mm a'
-                    use12Hours
-                    onChange={this.handleSelectDay}
-                    allowClear={true}
-                  >
-                  </TimePicker >
-                <TimePicker
-                    style={{ width: '100%' }}
-                    placeholder="Select end time..."
-                    minuteStep={5}
-                    format = 'hh:mm a'
-                    use12Hours
-                    onChange={this.handleSelectDay}
-                    allowClear={true}
-                  >
-                  </TimePicker >
-                <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    placeholder="Select department/major (you can also search here!)..."
-                    onChange={this.handleSelectDeparment}
-                    allowClear={true}
-                  >
-                    <Option value="american">American Studies</Option>
-                    <Option value="anthropology">Anthropology</Option>
-                    <Option value="art-histoy">Art & Art History</Option>
-                    <Option value="biology">Biology</Option>
-                    <Option value="business">Business</Option>
-                    <Option value="career">Career And Life Planning</Option>
-                    <Option value="biochemistry">Biochemistry</Option>
-                    <Option value="chemistry">Chemistry</Option>
-                    <Option value="classical-studies">Classical Studies</Option>
-                    <Option value="communication">Communication</Option>
-                    <Option value="computer-science">Computer Science</Option>
-                    <Option value="cricital-media-cultural">Critical Media & Cultural Studies</Option>
-                    <Option value="economics">Economics</Option>
-                    <Option value="education">Education</Option>
-                    <Option value="english">English</Option>
-                    <Option value="environmental">Environmental Studies</Option>
-                    <Option value="film">Film Studies</Option>
-                    <Option value="global-health">Global Health</Option>
-                    <Option value="health-professions">Health Professions Advising</Option>
-                    <Option value="health-phyiscal">Health and Physical Education </Option>
-                    <Option value="history">History</Option>
-                    <Option value="honors">Honors Degree Program</Option>
-                    <Option value="it">Information Technology</Option>
-                    <Option value="interdisciplinary">Interdisciplinary</Option>
-                    <Option value="latin-amerian-caribbean">Latin American & Caribbean</Option>
-                    <Option value="mathematics">Mathematics</Option>
-                    <Option value="middle-eastern-north-african">Middle Eastern & North African Studies</Option>
-                    <OptGroup label="Modern Languages & Literatures">
-                      <Option value="arabic">Arabic</Option>
-                      <Option value="chinese">Chinese</Option>
-                      <Option value="french">French</Option>
-                      <Option value="german">German</Option>
-                      <Option value="japanese">Japnese</Option>
-                      <Option value="spanish">Spanish</Option>
-                    </OptGroup>
-                    <Option value="music">Music</Option>
-                    <Option value="neuroscience">Neuroscience</Option>
-                    <Option value="off-campus">Off-Campus Program Courses</Option>
-                    <Option value="philosophy">Philosophy</Option>
-                    <Option value="religion">Religion</Option>
-                    <Option value="physics">Physics</Option>
-                    <Option value="political-science">Political Science</Option>
-                    <Option value="psychology">Psychology</Option>
-                    <Option value="rcc">Rollins Conference Courses</Option>
-                    <Option value="swag">Sexuality Women's & Gender Studies</Option>
-                    <Option value="social-entrepreneurship">Social Entrepreneurship</Option>
-                    <Option value="social-innovation">Social Innovation</Option>
-                    <Option value="sociology">Sociology</Option>
-                    <Option value="resource">Student Resource Center</Option>
-                    <Option value="theatre">Theatre Arts</Option>
-                    <Option value="dance">Dance</Option>
-                    <OptGroup label="rFLA">
-                      <Option value="rfla">rFLA</Option>
-                      <Option value="ice">ICE</Option>
-                      <Option value="imw">IMW</Option>
-                      <Option value="mm">MM</Option>
-                      <Option value="wcc">WCC</Option>
-                    </OptGroup>
-                  </Select>
-                <Select
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    placeholder="Select course level (100, 200, etc.)..."
-                    onChange={this.handleSelectLevel}
-                    allowClear={true}
-                  >
-                    <Option value="100">100s</Option>
-                    <Option value="200">200s</Option>
-                    <Option value="300">300s</Option>
-                    <Option value="400">400s</Option>
-                  </Select>
-                <Button
-                  type="primary"
-                  style={{ width: '100%' }}
-                  onChange={this.handleSelectLevel}
-                >See Courses!</Button>
-                <Button
-                  type="secondary"
-                  style={{ width: '100%' }}
-                  onChange={this.handleSelectLevel}
-                >Clear Filters</Button>
-
-                <div className='cart'>
-                  <p> Course Cart </p>
-                  <ul>
-                  {this.state.cart.map(item => (
-                    <li key={item._id}>{item.Course_Title}
-                    <Button
-                    onClick = {() => this.handleDelete(item)}
-                    >
-                    X
-                    </Button>
-
-                    </li>
-                  ))}
-                  </ul>
-
-                </div>
-              </div>
-            </Sider> */}
             <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
               background: '#fff',
