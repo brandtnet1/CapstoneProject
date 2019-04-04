@@ -155,9 +155,9 @@ def buildTable():
         #add colors to designated areas
         for x in row:
             if(x == -2):
-                t += "<td>  </td>"
+                t += "<td> </td>"
             elif(x == -1):
-                t += "<td bgcolor=\"#FF0000\">  </td>"
+                t += "<td bgcolor=\"#FF0000\"> Overlap </td>"
             else:
                 t += tableColors[x]
 
@@ -176,7 +176,14 @@ html = """<html>
 * {
   box-sizing: border-box;
 }
+table {
+  border: 3px solid black;
+  border-collapse: collapse;
+}
 
+th,td{
+ width: 50px;
+}
 
 .column {
   float: left;
@@ -197,11 +204,13 @@ html = """<html>
 <div class="row">
   <div class="column">
     """ + myschedule + """
+    <button> save </button>
   </div>
   <div class="column">
     """ + myTable + """
   </div>
 </div>
+
 
 
 </body>
