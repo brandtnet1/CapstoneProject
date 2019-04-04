@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, Select, TimePicker } from 'antd';
+import { Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -162,15 +162,6 @@ class App extends Component {
     return `${hours}${minutes}`;
   }
 
-
-  handleSelectStatus(value) {
-    console.log(`selected ${value}`);
-  }
-
-  handleSelectDay(value) {
-    console.log(`selected ${value}`);
-  }
-
   handleSelectStartTime = (value) => {
     if(value){
       if(value._d.getMinutes() === 0){
@@ -191,17 +182,6 @@ class App extends Component {
     }
   }
 
-  handleSelectDeparment(value) {
-    console.log(`selected ${value}`);
-  }
-
-  handleSelectLevel(value) {
-    console.log(`selected ${value}`);
-  }
-
-  handleClickSeeCoursesButton() {
-
-  }
 
   getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -292,7 +272,7 @@ class App extends Component {
   }
 
   render = () => {
-    const { Header, Content, Sider } = Layout;
+    const { Header, Content } = Layout;
     const { loading, selectedRowKeys } = this.state;
 
     //specify rowSelection behavior for table
@@ -510,11 +490,9 @@ class App extends Component {
                       Prereqs/Comments:{record.Comments}
                       </p>}
                     expandRowByClick={true}
-                    //expandIconColumnIndex = { "5" }
                     expandIconAsCell={false}
                     pagination={false}
                     size={"medium"}
-                    // scroll={{y:600}}
                     rowKey = "_id"
                     />
               </Spin>
@@ -533,11 +511,9 @@ class App extends Component {
                       Prereqs/Comments:{record.Comments}
                       </p>}
                     expandRowByClick={true}
-                    //expandIconColumnIndex = { "5" }
                     expandIconAsCell={false}
                     pagination={false}
                     size={"medium"}
-                    // scroll={{y:600}}
                     rowKey = "_id"
                     />
                   </div>}
