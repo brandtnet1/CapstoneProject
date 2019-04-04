@@ -91,7 +91,7 @@ class App extends Component {
   //   .catch(err => console.log(err));
   // };
 
-  start = () => {
+  clearSelection = () => {
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({
@@ -200,7 +200,6 @@ class App extends Component {
           />
         }
         { dataIndex === "Times" &&
-
           <Input.Group compact>
             <TimePicker
               style={{ width: '50%' }}
@@ -274,13 +273,14 @@ class App extends Component {
   render = () => {
     const { Header, Content } = Layout;
     const { loading, selectedRowKeys } = this.state;
-
+    //const hasFiltered = filteredInfo.length > 0;
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
+    
 
     if(this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
@@ -304,11 +304,12 @@ class App extends Component {
         value: 'Canceled',
       }],
       onFilter: (value, record) => record.Status.indexOf(value) === 0,
-    }, {
+    }
+    /* , {
       title: 'Seats',
       dataIndex: 'Seats_Available',
       key: 'Seats_Available',
-    },
+    } */,
     // {
     //   title: 'CRN',
     //   dataIndex: 'Course_Registration_Number',
@@ -326,14 +327,12 @@ class App extends Component {
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
       onFilter: (value, record) => record.Course_Level >= value && record.Course_Level <= ((parseInt(value)/100) * 100) + 99,
-    },
-    // {
-    //   title: 'Section',
-    //   dataIndex: 'Course_Section',
-    //   key: 'Course_Section',
-    //   ...this.getColumnSearchProps('Course_Section'),
-    // },
-    {
+    }, {
+       title: 'Section',
+       dataIndex: 'Course_Section',
+       key: 'Course_Section',
+       ...this.getColumnSearchProps('Course_Section'),
+    }, {
       title: 'Course Title',
       dataIndex: 'Course_Title',
       key: 'Course_Title',
@@ -463,7 +462,7 @@ class App extends Component {
               <Tooltip title="Clear your current selection">
                 <Button
                   type="primary"
-                  onClick={this.start}
+                  onClick={this.clearSelection}
                   disabled={!hasSelected}
                   loading={loading}
                 >
@@ -494,7 +493,7 @@ class App extends Component {
                       <p style={{ margin: 0 }}>
                       Credits: {record.Course_Credits} <br />
                       CRN: {record.Course_Registration_Number} <br />
-                      Section: {record.Course_Section} <br />
+                      Seats: {record.Seats_Available} <br />
                       Prereqs/Comments:{record.Comments}
                       </p>}
                     expandRowByClick={true}
@@ -515,7 +514,7 @@ class App extends Component {
                       <p style={{ margin: 0 }}>
                       Credits: {record.Course_Credits} <br />
                       CRN: {record.Course_Registration_Number} <br />
-                      Section: {record.Course_Section} <br />
+                      Seats: {record.Seats_Available} <br />
                       Prereqs/Comments:{record.Comments}
                       </p>}
                     expandRowByClick={true}
