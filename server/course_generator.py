@@ -166,10 +166,18 @@ def buildTable():
 
     return t
 
+#returns the link of the currect page
+def getCurrentLink():
+    link = "http://localhost:5000/export_cart?"
+    for crn in crns:
+        link += "CRN=" + crn + "&"
+    return link
+
 
 #print HTML
 myschedule = buildSchedule()
-myTable = buildTable();
+myTable = buildTable()
+link = getCurrentLink()
 html = """<html>
 <head></head>
 <style>
@@ -179,6 +187,7 @@ html = """<html>
 table {
   border: 3px solid black;
   border-collapse: collapse;
+  height: 600px;
 }
 
 th,td{
@@ -204,7 +213,10 @@ th,td{
 <div class="row">
   <div class="column">
     """ + myschedule + """
-    <button> save </button>
+
+    <a href='""" + link + """'download>Download Schedule</a>
+
+
   </div>
   <div class="column">
     """ + myTable + """
