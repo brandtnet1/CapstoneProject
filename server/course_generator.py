@@ -155,9 +155,9 @@ def buildTable():
         #add colors to designated areas
         for x in row:
             if(x == -2):
-                t += "<td>  </td>"
+                t += "<td> </td>"
             elif(x == -1):
-                t += "<td bgcolor=\"#FF0000\">  </td>"
+                t += "<td bgcolor=\"#FF0000\"> Overlap </td>"
             else:
                 t += tableColors[x]
 
@@ -166,17 +166,33 @@ def buildTable():
 
     return t
 
+#returns the link of the currect page
+def getCurrentLink():
+    link = "http://localhost:5000/export_cart?"
+    for crn in crns:
+        link += "CRN=" + crn + "&"
+    return link
+
 
 #print HTML
 myschedule = buildSchedule()
-myTable = buildTable();
+myTable = buildTable()
+link = getCurrentLink()
 html = """<html>
 <head></head>
 <style>
 * {
   box-sizing: border-box;
 }
+table {
+  border: 3px solid black;
+  border-collapse: collapse;
+  height: 600px;
+}
 
+th,td{
+ width: 50px;
+}
 
 .column {
   float: left;
@@ -197,11 +213,16 @@ html = """<html>
 <div class="row">
   <div class="column">
     """ + myschedule + """
+
+    <a href='""" + link + """'download>Download Schedule</a>
+
+
   </div>
   <div class="column">
     """ + myTable + """
   </div>
 </div>
+
 
 
 </body>
