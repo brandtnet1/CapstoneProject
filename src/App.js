@@ -361,10 +361,18 @@ class App extends Component {
             modifier = "A"
           }
           var start = this.convertTime(time[0], modifier);
-        
-          if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
+          
+          if (filter_times[0] && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
             t = true;
+            console.log("1");
           }
+          else if (filter_times[1] && parseInt(filter_times[0].replace(":", "")) <= parseInt(start)) {
+            t = true;
+            console.log("2");
+          }
+          else if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
+              t = true;
+            }          
         });
 
         return t;
