@@ -102,19 +102,21 @@ class App extends Component {
 
   onAddToCart = () => {
     if(this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
-      for(var i = 0; i<this.state.selectedRows.length; i++){
-        if(!this.state.cart.includes(this.state.selectedRows[i])) {
-          this.state.cart.push(this.state.selectedRows[i]);
+        for(var i = 0; i<this.state.selectedRows.length; i++){
+          if(this.state.selectedRows[i].Status === 'Open') {
+            if(!this.state.cart.includes(this.state.selectedRows[i])) {
+              this.state.cart.push(this.state.selectedRows[i]);
+            }
+          } else if(this.state.selectedRows[i].Status === 'Filled') {
+            alert("One or more of your selected courses is filled :(");
+          } else if(this.state.selectedRows[i].Status === 'Canceled') {
+            alert("One or more of your selected classes has been canceled :(");
+          }
         }
-      }
     }
     else {
-      alert("Slow down there, hotshot.")
+      alert("Slow down there, hotshot. Please only add 5 classes or less.")
     }
-    // if(this.state.selectedRows[i].Status == "Filled") {
-    //   alert("This class is full");
-    // }
-    
     this.setState({ selectedRowKeys : [], visible : true });
   }
 
@@ -368,11 +370,9 @@ class App extends Component {
           
           if (filter_times[0] && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
             t = true;
-            console.log("1");
           }
           else if (filter_times[1] && parseInt(filter_times[0].replace(":", "")) <= parseInt(start)) {
             t = true;
-            console.log("2");
           }
           else if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
               t = true;
