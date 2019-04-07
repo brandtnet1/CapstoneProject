@@ -31,26 +31,6 @@ class App extends Component {
     .catch(err => console.log(err));
   };
 
-  exportCart = () => {
-    var query = "?";
-    this.state.cart.forEach((course) => {
-      query = query + "CRN=" + course.Course_Registration_Number + "&";
-    });
-    console.log("Export: " + query);
-
-    fetch('http://localhost:5000/export_cart' + query)
-    .then(response => {
-      return response.json();
-    })
-    .then((values) => {
-      this.setState({ exported: values.exported });
-    })
-    .catch(err => console.log(err));
-
-    window.open("http://localhost:5000/export_cart" + query);
-
-  }
-
   // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js\
   queryDatabase() {
     fetch('http://localhost:5000/query_db')
@@ -91,24 +71,35 @@ class App extends Component {
   //   .catch(err => console.log(err));
   // };
 
-  clearSelection = () => {
-    this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({
-        selectedRowKeys: [],
-        loading: false,
-      });
-    }, 1000);
-  }
+  /******************Cart methods*******************/
 
-  onSelectChange = (selectedRowKeys,rowInfo) => {
-    this.setState({ selectedRowKeys, selectedRows : rowInfo });
-  }
-
-  toggleSider = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
+  onExportCart = () => {
+    var query = "?";
+    this.state.cart.forEach((course) => {
+      query = query + "CRN=" + course.Course_Registration_Number + "&";
     });
+    console.log("Export: " + query);
+
+    fetch('http://localhost:5000/export_cart' + query)
+    .then(response => {
+      return response.json();
+    })
+    .then((values) => {
+      this.setState({ exported: values.exported });
+    })
+    .catch(err => console.log(err));
+
+    window.open("http://localhost:5000/export_cart" + query);
+
+  }
+
+  //grab content from state.cart and email it
+  onEmailCart = () => {
+
+  }
+
+  onEmailCart2 = () => {
+
   }
 
   onAddToCart = () => {
@@ -146,8 +137,24 @@ class App extends Component {
 
   }
 
-  clearAll = () => {
+  onClearCart = () => {
     this.setState({cart: []});
+  }
+
+  onClearSelection = () => {
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({
+        selectedRowKeys: [],
+        loading: false,
+      });
+    }, 1000);
+  }
+
+  /****************End Cart methods*******************/
+
+  onSelectChange = (selectedRowKeys,rowInfo) => {
+    this.setState({ selectedRowKeys, selectedRows : rowInfo });
   }
 
   convertTime = (time, modifier) => {
@@ -183,7 +190,6 @@ class App extends Component {
       }
     }
   }
-
 
   getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -328,7 +334,14 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-      onFilter: (value, record) => record.Course_Level >= value && record.Course_Level <= ((parseInt(value)/100) * 100) + 99,
+      onFilter: (value, record) => {
+        if(value.includes('+')){
+          value = parseInt(value.substring(0, value.length - 1));
+          return record.Course_Level >= value && record.Course_Level <= ((value/100) * 100) + 99;
+        } else {
+          return record.Course_Level === parseInt(value);
+        }
+      },
     }, {
        title: 'Section',
        dataIndex: 'Course_Section',
@@ -429,8 +442,8 @@ class App extends Component {
         <Layout className="app">
           <Header className="header" style={{background: '#0071ba'}}>
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
-
             <Popover
+              placement="bottom"
               content={
                 <div>
                 {this.state.cart.map(item => (
@@ -438,18 +451,29 @@ class App extends Component {
                     <Button onClick = {() => this.handleDelete(item)} className = "miniButton"> X </Button>
                     </li>
                 ))}
-                <Button onClick = {this.exportCart}> Export </Button>
-                <Button onClick = {this.clearAll} className = "clearButton"> delete all </Button>
+                <Button onClick={this.onExportCart}>Export</Button>
+                <Popover
+                  placement="bottom"
+                  content={
+                    <Input 
+                      placeholder="Enter email address"
+                      addonAfter={
+                      <Button onClick ={this.onEmailCart} type="primary">Send</Button>}
+                      />
+                  }
+                >
+                  <Button>Email</Button>
+                </Popover>
+                <Button onClick={this.onClearCart} type="danger">Clear Cart</Button>
                 </div>
               }
-
               title="Course Cart"
               trigger="click"
               style={{ width: 500 }}
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
-              <Button className="shoppingcart" id="shoppingCart"> Shopping Cart </Button>
+              <Button className="shoppingcart" id="shoppingCart">Shopping Cart</Button>
             </Popover>
 
           </Header>
@@ -464,7 +488,7 @@ class App extends Component {
               <Tooltip title="Clear your current selection">
                 <Button
                   type="primary"
-                  onClick={this.clearSelection}
+                  onClick={this.onClearSelection}
                   disabled={!hasSelected}
                   loading={loading}
                 >
