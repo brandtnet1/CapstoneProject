@@ -326,7 +326,14 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-      onFilter: (value, record) => record.Course_Level >= value && record.Course_Level <= ((parseInt(value)/100) * 100) + 99,
+      onFilter: (value, record) => {
+        if(value.includes('+')){
+          value = parseInt(value.substring(0, value.length - 1));
+          return record.Course_Level >= value && record.Course_Level <= ((value/100) * 100) + 99;
+        } else {
+          return record.Course_Level === parseInt(value);
+        }
+      },
     }, {
        title: 'Section',
        dataIndex: 'Course_Section',
