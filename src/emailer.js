@@ -40,10 +40,11 @@ function newSubscriber(course, email){
   mailOptions.text = 'You have just signed up for notifications for the class": \n'
                      + courseInfo + "If you wish to unsubscribe, please click the link below"
 }
+
 function subscriberLeaves(course, email){
   var courseInfo = course.toString();
   mailOptions.to = email;
-  mailOptions.subject = 'Unsubscribed!'';
+  mailOptions.subject = 'Unsubscribed!';
   mailOptions.text = 'You have just unsubscribed for notifications about the class:\n'
                      + courseInfo + "If you did not mean to do this, please click this link";
 }
@@ -62,34 +63,35 @@ function courseUpdate(course){
   mailOptions.subject =  'Updated Course Information!';
   mailOptions.text = 'There has been a revision to the course you have favorited.\n'
                     + courseInfo;
-  for sub in subscribers{
+  subscribers.forEach( (sub) => {
     mailOptions.to = sub;
     send();
-  }       
+  });       
 }
+
 function courseDeletion(course){
   var subscribers = course.subscribers;
   var courseInfo = course.toString();
   mailOptions.subject = 'Course Deletion Notification!';
   mailOptions.text = 'The course that you have favorited has been deleted!\n'
                      + courseInfo;
-  for sub in subscribers{
+  subscribers.forEach( (sub) => {
     mailOptions.to = sub;
     send();
-  }
+  });
 }
 
 
 // We will need 2 methods for adding and removing subscribers from the database objects
 
 function send(){
-transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 }
 
 
