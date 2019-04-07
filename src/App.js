@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
+import { Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -49,6 +49,8 @@ class App extends Component {
     .catch(() => this.setState({ loading : false }));
   };
 
+  
+
   // queryDatabaseFilters(filters) {
 
   // make string append { "ColumnName":"value" , ...}
@@ -94,12 +96,8 @@ class App extends Component {
   }
 
   //grab content from state.cart and email it
-  onEmailCart = () => {
-
-  }
-
-  onEmailCart2 = () => {
-
+  onEmailCart(value) {
+    console.log(value);
   }
 
   onAddToCart = () => {
@@ -277,6 +275,7 @@ class App extends Component {
   }
 
   render = () => {
+
     const { Header, Content } = Layout;
     const { loading, selectedRowKeys } = this.state;
     //const hasFiltered = filteredInfo.length > 0;
@@ -332,14 +331,7 @@ class App extends Component {
       dataIndex: 'Course_Level',
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
-      onFilter: (value, record) => {
-        if(value.includes('+')){
-          value = parseInt(value.substring(0, value.length - 1));
-          return record.Course_Level >= value && record.Course_Level <= ((value/100) * 100) + 99;
-        } else {
-          return record.Course_Level === parseInt(value);
-        }
-      },
+      onFilter: (value, record) => record.Course_Level >= value && record.Course_Level <= ((parseInt(value)/100) * 100) + 99,
     }, {
        title: 'Section',
        dataIndex: 'Course_Section',
@@ -453,11 +445,20 @@ class App extends Component {
                 <Popover
                   placement="bottom"
                   content={
-                    <Input 
-                      placeholder="Enter email address"
-                      addonAfter={
-                      <Button onClick ={this.onEmailCart} type="primary">Send</Button>}
-                      />
+                    <Form layout="inline">
+                      <Form.Item>
+                          <Input placeholder="Enter Email" onClick={(value) => console.log(value)}/>
+                      </Form.Item>
+                      <Form.Item>
+                        <Button
+                          type="primary"
+                          htmlType="submit"
+                          onClick={(value) => console.log(value)}
+                        >
+                          Send
+                        </Button >
+                      </Form.Item>
+                    </Form>
                   }
                 >
                   <Button>Email</Button>
