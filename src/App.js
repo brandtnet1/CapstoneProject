@@ -453,7 +453,7 @@ class App extends Component {
                 <Popover
                   placement="bottom"
                   content={
-                    <Input 
+                    <Input onEmailCart
                       placeholder="Enter email address"
                       addonAfter={
                       <Button onClick ={this.onEmailCart} type="primary">Send</Button>}

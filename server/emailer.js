@@ -15,7 +15,7 @@ var nodemailer = require('nodemailer');
 //var subscribers = [];
 
 //Created a dummy gmail for our team
-var transporter = nodemailer.createTransport({
+export var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'teamarf2019@gmail.com',
@@ -33,7 +33,7 @@ var mailOptions = {
 /* The methods below should take the course as a parameter*/
 
 //when the user signs up for notifications
-function newSubscriber(course, email){
+export function newSubscriber(course, email){
   var courseInfo = course.toString();
   mailOptions.to = email;
   mailOptions.subject = 'Thank you for Subscribing for Notifications';
@@ -41,7 +41,7 @@ function newSubscriber(course, email){
                      + courseInfo + "If you wish to unsubscribe, please click the link below"
 }
 
-function subscriberLeaves(course, email){
+export function subscriberLeaves(course, email){
   var courseInfo = course.toString();
   mailOptions.to = email;
   mailOptions.subject = 'Unsubscribed!';
@@ -50,14 +50,14 @@ function subscriberLeaves(course, email){
 }
 
 //This will eventually work with Rene's export courses program
-function exportCourses(course, email){
+export function exportCourses(course, email){
   mailOptions.to = email;//users email should go here
   mailOptions.subject = 'Exported List of Courses'
   mailOptions.text = 'List of Course Info :)'; //the list of course
 }
 
 //These will be on an inividual course basis
-function courseUpdate(course){
+export function courseUpdate(course){
   var subscribers = course.subscribers;
   var courseInfo = course.toString();
   mailOptions.subject =  'Updated Course Information!';
@@ -69,7 +69,7 @@ function courseUpdate(course){
   });       
 }
 
-function courseDeletion(course){
+export function courseDeletion(course){
   var subscribers = course.subscribers;
   var courseInfo = course.toString();
   mailOptions.subject = 'Course Deletion Notification!';
@@ -84,7 +84,7 @@ function courseDeletion(course){
 
 // We will need 2 methods for adding and removing subscribers from the database objects
 
-function send(){
+export function send(){
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
