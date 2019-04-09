@@ -4,6 +4,7 @@ import { Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimeP
 import "antd/dist/antd.css";
 import "./style.css";
 
+
 class App extends Component {
   state = {
     data: null,
@@ -49,7 +50,7 @@ class App extends Component {
     .catch(() => this.setState({ loading : false }));
   };
 
-  
+
 
   // queryDatabaseFilters(filters) {
 
@@ -230,7 +231,7 @@ class App extends Component {
           </Input.Group>
 
         }
-    
+
         <Button
           type="primary"
           onClick={() => {
@@ -268,12 +269,19 @@ class App extends Component {
 
   handleSearch = (selectedKeys, confirm) => {
     confirm();
-    this.setState({ searchText: selectedKeys[0] }); 
+    this.setState({ searchText: selectedKeys[0] });
   }
 
   handleReset = (clearFilters) => {
     clearFilters();
     this.setState({ searchText : '' });
+  }
+
+  addSubscriber= () => {
+    //var email = document.getElementById("userEmail").value;
+    //var course = "The course info goes here";
+    //console.log("You clicked me ! \n Email: " + email  + "\n Course: " + course);
+    //newSubscriber(course, email);
   }
 
   render = () => {
@@ -287,7 +295,7 @@ class App extends Component {
       onChange: this.onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
-    
+
 
     if(this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
@@ -367,7 +375,7 @@ class App extends Component {
             modifier = "A"
           }
           var start = this.convertTime(time[0], modifier);
-          
+
           if (filter_times[0] && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
             t = true;
           }
@@ -376,7 +384,7 @@ class App extends Component {
           }
           else if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
               t = true;
-            }          
+            }
         });
 
         return t;
@@ -536,12 +544,22 @@ class App extends Component {
                     rowSelection={ rowSelection }
                     hideDefaultSelections= {true}
                     expandedRowRender={record =>
+                      <div>
                       <p style={{ margin: 0 }}>
                       Credits: {record.Course_Credits} <br />
                       CRN: {record.Course_Registration_Number} <br />
-                      Seats: {record.Seats_Available} <br />
+                      Section: {record.Course_Section} <br />
                       Prereqs/Comments:{record.Comments}
-                      </p>}
+                      </p>
+                      <input type="text" id="userEmail"/>
+                      <Tooltip title = "Enter you email and click Subscribe for email notifications for this class">
+                      <Button
+                      type="primary"
+                      onClick={this.addSubscriber}
+                      > Subscribe
+                      </Button>
+                      </Tooltip>
+                      </div>}
                     expandRowByClick={true}
                     expandIconAsCell={false}
                     pagination={false}

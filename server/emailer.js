@@ -15,7 +15,7 @@ var nodemailer = require('nodemailer');
 //var subscribers = [];
 
 //Created a dummy gmail for our team
-export var transporter = nodemailer.createTransport({
+var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'teamarf2019@gmail.com',
@@ -27,71 +27,77 @@ var mailOptions = {
   from: 'teamarf2019@gmail.com',
   to: 'gracefulartista@gmail.com', //using my email to test
   subject: 'Sending Course Information using Node.js',
-  text: 'That was easy!'
+  html: <p/>
 };
 
 /* The methods below should take the course as a parameter*/
 
 //when the user signs up for notifications
 export function newSubscriber(course, email){
-  var courseInfo = course.toString();
   mailOptions.to = email;
   mailOptions.subject = 'Thank you for Subscribing for Notifications';
-  mailOptions.text = 'You have just signed up for notifications for the class": \n'
-                     + courseInfo + "If you wish to unsubscribe, please click the link below"
+  mailOptions.html = <body>
+                      <p>
+                      You have just signed up for notifications for the class:
+                      If you wish to unsubscribe, please click the link below
+                      </p>
+                      <button onclick="subscriberLeaves(course, email)"> Unsubscribe</button>
+                    </body>;
+  send();
 }
-
-export function subscriberLeaves(course, email){
+/*
+function subscriberLeaves(course, email){
   var courseInfo = course.toString();
   mailOptions.to = email;
-  mailOptions.subject = 'Unsubscribed!';
-  mailOptions.text = 'You have just unsubscribed for notifications about the class:\n'
-                     + courseInfo + "If you did not mean to do this, please click this link";
+  mailOptions.subject = 'Unsubscribed!'';
+  mailOptions.html = <body>
+                      <p>You have just unsubscribed for notifications about the class:
+                       If you did not mean to do this, please click this link
+                       </p>
+                     <button onclick="newSubscriber(course, email)"> Subscribe </button>
+                     </body>;
 }
 
 //This will eventually work with Rene's export courses program
-export function exportCourses(course, email){
+function exportCourses(course, email){
   mailOptions.to = email;//users email should go here
   mailOptions.subject = 'Exported List of Courses'
-  mailOptions.text = 'List of Course Info :)'; //the list of course
+  mailOptions.html = <p>List of Course Info :)</p>;
 }
 
 //These will be on an inividual course basis
-export function courseUpdate(course){
+function courseUpdate(course){
   var subscribers = course.subscribers;
-  var courseInfo = course.toString();
+  var courseInfo = course;
   mailOptions.subject =  'Updated Course Information!';
-  mailOptions.text = 'There has been a revision to the course you have favorited.\n'
-                    + courseInfo;
-  subscribers.forEach( (sub) => {
+  mailOptions.html = <p>There has been a revision to the course you have favorited.</p>;
+  for sub in subscribers{
     mailOptions.to = sub;
     send();
-  });       
+  }
 }
-
-export function courseDeletion(course){
+function courseDeletion(course){
   var subscribers = course.subscribers;
   var courseInfo = course.toString();
   mailOptions.subject = 'Course Deletion Notification!';
-  mailOptions.text = 'The course that you have favorited has been deleted!\n'
-                     + courseInfo;
-  subscribers.forEach( (sub) => {
+  mailOptions.html = <p>The course that you have favorited has been deleted!</p>;
+  for sub in subscribers{
     mailOptions.to = sub;
     send();
-  });
+  }
 }
 
-
+*/
 // We will need 2 methods for adding and removing subscribers from the database objects
 
-export function send(){
-  transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
+function send(){
+transporter.sendMail(mailOptions, function(error, info){
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
 }
 
 
