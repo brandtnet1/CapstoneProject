@@ -100,10 +100,11 @@ app.get('/send_email', (req, res) => {
   let sendEmail = new Promise(function(success, nosuccess){
     var mailOptions = {
       from: 'teamarf2019@gmail.com',
-      to: JSON.stringify(req.query.Email), //using my email to test
+      to: JSON.stringify(req.query.Email), //this grabs the users email
       subject: 'Sending Course Information using Node.js',
       html: '<p/>'
     };
+    emailer.newSubscriber(mailOptions); //this changes the email content
     console.log(mailOptions.to);
     emailer.send(emailer.transporter,mailOptions);
   });

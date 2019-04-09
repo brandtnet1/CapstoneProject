@@ -33,9 +33,9 @@ var mailOptions = {
 /* The methods below should take the course as a parameter*/
 
 //when the user signs up for notifications
-module.exports.newSubscriber = function(course, email){
+module.exports.newSubscriber = function(mailOptions){
 //add subscriber
-  mailOptions.to = email;
+  //mailOptions.to = email;
   mailOptions.subject = 'Thank you for Subscribing for Notifications';
   mailOptions.html = '<body>'
                       +'<p>'
