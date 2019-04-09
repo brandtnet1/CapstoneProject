@@ -34,6 +34,7 @@ var mailOptions = {
 
 //when the user signs up for notifications
 export function newSubscriber(course, email){
+//add subscriber
   mailOptions.to = email;
   mailOptions.subject = 'Thank you for Subscribing for Notifications';
   mailOptions.html = <body>
@@ -47,7 +48,8 @@ export function newSubscriber(course, email){
 }
 /*
 function subscriberLeaves(course, email){
-  var courseInfo = course.toString();
+//remove subscriber
+  var courseInfo = course;
   mailOptions.to = email;
   mailOptions.subject = 'Unsubscribed!'';
   mailOptions.html = <body>
@@ -70,9 +72,15 @@ function courseUpdate(course){
   var subscribers = course.subscribers;
   var courseInfo = course;
   mailOptions.subject =  'Updated Course Information!';
-  mailOptions.html = <p>There has been a revision to the course you have favorited.</p>;
   for sub in subscribers{
     mailOptions.to = sub;
+    mailOptions.html = <body>
+                       <p>
+                       There has been a revision to the course you have favorited.
+                       If you wish to unsubscribe, please click the link below
+                       </p>
+                       <button onclick="subscriberLeaves(course, sub)"> Unsubscribe</button>
+                       </body>
     send();
   }
 }
@@ -84,6 +92,7 @@ function courseDeletion(course){
   for sub in subscribers{
     mailOptions.to = sub;
     send();
+    //remove subscriber
   }
 }
 

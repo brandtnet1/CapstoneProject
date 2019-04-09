@@ -552,7 +552,7 @@ class App extends Component {
                       Prereqs/Comments:{record.Comments}
                       </p>
                       <input type="text" id="userEmail"/>
-                      <Tooltip title = "Enter you email and click Subscribe for email notifications for this class">
+                      <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
                       <Button
                       type="primary"
                       onClick={this.addSubscriber}
