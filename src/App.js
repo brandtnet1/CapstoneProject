@@ -278,10 +278,16 @@ class App extends Component {
   }
 
   addSubscriber= () => {
-    //var email = document.getElementById("userEmail").value;
-    //var course = "The course info goes here";
-    //console.log("You clicked me ! \n Email: " + email  + "\n Course: " + course);
-    //newSubscriber(course, email);
+    var query="?";
+    query= query + "Email=" + document.getElementById('userEmail').value;
+    console.log(query);
+
+    fetch('http://localhost:5000/send_email' + query)
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err));
+
   }
 
   render = () => {

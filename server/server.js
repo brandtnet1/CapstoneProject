@@ -1,3 +1,5 @@
+
+const emailer = require('./emailer');
 const express = require('express');
 const cors = require('cors');
 const port = process.env.PORT || 5000;
@@ -92,6 +94,25 @@ app.get('/query_db_filters', (req, res) => {
     }).catch(error => {
         console.log('caught', error.message);
     });
+});
+
+app.get('/send_email', (req, res) => {
+  let sendEmail = new Promise(function(success, nosuccess){
+    var mailOptions = {
+      from: 'teamarf2019@gmail.com',
+      to: JSON.stringify(req.query.Email), //using my email to test
+      subject: 'Sending Course Information using Node.js',
+      html: '<p/>'
+    };
+    console.log(mailOptions.to);
+    emailer.send(emailer.transporter,mailOptions);
+  });
+
+  sendEmail.then((data)=> {
+    console.log(data);
+  }).catch(error => {
+    console.log('caught', error.message);
+  });
 });
 
 

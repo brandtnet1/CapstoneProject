@@ -15,7 +15,7 @@ var nodemailer = require('nodemailer');
 //var subscribers = [];
 
 //Created a dummy gmail for our team
-var transporter = nodemailer.createTransport({
+module.exports.transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'teamarf2019@gmail.com',
@@ -27,24 +27,23 @@ var mailOptions = {
   from: 'teamarf2019@gmail.com',
   to: 'gracefulartista@gmail.com', //using my email to test
   subject: 'Sending Course Information using Node.js',
-  html: <p/>
+  html: '<p/>'
 };
 
 /* The methods below should take the course as a parameter*/
 
 //when the user signs up for notifications
-export function newSubscriber(course, email){
+module.exports.newSubscriber = function(course, email){
 //add subscriber
   mailOptions.to = email;
   mailOptions.subject = 'Thank you for Subscribing for Notifications';
-  mailOptions.html = <body>
-                      <p>
-                      You have just signed up for notifications for the class:
-                      If you wish to unsubscribe, please click the link below
-                      </p>
-                      <button onclick="subscriberLeaves(course, email)"> Unsubscribe</button>
-                    </body>;
-  send();
+  mailOptions.html = '<body>'
+                      +'<p>'
+                      +'You have just signed up for notifications for the class:'
+                      +'If you wish to unsubscribe, please click the link below'
+                      +'</p>'
+                      +'<button onclick="subscriberLeaves(course, email)"> Unsubscribe</button>'
+                    +'</body>'
 }
 /*
 function subscriberLeaves(course, email){
@@ -98,8 +97,7 @@ function courseDeletion(course){
 
 */
 // We will need 2 methods for adding and removing subscribers from the database objects
-
-function send(){
+module.exports.send = function(transporter, mailOptions){
 transporter.sendMail(mailOptions, function(error, info){
   if (error) {
     console.log(error);
