@@ -15,7 +15,7 @@ mycol = mydb['courses']
 
 #x = mycol.find_one({"Course_Title": "Human Evolution"})
 crns = re.findall(r'"(.*?)"', str(sys.argv[1]))
-crns = crns[1:]
+crns = crns[0:]
 
 #build Arrays for Days and Colors
 MTWRF = ['M','T','W','R','F']

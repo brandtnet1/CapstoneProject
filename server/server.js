@@ -1,4 +1,3 @@
-
 const emailer = require('./emailer');
 const express = require('express');
 const cors = require('cors');
@@ -74,18 +73,18 @@ app.get('/query_db_filters', (req, res) => {
 });
 
 
-  app.get('/export_cart', (req, res) => {
-      //res.send({ exported : true });
-      let runExport = new Promise(function(success, nosuccess) {
-          const { spawn } = require('child_process');
-          //console.log(req.query);
-          const pyprog = spawn('python', ['course_generator.py', JSON.stringify(req.query)]);
+app.get('/export_cart', (req, res) => {
+    //res.send({ exported : true });
+    let runExport = new Promise(function(success, nosuccess) {
+        const { spawn } = require('child_process');
+        //console.log(req.query);
+        const pyprog = spawn('python', ['course_generator.py', JSON.stringify(req.query.CRN)]);
 
-          pyprog.stdout.on('data', (data) => success(data) );
-          pyprog.stderr.on('data', (data) => nosuccess(data) );
-      }).catch(error => {
-          console.log('caught', error.message);
-      });
+        pyprog.stdout.on('data', (data) => success(data) );
+        pyprog.stderr.on('data', (data) => nosuccess(data) );
+    }).catch(error => {
+        console.log('caught', error.message);
+    });
 
     runExport.then((data) => {
 
@@ -104,9 +103,31 @@ app.get('/send_email', (req, res) => {
       subject: 'Sending Course Information using Node.js',
       html: '<p/>'
     };
-    emailer.newSubscriber(mailOptions); //this changes the email content
-    console.log(mailOptions.to);
-    emailer.send(emailer.transporter,mailOptions);
+    if(req.query.Subscriber === "True"){
+        emailer.newSubscriber(mailOptions) //this changes the email content
+        .then(() => {
+            emailer.send(emailer.transporter, mailOptions);
+        });
+    } else {
+        let runExport = new Promise(function(success, nosuccess) {
+            const { spawn } = require('child_process');
+            //console.log(req.query);
+            const pyprog = spawn('python', ['course_generator.py', JSON.stringify(req.query.CRN)]);
+    
+            pyprog.stdout.on('data', (data) => success(data) );
+            pyprog.stderr.on('data', (data) => nosuccess(data) );
+        }).catch(error => {
+            console.log('caught', error.message);
+        });
+    
+        runExport.then((data) => {
+            mailOptions.html = data.toString();
+        }).then(() => {
+            emailer.send(emailer.transporter, mailOptions);
+        }).catch(error => {
+            console.log('caught', error.message);
+        });
+    }
   });
 
   sendEmail.then((data)=> {

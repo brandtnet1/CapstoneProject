@@ -278,7 +278,11 @@ class App extends Component {
   }
 
   sendEmail = () => {
-    var query = "?Email=" + document.getElementById('userEmail1').value;
+    var query = "?Email=" + document.getElementById('userEmail1').value + "&Subscriber=False&";
+
+    this.state.cart.forEach((course) => {
+      query = query + "CRN=" + course.Course_Registration_Number + "&";
+    });
 
     fetch('http://localhost:5000/send_email' + query)
     .then(response => {
@@ -288,7 +292,7 @@ class App extends Component {
   }
 
   addSubscriber = () => {
-    var query = "?Email=" + document.getElementById('userEmail2').value;
+    var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
 
     fetch('http://localhost:5000/send_email' + query)
     .then(response => {
@@ -474,7 +478,7 @@ class App extends Component {
                         <Button
                           type="primary"
                           htmlType="submit"
-                          onClick={this.addSubscriber}
+                          onClick={this.sendEmail}
                         >
                           Send
                         </Button >
