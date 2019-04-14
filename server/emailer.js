@@ -20,7 +20,9 @@ module.exports.transporter = nodemailer.createTransport({
   auth: {
     user: 'teamarf2019@gmail.com',
     pass: 'thefoxsays1'
-  }
+  },
+  // debug: true, // show debug output
+  // logger: true // log information in console
 });
 //there is also the potential to send html, just swap the text: for html:
 var mailOptions = {
