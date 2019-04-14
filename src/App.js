@@ -277,17 +277,24 @@ class App extends Component {
     this.setState({ searchText : '' });
   }
 
-  addSubscriber= () => {
-    var query="?";
-    query= query + "Email=" + document.getElementById('userEmail').value;
-    console.log(query);
+  sendEmail = () => {
+    var query = "?Email=" + document.getElementById('userEmail1').value;
 
     fetch('http://localhost:5000/send_email' + query)
     .then(response => {
       return response.json();
     })
     .catch(err => console.log(err));
+  }
 
+  addSubscriber = () => {
+    var query = "?Email=" + document.getElementById('userEmail2').value;
+
+    fetch('http://localhost:5000/send_email' + query)
+    .then(response => {
+      return response.json();
+    })
+    .catch(err => console.log(err));
   }
 
   render = () => {
@@ -461,13 +468,13 @@ class App extends Component {
                   content={
                     <Form layout="inline">
                       <Form.Item>
-                          <Input placeholder="Enter Email" onClick={(value) => console.log(value)}/>
+                          <Input id="userEmail1" placeholder="Enter Email"/>
                       </Form.Item>
                       <Form.Item>
                         <Button
                           type="primary"
                           htmlType="submit"
-                          onClick={(value) => console.log(value)}
+                          onClick={this.addSubscriber}
                         >
                           Send
                         </Button >
@@ -557,7 +564,7 @@ class App extends Component {
                       Section: {record.Course_Section} <br />
                       Prereqs/Comments:{record.Comments}
                       </p>
-                      <input type="text" id="userEmail"/>
+                      <input type="text" id="userEmail2"/>
                       <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
                       <Button
                       type="primary"
