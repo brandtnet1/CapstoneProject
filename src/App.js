@@ -617,14 +617,22 @@ class App extends Component {
                       Section: {record.Course_Section} <br />
                       Prereqs/Comments:{record.Comments}
                       </p>
-                      <input type="text" id="userEmail2"/>
-                      <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
-                      <Button
-                      type="primary"
-                      onClick={this.addSubscriber}
-                      > Subscribe
-                      </Button>
-                      </Tooltip>
+                      <Form layout="inline">
+                            <Form.Item>
+                              <Input id="userEmail1" placeholder="Enter Email"/>
+                            </Form.Item>
+                            <Form.Item>
+                              <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
+                                <Button
+                                  type="primary"
+                                  htmlType="submit"
+                                  onClick={this.addSubscriber}
+                                >
+                                  Subscribe
+                                </Button>
+                              </Tooltip>
+                            </Form.Item>
+                          </Form>
                       </div>}
                     expandRowByClick={true}
                     expandIconAsCell={false}
