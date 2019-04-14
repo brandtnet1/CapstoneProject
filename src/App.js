@@ -506,41 +506,6 @@ class App extends Component {
                       <Button onClick={this.onClearCart} type="danger">Clear Cart</Button>
                       </Button.Group>}
                 />
-                /* <div>
-                  {this.state.cart.map(item => (
-                      <li key={item._id}>{item.Course_Title}
-                      <Button onClick = {() => this.handleDelete(item)} className = "miniButton"> X </Button>
-                      <Icon
-                      onClick={() => this.handleDelete(item)}
-                      type="delete"
-                      theme="twoTone" 
-                      />
-                      </li>
-                  ))}
-                  <Button onClick={this.onExportCart}>Export</Button>
-                  <Popover
-                    placement="bottom"
-                    content={
-                      <Form layout="inline">
-                        <Form.Item>
-                            <Input id="userEmail1" placeholder="Enter Email"/>
-                        </Form.Item>
-                        <Form.Item>
-                          <Button
-                            type="primary"
-                            htmlType="submit"
-                            onClick={this.addSubscriber}
-                          >
-                            Send
-                          </Button >
-                        </Form.Item>
-                      </Form>
-                    }
-                  >
-                    <Button>Email</Button>
-                  </Popover>
-                  <Button onClick={this.onClearCart} type="danger">Clear Cart</Button>
-                </div> */
               }
               trigger="click"
               visible={this.state.visible}
