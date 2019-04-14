@@ -16,7 +16,7 @@ try:
 
 except:
     print "Error, now loading from file"
-    f=codecs.open("html/rollins_course_schedule.html", 'r')
+    f=codecs.open("html/rollins_course_schedule_fall_2019.html", 'r')
     sections = f.read()
 
 sections = sections.split("</tr>")
