@@ -1,11 +1,5 @@
-.toggle-button-container {
-    text-align: center;
-}
 .logo {
     height: 30px;
-}
-.see-courses-button-container{
-    text-align: center;
 }
 .table{
   height: 600px;
@@ -71,4 +65,16 @@ I also plan on making a running fox animation for it :)*/
     transform: rotate(360deg);
     border-top: 16px solid blue;
   }
+}
+.container {
+  height: 200px;
+  position: relative;
+  border: 3px solid green;
+}
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
+import { List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -456,44 +456,93 @@ class App extends Component {
             <Popover
               placement="bottom"
               content={
-                <div>
-                {this.state.cart.map(item => (
-                    <li key={item._id}>{item.Course_Title}
-                    <Button onClick = {() => this.handleDelete(item)} className = "miniButton"> X </Button>
-                    </li>
-                ))}
-                <Button onClick={this.onExportCart}>Export</Button>
-                <Popover
-                  placement="bottom"
-                  content={
-                    <Form layout="inline">
-                      <Form.Item>
-                          <Input id="userEmail1" placeholder="Enter Email"/>
-                      </Form.Item>
-                      <Form.Item>
-                        <Button
-                          type="primary"
-                          htmlType="submit"
-                          onClick={this.addSubscriber}
-                        >
-                          Send
-                        </Button >
-                      </Form.Item>
-                    </Form>
-                  }
-                >
-                  <Button>Email</Button>
-                </Popover>
-                <Button onClick={this.onClearCart} type="danger">Clear Cart</Button>
-                </div>
+                <List
+                  size="small"
+                  head={<div>Course Cart</div>}
+                  dataSource={this.state.cart}
+                  renderItem={item => (
+                  <List.Item 
+                    actions={[
+                    <a>
+                      <Icon
+                        onClick={() => this.handleDelete(item)}
+                        type="delete"
+                        theme="twoTone" 
+                      />
+                    </a>]}
+                    key={item._id}
+                  >
+                    {item.Course_Title}
+                  </List.Item>)}
+                  footer={
+                    <Button.Group> 
+                      <Button onClick={this.onExportCart}>Export</Button>
+                      <Popover
+                        placement="bottom"
+                        content={
+                          <Form layout="inline">
+                            <Form.Item>
+                                <Input id="userEmail1" placeholder="Enter Email"/>
+                            </Form.Item>
+                            <Form.Item>
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                onClick={this.addSubscriber}
+                              >
+                                Send
+                              </Button >
+                            </Form.Item>
+                          </Form>
+                        }
+                      >
+                        <Button>Email</Button>
+                      </Popover>
+                      
+                      <Button onClick={this.onClearCart} type="danger">Clear Cart</Button>
+                      </Button.Group>}
+                />
+                /* <div>
+                  {this.state.cart.map(item => (
+                      <li key={item._id}>{item.Course_Title}
+                      <Button onClick = {() => this.handleDelete(item)} className = "miniButton"> X </Button>
+                      <Icon
+                      onClick={() => this.handleDelete(item)}
+                      type="delete"
+                      theme="twoTone" 
+                      />
+                      </li>
+                  ))}
+                  <Button onClick={this.onExportCart}>Export</Button>
+                  <Popover
+                    placement="bottom"
+                    content={
+                      <Form layout="inline">
+                        <Form.Item>
+                            <Input id="userEmail1" placeholder="Enter Email"/>
+                        </Form.Item>
+                        <Form.Item>
+                          <Button
+                            type="primary"
+                            htmlType="submit"
+                            onClick={this.addSubscriber}
+                          >
+                            Send
+                          </Button >
+                        </Form.Item>
+                      </Form>
+                    }
+                  >
+                    <Button>Email</Button>
+                  </Popover>
+                  <Button onClick={this.onClearCart} type="danger">Clear Cart</Button>
+                </div> */
               }
-              title="Course Cart"
               trigger="click"
-              style={{ width: 500 }}
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
-              <Button className="shoppingcart" id="shoppingCart">Shopping Cart</Button>
+              <Button className="shoppingcart" id="shoppingCart">Course Cart</Button>
             </Popover>
 
           </Header>
