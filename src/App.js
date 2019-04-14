@@ -305,7 +305,6 @@ class App extends Component {
 
     const { Header, Content } = Layout;
     const { loading, selectedRowKeys } = this.state;
-    //const hasFiltered = filteredInfo.length > 0;
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
@@ -480,7 +479,9 @@ class App extends Component {
                   </List.Item>)}
                   footer={
                     <Button.Group> 
-                      <Button onClick={this.onExportCart}>Export</Button>
+                      <Button 
+                        size="small" 
+                        onClick={this.onExportCart}>Export</Button>
                       <Popover
                         placement="bottom"
                         content={
@@ -490,6 +491,7 @@ class App extends Component {
                             </Form.Item>
                             <Form.Item>
                               <Button
+                                size="small"
                                 type="primary"
                                 htmlType="submit"
                                 onClick={this.addSubscriber}
@@ -500,11 +502,16 @@ class App extends Component {
                           </Form>
                         }
                       >
-                        <Button>Email</Button>
+                        <Button size="small">Email</Button>
                       </Popover>
-                      
-                      <Button onClick={this.onClearCart} type="danger">Clear Cart</Button>
-                      </Button.Group>}
+                      <Button 
+                        size="small" 
+                        type="danger"
+                        onClick={this.onClearCart}
+                      >
+                        Clear
+                        </Button>
+                    </Button.Group>}
                 />
                 /* <div>
                   {this.state.cart.map(item => (
@@ -611,28 +618,28 @@ class App extends Component {
                     hideDefaultSelections= {true}
                     expandedRowRender={record =>
                       <div>
-                      <p style={{ margin: 0 }}>
-                      Credits: {record.Course_Credits} <br />
-                      CRN: {record.Course_Registration_Number} <br />
-                      Section: {record.Course_Section} <br />
-                      Prereqs/Comments:{record.Comments}
-                      </p>
-                      <Form layout="inline">
-                            <Form.Item>
-                              <Input id="userEmail1" placeholder="Enter Email"/>
-                            </Form.Item>
-                            <Form.Item>
-                              <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
-                                <Button
-                                  type="primary"
-                                  htmlType="submit"
-                                  onClick={this.addSubscriber}
-                                >
-                                  Subscribe
-                                </Button>
-                              </Tooltip>
-                            </Form.Item>
-                          </Form>
+                        <p style={{ margin: 0 }}>
+                        Credits: {record.Course_Credits} <br />
+                        CRN: {record.Course_Registration_Number} <br />
+                        Section: {record.Course_Section} <br />
+                        Prereqs/Comments:{record.Comments}
+                        </p>
+                        <Form layout="inline">
+                          <Form.Item>
+                            <Input id="userEmail1" placeholder="Enter Email"/>
+                          </Form.Item>
+                          <Form.Item>
+                            <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
+                              <Button
+                                type="primary"
+                                htmlType="submit"
+                                onClick={this.addSubscriber}
+                              >
+                                Subscribe
+                              </Button>
+                            </Tooltip>
+                          </Form.Item>
+                        </Form>
                       </div>}
                     expandRowByClick={true}
                     expandIconAsCell={false}
