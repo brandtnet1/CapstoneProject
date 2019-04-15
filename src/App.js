@@ -494,7 +494,7 @@ class App extends Component {
                                 size="small"
                                 type="primary"
                                 htmlType="submit"
-                                onClick={this.addSubscriber}
+                                onClick={this.sendEmail}
                               >
                                 Send
                               </Button >
