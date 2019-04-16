@@ -487,17 +487,19 @@ class App extends Component {
                         content={
                           <Form layout="inline">
                             <Form.Item>
-                                <Input id="userEmail1" placeholder="Enter Email"/>
+                                <Input id="userEmail1" placeholder="Enter email..."/>
                             </Form.Item>
                             <Form.Item>
-                              <Button
-                                size="small"
-                                type="primary"
-                                htmlType="submit"
-                                onClick={this.addSubscriber}
-                              >
-                                Send
-                              </Button >
+                              <Tooltip title="Enter an email to receive your course cart at. You can enter your own email or your advisor's!">
+                                <Button
+                                  size="small"
+                                  type="primary"
+                                  htmlType="submit"
+                                  onClick={this.addSubscriber}
+                                >
+                                  Send
+                                </Button >
+                              </Tooltip>
                             </Form.Item>
                           </Form>
                         }
@@ -555,23 +557,11 @@ class App extends Component {
               </span>
               {loading ?
                 <Spin>
+                  {/* This is just to create the table in the background behind the loading animation */}
                     <Table
-                    dataSource={ this.state.courses }
                     columns={ columns }
-                    rowSelection={ rowSelection }
-                    hideDefaultSelections= {true}
-                    expandedRowRender={record =>
-                      <p style={{ margin: 0 }}>
-                      Credits: {record.Course_Credits} <br />
-                      CRN: {record.Course_Registration_Number} <br />
-                      Seats: {record.Seats_Available} <br />
-                      Prereqs/Comments:{record.Comments}
-                      </p>}
-                    expandRowByClick={true}
-                    expandIconAsCell={false}
                     pagination={false}
                     size={"medium"}
-                    rowKey = "_id"
                     />
               </Spin>
               : <div>{ this.state.courses &&
@@ -591,10 +581,10 @@ class App extends Component {
                         </p>
                         <Form layout="inline">
                           <Form.Item>
-                            <Input id="userEmail1" placeholder="Enter Email"/>
+                            <Input id="userEmail1" placeholder="Enter email..."/>
                           </Form.Item>
                           <Form.Item>
-                            <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
+                            <Tooltip title="Stay updated on any changes to this course!">
                               <Button
                                 type="primary"
                                 htmlType="submit"
