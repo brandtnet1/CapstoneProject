@@ -133,7 +133,6 @@ class App extends Component {
     if(this.state.cart.length === 0) {
       this.setState({ visible : false});
     }
-
   }
 
   onClearCart = () => {
@@ -195,7 +194,6 @@ class App extends Component {
       setSelectedKeys, selectedKeys, confirm, clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
-
         { dataIndex !== "Times" &&
           <Input
             ref={node => { this.searchInput = node; }}
@@ -229,9 +227,7 @@ class App extends Component {
             >
             </TimePicker>
           </Input.Group>
-
         }
-
         <Button
           type="primary"
           onClick={() => {
@@ -507,7 +503,7 @@ class App extends Component {
                                   onClick={this.sendEmail}
                                 >
                                   Send
-                                </Button >
+                                </Button>
                               </Tooltip>
                             </Form.Item>
                           </Form>
@@ -537,7 +533,6 @@ class App extends Component {
             >
               <Button className="shoppingcart" id="shoppingCart">Course Cart</Button>
             </Popover>
-
           </Header>
           <Layout className="sider-and-content-container">
             <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
