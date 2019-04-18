@@ -306,13 +306,14 @@ class App extends Component {
   render = () => {
 
     const { Header, Content } = Layout;
-    const { loading, selectedRowKeys } = this.state;
+    const { loading, selectedRowKeys, cart} = this.state;
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
+    const hasItemsInCart = cart.length > 0;
 
 
     if(this.state.courses === null || this.state.courses === {}) {
@@ -483,9 +484,14 @@ class App extends Component {
                     <Button.Group> 
                       <Button 
                         size="small" 
-                        onClick={this.onExportCart}>Export</Button>
+                        disabled={!hasItemsInCart}
+                        onClick={this.onExportCart}
+                      >
+                        Export
+                      </Button>
                       <Popover
                         placement="bottom"
+                        trigger="click"
                         content={
                           <Form layout="inline">
                             <Form.Item>
@@ -496,6 +502,7 @@ class App extends Component {
                                 <Button
                                   size="small"
                                   type="primary"
+                                  disabled={!hasItemsInCart}
                                   htmlType="submit"
                                   onClick={this.sendEmail}
                                 >
@@ -506,11 +513,17 @@ class App extends Component {
                           </Form>
                         }
                       >
-                        <Button size="small">Email</Button>
+                        <Button 
+                          size="small"
+                          disabled={!hasItemsInCart}
+                        >
+                          Email
+                        </Button>
                       </Popover>
                       <Button 
                         size="small" 
                         type="danger"
+                        disabled={!hasItemsInCart}
                         onClick={this.onClearCart}
                       >
                         Clear
