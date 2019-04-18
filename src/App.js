@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
+import { message, List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -289,6 +289,8 @@ class App extends Component {
       return response.json();
     })
     .catch(err => console.log(err));
+
+    message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
   }
 
   addSubscriber = () => {
@@ -531,17 +533,7 @@ class App extends Component {
               padding: 24,
               margin: 0,
               minHeight: 280,}}
-            >
-              <Tooltip title="Clear your current selection">
-                <Button
-                  type="primary"
-                  onClick={this.onClearSelection}
-                  disabled={!hasSelected}
-                  loading={loading}
-                >
-                  Clear
-                </Button>
-              </Tooltip>
+            > 
               <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
                 <Button
                   type="primary"
@@ -550,6 +542,16 @@ class App extends Component {
                   loading={loading}
                 >
                   Add to Cart
+                </Button>
+              </Tooltip>
+              <Tooltip title="Clear your current selection">
+                <Button
+                  type="primary"
+                  onClick={this.onClearSelection}
+                  disabled={!hasSelected}
+                  loading={loading}
+                >
+                  Clear
                 </Button>
               </Tooltip>
               <span style={{ marginLeft: 8 }}>
