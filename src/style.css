@@ -1,8 +1,9 @@
 .logo {
-    height: 30px;
+  height: 30px;
 }
 .table{
-  height: 600px;
+  height: 80%;
+  width: 100%;
   overflow: auto;
 }
 
@@ -65,16 +66,4 @@ I also plan on making a running fox animation for it :)*/
     transform: rotate(360deg);
     border-top: 16px solid blue;
   }
-}
-.container {
-  height: 200px;
-  position: relative;
-  border: 3px solid green;
-}
-.vertical-center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
 }

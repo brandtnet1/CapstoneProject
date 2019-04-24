@@ -4,7 +4,10 @@ import json
 import re
 import pymongo
 from collections import OrderedDict
+
+import urllib2
 import requests
+
 
 myclient = pymongo.MongoClient('mongodb+srv://admin:root@cluster0-pmazi.mongodb.net/Capstone?retryWrites=true')
 mydb = myclient['Capstone']
@@ -12,7 +15,9 @@ mycol = mydb['courses']
 
 #Get HTML
 try:
-    sections = requests.get("https://bannerweb.rollins.edu/prod/owa/www_infotech.pkg_display_schedule.p_get_rschedule_spring?i_term_code=201901&i_campus_code=R")
+    response = urllib2.urlopen("https://bannerweb.rollins.edu/prod/owa/www_infotech.pkg_display_schedule.p_get_rschedule_fall?i_term_code=201909&i_campus_code=R")
+    page_source = response.read()
+    # sections = requests.get("https://bannerweb.rollins.edu/prod/owa/www_infotech.pkg_display_schedule.p_get_rschedule_fall?i_term_code=201909&i_campus_code=R")
 
 except:
     print "Error, now loading from file"

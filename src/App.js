@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
+import { message, List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -133,7 +133,6 @@ class App extends Component {
     if(this.state.cart.length === 0) {
       this.setState({ visible : false});
     }
-
   }
 
   onClearCart = () => {
@@ -195,7 +194,6 @@ class App extends Component {
       setSelectedKeys, selectedKeys, confirm, clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
-
         { dataIndex !== "Times" &&
           <Input
             ref={node => { this.searchInput = node; }}
@@ -229,9 +227,7 @@ class App extends Component {
             >
             </TimePicker>
           </Input.Group>
-
         }
-
         <Button
           type="primary"
           onClick={() => {
@@ -289,6 +285,8 @@ class App extends Component {
       return response.json();
     })
     .catch(err => console.log(err));
+
+    message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
   }
 
   addSubscriber = () => {
@@ -304,13 +302,14 @@ class App extends Component {
   render = () => {
 
     const { Header, Content } = Layout;
-    const { loading, selectedRowKeys } = this.state;
+    const { loading, selectedRowKeys, cart} = this.state;
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
       onChange: this.onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
+    const hasItemsInCart = cart.length > 0;
 
 
     if(this.state.courses === null || this.state.courses === {}) {
@@ -481,32 +480,46 @@ class App extends Component {
                     <Button.Group> 
                       <Button 
                         size="small" 
-                        onClick={this.onExportCart}>Export</Button>
+                        disabled={!hasItemsInCart}
+                        onClick={this.onExportCart}
+                      >
+                        Export
+                      </Button>
                       <Popover
                         placement="bottom"
+                        trigger="click"
                         content={
                           <Form layout="inline">
                             <Form.Item>
-                                <Input id="userEmail1" placeholder="Enter Email"/>
+                                <Input id="userEmail1" placeholder="Enter email..."/>
                             </Form.Item>
                             <Form.Item>
-                              <Button
-                                size="small"
-                                type="primary"
-                                htmlType="submit"
-                                onClick={this.sendEmail}
-                              >
-                                Send
-                              </Button >
+                              <Tooltip title="Enter an email to receive your course cart at. You can enter your own email or your advisor's!">
+                                <Button
+                                  size="small"
+                                  type="primary"
+                                  disabled={!hasItemsInCart}
+                                  htmlType="submit"
+                                  onClick={this.sendEmail}
+                                >
+                                  Send
+                                </Button>
+                              </Tooltip>
                             </Form.Item>
                           </Form>
                         }
                       >
-                        <Button size="small">Email</Button>
+                        <Button 
+                          size="small"
+                          disabled={!hasItemsInCart}
+                        >
+                          Email
+                        </Button>
                       </Popover>
                       <Button 
                         size="small" 
                         type="danger"
+                        disabled={!hasItemsInCart}
                         onClick={this.onClearCart}
                       >
                         Clear
@@ -520,7 +533,6 @@ class App extends Component {
             >
               <Button className="shoppingcart" id="shoppingCart">Course Cart</Button>
             </Popover>
-
           </Header>
           <Layout className="sider-and-content-container">
             <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
@@ -529,17 +541,7 @@ class App extends Component {
               padding: 24,
               margin: 0,
               minHeight: 280,}}
-            >
-              <Tooltip title="Clear your current selection">
-                <Button
-                  type="primary"
-                  onClick={this.onClearSelection}
-                  disabled={!hasSelected}
-                  loading={loading}
-                >
-                  Clear
-                </Button>
-              </Tooltip>
+            > 
               <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
                 <Button
                   type="primary"
@@ -550,28 +552,26 @@ class App extends Component {
                   Add to Cart
                 </Button>
               </Tooltip>
+              <Tooltip title="Clear your current selection">
+                <Button
+                  type="primary"
+                  onClick={this.onClearSelection}
+                  disabled={!hasSelected}
+                  loading={loading}
+                >
+                  Clear
+                </Button>
+              </Tooltip>
               <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
               </span>
               {loading ?
                 <Spin>
+                  {/* This is just to create the table in the background behind the loading animation */}
                     <Table
-                    dataSource={ this.state.courses }
                     columns={ columns }
-                    rowSelection={ rowSelection }
-                    hideDefaultSelections= {true}
-                    expandedRowRender={record =>
-                      <p style={{ margin: 0 }}>
-                      Credits: {record.Course_Credits} <br />
-                      CRN: {record.Course_Registration_Number} <br />
-                      Seats: {record.Seats_Available} <br />
-                      Prereqs/Comments:{record.Comments}
-                      </p>}
-                    expandRowByClick={true}
-                    expandIconAsCell={false}
                     pagination={false}
                     size={"medium"}
-                    rowKey = "_id"
                     />
               </Spin>
               : <div>{ this.state.courses &&
@@ -591,10 +591,10 @@ class App extends Component {
                         </p>
                         <Form layout="inline">
                           <Form.Item>
-                            <Input id="userEmail1" placeholder="Enter Email"/>
+                            <Input id="userEmail1" placeholder="Enter email..."/>
                           </Form.Item>
                           <Form.Item>
-                            <Tooltip title = "Enter your email and click Subscribe for email notifications for this class">
+                            <Tooltip title="Stay updated on any changes to this course!">
                               <Button
                                 type="primary"
                                 htmlType="submit"
