@@ -35,10 +35,10 @@ def intToTime(i):
     hour = i//4 + 8
     min = str((i%4)*15)
 
-    if(min == '0'):
+    if min == '0':
         min = "00"
 
-    if(hour>12):
+    if hour>12:
         hour -= 12
 
     return str(hour) + ":" + str(min)
@@ -58,9 +58,9 @@ def timeToInt(time):
     end = (int(end[0]) * 4) + (int(end[1]) // 15)
 
     #if the class ends in the afternoon adjust accordingly
-    if (end<start):
+    if end < start:
         end += 48
-    elif(aOrP == 'P' and end <=48):
+    elif aOrP == 'P' and end <=48:
         start += 48
         end += 48
 
@@ -81,7 +81,7 @@ def addToTable(time,days,c):
         #loop through times
         for t in range(start,end+1):
             #if space is free, add course
-            if(table[t][MTWRF.index(days[d])] == -2):
+            if table[t][MTWRF.index(days[d])] == -2:
                 table[t][MTWRF.index(days[d])] = c
             #else mark it as overbook (red)
             else:
@@ -103,7 +103,7 @@ def buildSchedule():
         #add days and times to HTML
         times = course.get("Times")
         days = course.get("Days")
-        if(len(days) == 0 or days[0] == "TBA"):
+        if len(days) == 0 or days[0] == "TBA":
             s+= " TBA"
         else:
             for i in range(len(times)):
@@ -154,9 +154,9 @@ def buildTable():
 
         #add colors to designated areas
         for x in row:
-            if(x == -2):
+            if x == -2:
                 t += "<td> </td>"
-            elif(x == -1):
+            elif x == -1:
                 t += "<td bgcolor=\"#FF0000\"> Overlap </td>"
             else:
                 t += tableColors[x]

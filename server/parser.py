@@ -6,7 +6,6 @@ import pymongo
 from collections import OrderedDict
 import requests
 
-
 myclient = pymongo.MongoClient('mongodb+srv://admin:root@cluster0-pmazi.mongodb.net/Capstone?retryWrites=true')
 mydb = myclient['Capstone']
 mycol = mydb['courses']
@@ -23,22 +22,22 @@ sections = sections.split("</tr>")
 
 #skip over intersession courses
 for first in range(0, len(sections)):
-    if("FULL TERM" in sections[first]):
-        break;
+    if "FULL TERM" in sections[first]:
+        break
 
-first += 3;
+first += 3
 sections = sections[first:]
 
 
 def parseCourse(section):
 
-    parts = section.split("<td");
+    parts = section.split("<td")
 
     #get status of course
     status = parts[1]
-    if("Open" in status):
+    if "Open" in status:
         status = "Open"
-    elif ("Filled" in status):
+    elif "Filled" in status:
         status = "Filled"
     else:
         status = "Canceled"
@@ -56,7 +55,7 @@ def parseCourse(section):
     department = cn_d_l[1]
     level = cn_d_l[2]
     section = 1
-    if(len(cn_d_l) == 4):
+    if len(cn_d_l) == 4:
         section = cn_d_l[3]
 
     #find name of course
@@ -106,7 +105,7 @@ def parseCourse(section):
     #get note
     note = parts[11]
     note = note[21: len(note) - 12]
-    if("nbsp" in note):
+    if "nbsp" in note:
         note = "n/a"
 
 
@@ -122,12 +121,12 @@ def parseCourse(section):
     mycol.insert_one(OrderedDict(course))
 
 #loop through all sections in HTML file
-i = 0;
-while(i<len(sections)):
+i = 0
+while i<len(sections):
     section = sections[i]
 
     #if this sections contains course details, parse it
-    if("Open" in section or "Filled" in section or "Cancelled" in section):
+    if "Open" in section or "Filled" in section or "Cancelled" in section:
         parseCourse(section)
 
     i += 1
