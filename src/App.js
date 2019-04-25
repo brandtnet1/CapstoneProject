@@ -4,7 +4,6 @@ import { message, List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layou
 import "antd/dist/antd.css";
 import "./style.css";
 
-
 class App extends Component {
   state = {
     data: null,
@@ -49,8 +48,6 @@ class App extends Component {
     })
     .catch(() => this.setState({ loading : false }));
   };
-
-
 
   // queryDatabaseFilters(filters) {
 
@@ -102,20 +99,19 @@ class App extends Component {
   }
 
   onAddToCart = () => {
-    if(this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
-        for(var i = 0; i<this.state.selectedRows.length; i++){
-          if(this.state.selectedRows[i].Status === 'Open') {
-            if(!this.state.cart.includes(this.state.selectedRows[i])) {
+    if (this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
+        for (var i = 0; i<this.state.selectedRows.length; i++){
+          if (this.state.selectedRows[i].Status === 'Open') {
+            if (!this.state.cart.includes(this.state.selectedRows[i])) {
               this.state.cart.push(this.state.selectedRows[i]);
             }
-          } else if(this.state.selectedRows[i].Status === 'Filled') {
+          } else if (this.state.selectedRows[i].Status === 'Filled') {
             alert("One or more of your selected courses is filled :(");
-          } else if(this.state.selectedRows[i].Status === 'Canceled') {
+          } else if (this.state.selectedRows[i].Status === 'Canceled') {
             alert("One or more of your selected classes has been canceled :(");
           }
         }
-    }
-    else {
+    } else {
       alert("Slow down there, hotshot. Please only add 5 classes or fewer.")
     }
     this.setState({ selectedRowKeys : [], visible : true });
@@ -129,8 +125,7 @@ class App extends Component {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
     this.setState({cart : this.state.cart});
-
-    if(this.state.cart.length === 0) {
+    if (this.state.cart.length === 0) {
       this.setState({ visible : false});
     }
   }
@@ -157,15 +152,12 @@ class App extends Component {
 
   convertTime = (time, modifier) => {
     let [hours, minutes] = time.split(':');
-
     if (hours === '12') {
       hours = '00';
     }
-
     if (modifier === 'P') {
       hours = parseInt(hours, 10) + 12;
     }
-
     return `${hours}${minutes}`;
   }
 
@@ -275,23 +267,19 @@ class App extends Component {
 
   sendEmail = () => {
     var query = "?Email=" + document.getElementById('userEmail1').value + "&Subscriber=False&";
-
     this.state.cart.forEach((course) => {
       query = query + "CRN=" + course.Course_Registration_Number + "&";
     });
-
     fetch('http://localhost:5000/send_email' + query)
     .then(response => {
       return response.json();
     })
     .catch(err => console.log(err));
-
     message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
   }
 
   addSubscriber = () => {
     var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
-
     fetch('http://localhost:5000/send_email' + query)
     .then(response => {
       return response.json();
@@ -302,7 +290,7 @@ class App extends Component {
   render = () => {
 
     const { Header, Content } = Layout;
-    const { loading, selectedRowKeys, cart} = this.state;
+    const { loading, selectedRowKeys, cart } = this.state;
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
@@ -311,8 +299,7 @@ class App extends Component {
     const hasSelected = selectedRowKeys.length > 0;
     const hasItemsInCart = cart.length > 0;
 
-
-    if(this.state.courses === null || this.state.courses === {}) {
+    if (this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
     }
 
@@ -334,19 +321,7 @@ class App extends Component {
         value: 'Canceled',
       }],
       onFilter: (value, record) => record.Status.indexOf(value) === 0,
-    }
-    /* , {
-      title: 'Seats',
-      dataIndex: 'Seats_Available',
-      key: 'Seats_Available',
-    } */,
-    // {
-    //   title: 'CRN',
-    //   dataIndex: 'Course_Registration_Number',
-    //   key: 'Course_Registration_Number',
-    //   ...this.getColumnSearchProps('Course_Registration_Number'),
-    // },
-    {
+    }, {
       title: 'Dept.',
       dataIndex: 'Course_Department',
       key: 'Course_Department',
@@ -368,11 +343,6 @@ class App extends Component {
       key: 'Course_Title',
       ...this.getColumnSearchProps('Course_Title'),
     },
-    // {
-    //   title: 'Credits',
-    //   dataIndex: 'Course_Credits',
-    //   key: 'Course_Credits',
-    // },
     {
       title: 'Time',
       dataIndex: 'Times',
@@ -437,18 +407,7 @@ class App extends Component {
       dataIndex: 'Instructor',
       key: 'Instructor',
       ...this.getColumnSearchProps('Instructor'),
-    },
-    // {
-    //   title: 'Competency/GenEd',
-    //   dataIndex: 'Competency',
-    //   key: 'Competency',
-    //   ...this.getColumnSearchProps('Competency'),
-    // }, {
-    //   title: 'Pre-Reqs/Comments',
-    //   dataIndex: 'Comments',
-    //   key: 'Comments',
-    //  }
-    ];
+    }];
 
     return (
       <div className="app-container">
