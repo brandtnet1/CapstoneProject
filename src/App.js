@@ -391,17 +391,13 @@ class App extends Component {
           }
           var start = this.convertTime(time[0], modifier);
 
-          // if (filter_times[0] && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
-          //   console.log(1, filter_times[0].replace(":", ""), start, filter_times[1].replace(":", ""), end);
-          //   t = true;
-          // }
-          // else if (filter_times[1] && parseInt(filter_times[0].replace(":", "")) <= parseInt(start)) {
-          //   console.log(2, filter_times[0].replace(":", ""), start, filter_times[1].replace(":", ""), end);
-          //   t = true;
-          // }
-          // else 
-          if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
-            console.log(3, filter_times[0].replace(":", ""), start, filter_times[1].replace(":", ""), end);
+          if (filter_times[0] === 'null' && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
+            t = true;
+          }
+          else if (filter_times[1] === 'null' && parseInt(filter_times[0].replace(":", "")) <= parseInt(start)) {
+            t = true;
+          }
+          else if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
             t = true;
           }
         });
