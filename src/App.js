@@ -4,7 +4,6 @@ import { message, List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layou
 import "antd/dist/antd.css";
 import "./style.css";
 
-
 class App extends Component {
   state = {
     data: null,
@@ -19,17 +18,6 @@ class App extends Component {
     searchText: '',
     visible: false,
     exported: false,
-  };
-
-  fillDatabase = () => {
-    fetch('http://localhost:5000/fill_db')
-    .then(response => {
-      return response.json();
-    })
-    .then((values) => {
-      this.setState({ data: values.express });
-    })
-    .catch(err => console.log(err));
   };
 
   // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js\
@@ -50,38 +38,14 @@ class App extends Component {
     .catch(() => this.setState({ loading : false }));
   };
 
-
-
-  // queryDatabaseFilters(filters) {
-
-  // make string append { "ColumnName":"value" , ...}
-  // ? Course_Department=ANT&Course_Level=200&
-  // ?
-
-  //   fetch('http://localhost:5000/query_db_filters?')
-  //   .then(response => {
-  //     return response.json();
-  //   })
-  //   .then((values) => {
-  //     var data = [];
-
-  //     Object.keys(values.express).forEach((key) => {
-  //       data.push(values.express[key])
-  //     })
-
-  //     this.setState({ courses: data });
-  //   })
-  //   .catch(err => console.log(err));
-  // };
-
   /******************Cart methods*******************/
 
   onExportCart = () => {
     var query = "?";
+
     this.state.cart.forEach((course) => {
       query = query + "CRN=" + course.Course_Registration_Number + "&";
     });
-    console.log("Export: " + query);
 
     fetch('http://localhost:5000/export_cart' + query)
     .then(response => {
@@ -93,17 +57,11 @@ class App extends Component {
     .catch(err => console.log(err));
 
     window.open("http://localhost:5000/export_cart" + query);
-
-  }
-
-  //grab content from state.cart and email it
-  onEmailCart(value) {
-    console.log(value);
   }
 
   onAddToCart = () => {
     if(this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
-        for(var i = 0; i<this.state.selectedRows.length; i++){
+        for(var i = 0; i<this.state.selectedRows.length; i++) {
           if(this.state.selectedRows[i].Status === 'Open') {
             if(!this.state.cart.includes(this.state.selectedRows[i])) {
               this.state.cart.push(this.state.selectedRows[i]);
@@ -157,21 +115,18 @@ class App extends Component {
 
   convertTime = (time, modifier) => {
     let [hours, minutes] = time.split(':');
-
     if (hours === '12') {
       hours = '00';
     }
-
     if (modifier === 'P') {
       hours = parseInt(hours, 10) + 12;
     }
-
     return `${hours}${minutes}`;
   }
 
   handleSelectStartTime = (value) => {
-    if(value){
-      if(value._d.getMinutes() === 0){
+    if(value) {
+      if(value._d.getMinutes() === 0) {
         this.setState({ startTime : value._d.getHours() + ":00" });
       } else {
         this.setState({ startTime : value._d.getHours() + ":" + value._d.getMinutes() });
@@ -180,8 +135,8 @@ class App extends Component {
   }
 
   handleSelectEndTime = (value) => {
-    if(value){
-      if(value._d.getMinutes() === 0){
+    if(value) {
+      if(value._d.getMinutes() === 0) {
         this.setState({ endTime : value._d.getHours() + ":00" });
       } else {
         this.setState({ endTime : value._d.getHours() + ":" + value._d.getMinutes() });
@@ -318,6 +273,7 @@ class App extends Component {
 
     const loadWheel = React.createElement('div', {className: 'loaderWheel'});
     Spin.setDefaultIndicator(loadWheel);
+
     //specify columns format/behaviors for table
     const columns = [{
       title: 'Status',
@@ -385,6 +341,7 @@ class App extends Component {
         record['Times'].forEach((time) => {
           var modifier = time[time.length -1];
           time = time.slice(0, -1).split("-");
+
           var end = this.convertTime(time[1], modifier);
           if(end.includes("12")){
             modifier = "A"
@@ -565,13 +522,13 @@ class App extends Component {
               <span style={{ marginLeft: 8 }}>
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
               </span>
-              {loading ?
+              { loading ?
                 <Spin>
                   {/* This is just to create the table in the background behind the loading animation */}
                     <Table
                     columns={ columns }
-                    pagination={false}
-                    size={"medium"}
+                    pagination={ false }
+                    size={ "medium" }
                     />
               </Spin>
               : <div>{ this.state.courses &&
@@ -580,7 +537,7 @@ class App extends Component {
                     dataSource={ this.state.courses }
                     columns={ columns }
                     rowSelection={ rowSelection }
-                    hideDefaultSelections= {true}
+                    hideDefaultSelections= { true }
                     expandedRowRender={record =>
                       <div>
                         <p style={{ margin: 0 }}>
