@@ -39,11 +39,9 @@ class App extends Component {
     })
     .then((values) => {
       var data = [];
-
       Object.keys(values.express).forEach((key) => {
         data.push(values.express[key])
       })
-
       this.setState({ courses : data, loading : false });
     })
     .catch(() => this.setState({ loading : false }));
@@ -73,13 +71,12 @@ class App extends Component {
 
   /******************Cart methods*******************/
 
-  onExportCart = () => {
+  handleExportCart = () => {
     var query = "?";
     this.state.cart.forEach((course) => {
       query = query + "CRN=" + course.Course_Registration_Number + "&";
     });
     console.log("Export: " + query);
-
     fetch('http://localhost:5000/export_cart' + query)
     .then(response => {
       return response.json();
@@ -88,17 +85,10 @@ class App extends Component {
       this.setState({ exported: values.exported });
     })
     .catch(err => console.log(err));
-
     window.open("http://localhost:5000/export_cart" + query);
-
   }
 
-  //grab content from state.cart and email it
-  onEmailCart(value) {
-    console.log(value);
-  }
-
-  onAddToCart = () => {
+  handleAddToCart = () => {
     if (this.state.cart.length <= 5 && this.state.selectedRows.length <= 5) {
         for (var i = 0; i<this.state.selectedRows.length; i++){
           if (this.state.selectedRows[i].Status === 'Open') {
@@ -121,7 +111,7 @@ class App extends Component {
     this.setState({ visible });
   };
 
-  handleDelete = (item) => {
+  onDelete = (item) => {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
     this.setState({cart : this.state.cart});
@@ -130,11 +120,11 @@ class App extends Component {
     }
   }
 
-  onClearCart = () => {
+  handleClearCart = () => {
     this.setState({cart: []});
   }
 
-  onClearSelection = () => {
+  handleClearSelection = () => {
     this.setState({ loading: true });
     setTimeout(() => {
       this.setState({
@@ -146,7 +136,7 @@ class App extends Component {
 
   /****************End Cart methods*******************/
 
-  onSelectChange = (selectedRowKeys,rowInfo) => {
+  handleSelectChange = (selectedRowKeys,rowInfo) => {
     this.setState({ selectedRowKeys, selectedRows : rowInfo });
   }
 
@@ -265,7 +255,7 @@ class App extends Component {
     this.setState({ searchText : '' });
   }
 
-  sendEmail = () => {
+  handleSendEmail = () => {
     var query = "?Email=" + document.getElementById('userEmail1').value + "&Subscriber=False&";
     this.state.cart.forEach((course) => {
       query = query + "CRN=" + course.Course_Registration_Number + "&";
@@ -278,7 +268,7 @@ class App extends Component {
     message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
   }
 
-  addSubscriber = () => {
+  handleAddSubscriber = () => {
     var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
     fetch('http://localhost:5000/send_email' + query)
     .then(response => {
@@ -294,7 +284,7 @@ class App extends Component {
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
-      onChange: this.onSelectChange,
+      onChange: this.handleSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
     const hasItemsInCart = cart.length > 0;
@@ -426,7 +416,7 @@ class App extends Component {
                     actions={[
                     <a>
                       <Icon
-                        onClick={() => this.handleDelete(item)}
+                        onClick={() => this.onDelete(item)}
                         type="delete"
                         theme="twoTone" 
                       />
@@ -440,7 +430,7 @@ class App extends Component {
                       <Button 
                         size="small" 
                         disabled={!hasItemsInCart}
-                        onClick={this.onExportCart}
+                        onClick={this.handleExportCart}
                       >
                         Export
                       </Button>
@@ -459,7 +449,7 @@ class App extends Component {
                                   type="primary"
                                   disabled={!hasItemsInCart}
                                   htmlType="submit"
-                                  onClick={this.sendEmail}
+                                  onClick={this.handleSendEmail}
                                 >
                                   Send
                                 </Button>
@@ -479,7 +469,7 @@ class App extends Component {
                         size="small" 
                         type="danger"
                         disabled={!hasItemsInCart}
-                        onClick={this.onClearCart}
+                        onClick={this.handleClearCart}
                       >
                         Clear
                         </Button>
@@ -504,7 +494,7 @@ class App extends Component {
               <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
                 <Button
                   type="primary"
-                  onClick={this.onAddToCart}
+                  onClick={this.handleAddToCart}
                   disabled={!hasSelected}
                   loading={loading}
                 >
@@ -514,7 +504,7 @@ class App extends Component {
               <Tooltip title="Clear your current selection">
                 <Button
                   type="primary"
-                  onClick={this.onClearSelection}
+                  onClick={this.handleClearSelection}
                   disabled={!hasSelected}
                   loading={loading}
                 >
@@ -557,7 +547,7 @@ class App extends Component {
                               <Button
                                 type="primary"
                                 htmlType="submit"
-                                onClick={this.addSubscriber}
+                                onClick={this.handleAddSubscriber}
                               >
                                 Subscribe
                               </Button>
