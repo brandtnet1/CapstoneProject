@@ -278,7 +278,9 @@ class App extends Component {
   }
 
   render = () => {
-
+    if (this.state.courses === null || this.state.courses === {}) {
+      this.queryDatabase();
+    }
     const { Header, Content } = Layout;
     const { loading, selectedRowKeys, cart } = this.state;
     //specify rowSelection behavior for table
@@ -288,11 +290,6 @@ class App extends Component {
     };
     const hasSelected = selectedRowKeys.length > 0;
     const hasItemsInCart = cart.length > 0;
-
-    if (this.state.courses === null || this.state.courses === {}) {
-      this.queryDatabase();
-    }
-
     const loadWheel = React.createElement('div', {className: 'loaderWheel'});
     Spin.setDefaultIndicator(loadWheel);
     //specify columns format/behaviors for table
@@ -350,7 +347,6 @@ class App extends Component {
             modifier = "A"
           }
           var start = this.convertTime(time[0], modifier);
-
           if (filter_times[0] === 'null' && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
             t = true;
           }
