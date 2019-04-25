@@ -116,7 +116,7 @@ class App extends Component {
         }
     }
     else {
-      alert("Slow down there, hotshot. Please only add 5 classes or less.")
+      alert("Slow down there, hotshot. Please only add 5 classes or fewer.")
     }
     this.setState({ selectedRowKeys : [], visible : true });
   }
