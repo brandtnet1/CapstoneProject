@@ -163,7 +163,7 @@ class App extends Component {
             onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
             onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
             style={{ width: 188, marginBottom: 8, display: 'block' }}
-          />
+            />
         }
         { dataIndex === "Times" &&
           <Input.Group compact>
