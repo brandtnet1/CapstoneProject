@@ -18,7 +18,7 @@ class App extends Component {
     searchText: '',      // Used for adding/checking filters
   };
 
-  // Fetches our GET route from the Node/Express server. 
+  // Fetches our GET route from the Node/Express server.
   // (Note the route we are fetching matches the GET route from server.js
   queryDatabase() {
     fetch('http://localhost:5000/query_db')
@@ -31,7 +31,7 @@ class App extends Component {
         data.push(values.express[key])
       })
       // Set courses state to hold all data from query
-      this.setState({ courses : data, loading : false }); 
+      this.setState({ courses : data, loading : false });
     })
     .catch(() => this.setState({ loading : false }));
   };
@@ -39,12 +39,12 @@ class App extends Component {
   /******************Cart methods*******************/
 
   handleExportCart = () => {
-    // Get all the Course Registration Numbers from the cart and add them 
+    // Get all the Course Registration Numbers from the cart and add them
     // to a query so we can search the database so we can search database
     var query = "?";
-    this.state.cart.forEach((course) => { 
+    this.state.cart.forEach((course) => {
       query = query + "CRN=" + course.Course_Registration_Number + "&";
-    }); 
+    });
 
     fetch('http://localhost:5000/export_cart' + query)
     .then(response => {
@@ -109,7 +109,7 @@ class App extends Component {
   }
 
   /****************End Cart methods*******************/
-  
+
   // Select more row/s or unselected row/s
   handleSelectChange = (selectedRowKeys,rowInfo) => {
     this.setState({ selectedRowKeys, selectedRows : rowInfo });
@@ -250,7 +250,7 @@ class App extends Component {
     .then(response => {
       return response.json();
     })
-    .catch(err => console.log(err)); 
+    .catch(err => console.log(err));
     message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
   }
 
@@ -267,7 +267,7 @@ class App extends Component {
   }
 
   render = () => {
-    // Query the database on startup to fill courses state variable 
+    // Query the database on startup to fill courses state variable
     if (this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
     }
@@ -405,13 +405,13 @@ class App extends Component {
                   head={<div>Course Cart</div>}
                   dataSource={this.state.cart}
                   renderItem={item => (
-                  <List.Item 
+                  <List.Item
                     actions={[
                     <a>
                       <Icon
                         onClick={() => this.handleDelete(item)}
                         type="delete"
-                        theme="twoTone" 
+                        theme="twoTone"
                       />
                     </a>]}
                     key={item._id}
@@ -419,9 +419,9 @@ class App extends Component {
                     {item.Course_Title}
                   </List.Item>)}
                   footer={
-                    <Button.Group> 
-                      <Button 
-                        size="small" 
+                    <Button.Group>
+                      <Button
+                        size="small"
                         disabled={!hasItemsInCart}
                         onClick={this.handleExportCart}
                       >
@@ -451,15 +451,15 @@ class App extends Component {
                           </Form>
                         }
                       >
-                        <Button 
+                        <Button
                           size="small"
                           disabled={!hasItemsInCart}
                         >
                           Email
                         </Button>
                       </Popover>
-                      <Button 
-                        size="small" 
+                      <Button
+                        size="small"
                         type="danger"
                         disabled={!hasItemsInCart}
                         onClick={this.handleClearCart}
@@ -483,7 +483,7 @@ class App extends Component {
               padding: 24,
               margin: 0,
               minHeight: 280,}}
-            > 
+            >
               <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
                 <Button
                   type="primary"
@@ -551,7 +551,7 @@ class App extends Component {
                     expandRowByClick={true}
                     expandIconAsCell={false}
                     pagination={false}
-                    scroll={{ y: 550 }}
+                  
                     size={"medium"}
                     rowKey = "_id"
                     />
