@@ -238,7 +238,7 @@ class App extends Component {
     .then(response => {
       return response.json();
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log(err)); 
     message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
   }
 
@@ -495,7 +495,7 @@ class App extends Component {
                     size={ "medium" }
                     />
               </Spin>
-              : <div>{ this.state.courses &&
+              : <div> { this.state.courses &&
                   <div className='table' >
                     <Table
                     dataSource={ this.state.courses }
@@ -530,12 +530,12 @@ class App extends Component {
                     expandRowByClick={true}
                     expandIconAsCell={false}
                     pagination={false}
+                    scroll={{ y: 550 }}
                     size={"medium"}
                     rowKey = "_id"
                     />
                   </div>}
-                </div>
-            }
+                </div>}
             </Content>
           </Layout>
         </Layout>
