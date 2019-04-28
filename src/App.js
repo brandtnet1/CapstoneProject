@@ -481,7 +481,7 @@ class App extends Component {
           <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
               background: '#fff',
-              padding: 24,
+              padding: 15,
               margin: 0,
               minHeight: 280,}}
             >
