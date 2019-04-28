@@ -257,7 +257,7 @@ class App extends Component {
   // For future use when we set up subscriber system
   handleAddSubscriber(record) {
     if(document.getElementById('userEmail2')) {
-      var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
+      var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True" +"&Course="+JSON.stringify(record);
       fetch('http://localhost:5000/send_email' + query)
       .then(response => {
         return response.json();
@@ -555,7 +555,7 @@ class App extends Component {
                     size={"medium"}
                     rowKey = "_id"
                     />
-                  </div>} 
+                  </div>}
                 </div>}
             </Content>
           </Layout>
