@@ -6,21 +6,20 @@ import "./style.css";
 
 class App extends Component {
   state = {
-    data: null,
-    courses: null,
-    collapsed: true,
+    courses: null,       // Contains all courses in the query from database
     selectedRowKeys: [], // Check here to configure the default column
-    selectedRows: [],
-    startTime: null,
-    endTime: null,
-    cart: [],
-    loading: true,
-    searchText: '',
-    visible: false,
-    exported: false,
+    selectedRows: [],    // Contains all selected rows when you click the check box
+    cart: [],            // Contains all courses added to cart
+    startTime: null,     // Time filter beginning time
+    endTime: null,       // Time filter ending time
+    loading: true,       // Check if query of courses has been received yet
+    visible: false,      //
+    exported: false,     // Course Schedule successfully exporter
+    searchText: '',      // Used for adding/checking filters
   };
 
-  // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js\
+  // Fetches our GET route from the Node/Express server. 
+  // (Note the route we are fetching matches the GET route from server.js
   queryDatabase() {
     fetch('http://localhost:5000/query_db')
     .then(response => {
@@ -31,7 +30,8 @@ class App extends Component {
       Object.keys(values.express).forEach((key) => {
         data.push(values.express[key])
       })
-      this.setState({ courses : data, loading : false });
+      // Set courses state to hold all data from query
+      this.setState({ courses : data, loading : false }); 
     })
     .catch(() => this.setState({ loading : false }));
   };
@@ -39,12 +39,13 @@ class App extends Component {
   /******************Cart methods*******************/
 
   handleExportCart = () => {
+    // Get all the Course Registration Numbers from the cart and add them 
+    // to a query so we can search the database so we can search database
     var query = "?";
-
-    this.state.cart.forEach((course) => {
+    this.state.cart.forEach((course) => { 
       query = query + "CRN=" + course.Course_Registration_Number + "&";
-    });
-    console.log("Export: " + query);
+    }); 
+
     fetch('http://localhost:5000/export_cart' + query)
     .then(response => {
       return response.json();
@@ -53,6 +54,8 @@ class App extends Component {
       this.setState({ exported: values.exported });
     })
     .catch(err => console.log(err));
+
+    // Open additional window to display exported course schedule
     window.open("http://localhost:5000/export_cart" + query);
   }
 
@@ -75,6 +78,7 @@ class App extends Component {
     this.setState({ selectedRowKeys : [], visible : true });
   }
 
+  // Changes the visibility of the loading wheel
   handleVisibleChange = (visible) => {
     this.setState({ visible });
   };
@@ -88,10 +92,12 @@ class App extends Component {
     }
   }
 
+  // Resets the state value of cart to empty
   handleClearCart = () => {
     this.setState({cart: []});
   }
 
+  // Removes checked classes
   handleClearSelection = () => {
     this.setState({ loading: true });
     setTimeout(() => {
