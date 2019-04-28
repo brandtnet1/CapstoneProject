@@ -285,7 +285,7 @@ class App extends Component {
     const hasItemsInCart = cart.length > 0;
 
     // Set the loader wheel options
-    const loadWheel = React.createElement('div', {className: 'loaderWheel'});
+    const loadWheel = React.createElement('div', {className: 'loader-wheel'});
     Spin.setDefaultIndicator(loadWheel);
 
     //specify columns format/behaviors for table
@@ -473,7 +473,7 @@ class App extends Component {
               visible={this.state.visible}
               onVisibleChange={this.handleVisibleChange}
             >
-              <Button className="shoppingcart" id="shoppingCart">Course Cart</Button>
+              <Button className="shopping-cart" id="shoppingCart">Course Cart</Button>
             </Popover>
           </Header>
           <div className="header-and-content-divider">

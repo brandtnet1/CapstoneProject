@@ -1,38 +1,21 @@
 .logo {
   height: 30px;
 }
-.table{
+.table {
   height: 600px;
   width: 100%;
   overflow: auto;
 }
-
-.shoppingcart{
+.shopping-cart{
   float: right;
   top: 25%;
-}
-.miniButton{
-  background: none;
-  border: none;
-  font-size: 8px;
-  padding: 5px;
-}
-.clearButton{
-  background: none;
-  border: none;
-  font-size: 12px;
-  padding: 5px;
-  background-color: #f44336;
-}
-.timeButtons{
-  left: 50%;
 }
 /*This is for the loading wheel, we can edit the attributes of the wheel in here.
 hoping to place this in the section of the table, if not possible, just put in
 the center of the page*/
 /*Eventual plans: I hope to make the colors shift from blue to yellow to orange,
 I also plan on making a running fox animation for it :)*/
-.loaderWheel {
+.loader-wheel {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -42,7 +25,7 @@ I also plan on making a running fox animation for it :)*/
   margin: -75px 0 0 -75px;
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid blue;
+  border-top: 16px solid #0071ba;
   width: 70px;
   height: 70px;
   -webkit-animation: spin 2s linear infinite;
@@ -60,16 +43,16 @@ I also plan on making a running fox animation for it :)*/
 @keyframes spin {
   0% {
     transform: rotate(0deg);
-    border-top: 16px solid blue;
+    border-top: 16px solid #0071ba;
   }
   25%{
     border-top: 16px solid orange;
   }
   75%{
-    border-top: 16px solid yellow;
+    border-top: 16px solid #facf00;
 }
   100% {
     transform: rotate(360deg);
-    border-top: 16px solid blue;
+    border-top: 16px solid #0071ba;
   }
 }
