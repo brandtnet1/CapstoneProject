@@ -551,7 +551,6 @@ class App extends Component {
                     expandRowByClick={true}
                     expandIconAsCell={false}
                     pagination={false}
-                  
                     size={"medium"}
                     rowKey = "_id"
                     />

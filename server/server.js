@@ -61,7 +61,7 @@ app.get('/export_cart', (req, res) => {
 
 // First run the export python function then send email to the requested email
 app.get('/send_email', (req, res) => {
-    let sendEmail = new Promise(function(success, nosuccess){
+    let sendEmail = new Promise(function(success, nosuccess) {
         var mailOptions = {
             from: 'teamarf2019@gmail.com',
             to: JSON.stringify(req.query.Email), //this grabs the users email
@@ -79,7 +79,6 @@ app.get('/send_email', (req, res) => {
         else { // Run the exporter (course_generator) then send email using generated data
             let runExport = new Promise(function(success, nosuccess) {
                 const { spawn } = require('child_process');
-                //console.log(req.query);
                 const pyprog = spawn('python', ['course_generator.py', JSON.stringify(req.query.CRN)]);
 
                 pyprog.stdout.on('data', (data) => success(data) );
