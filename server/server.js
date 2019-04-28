@@ -4,7 +4,7 @@ const cors = require('cors');
 const port = process.env.PORT || 5000;
 const Course = require("./models/Course");
 
-// Must use CORS "Cross Origin Resource Sharing" 
+// Must use CORS "Cross Origin Resource Sharing"
 // Allows us to use our "Proxy" method of connecting to server
 // through react front end
 var app = express();
@@ -15,8 +15,8 @@ mongoose.Promise = global.Promise;
 
 // Connecting to cloud MongoDB
 mongoose.connect('mongodb+srv://admin:root@cluster0-pmazi.mongodb.net/Capstone?retryWrites=true')
-.then(() => console.log('connection successful'))
-.catch((err) => console.error(err));
+    .then(() => console.log('connection successful'))
+    .catch((err) => console.error(err));
 
 
 // console.log that your server is up and running
@@ -33,7 +33,7 @@ app.get('/query_db', (req, res) => {
             courses[c._id] = c;
         });
     }).then(() => {
-        res.send({ express : courses })
+        res.send({express: courses});
     });
 
 });
@@ -41,12 +41,12 @@ app.get('/query_db', (req, res) => {
 // Using the list of CRN's from the front end
 // Run our python script to generate an html file that shows the course schedule
 app.get('/export_cart', (req, res) => {
-    let runExport = new Promise(function(success, nosuccess) {
-        const { spawn } = require('child_process');
+    var runExport = new Promise(function (success, nosuccess) {
+        const {spawn} = require('child_process');
         const pyprog = spawn('python', ['course_generator.py', JSON.stringify(req.query.CRN)]);
 
-        pyprog.stdout.on('data', (data) => success(data) );
-        pyprog.stderr.on('data', (data) => nosuccess(data) );
+        pyprog.stdout.on('data', (data) => success(data));
+        pyprog.stderr.on('data', (data) => nosuccess(data));
     }).catch((error) => {
         console.log('caught', error.message);
     });
@@ -61,7 +61,7 @@ app.get('/export_cart', (req, res) => {
 
 // First run the export python function then send email to the requested email
 app.get('/send_email', (req, res) => {
-    let sendEmail = new Promise(function(success, nosuccess) {
+    let sendEmail = new Promise(function (success, nosuccess) {
         var mailOptions = {
             from: 'teamarf2019@gmail.com',
             to: JSON.stringify(req.query.Email), //this grabs the users email
@@ -70,19 +70,18 @@ app.get('/send_email', (req, res) => {
         };
 
         // For future use with subscriber
-        if(req.query.Subscriber === "True"){
+        if (req.query.Subscriber === "True") {
             emailer.newSubscriber(mailOptions) //this changes the email content
-            .then(() => {
-                emailer.send(emailer.transporter, mailOptions);
-            });
-        } 
-        else { // Run the exporter (course_generator) then send email using generated data
-            let runExport = new Promise(function(success, nosuccess) {
-                const { spawn } = require('child_process');
+                .then(() => {
+                    emailer.send(emailer.transporter, mailOptions);
+                });
+        } else { // Run the exporter (course_generator) then send email using generated data
+            var runExport = new Promise(function (success, nosuccess) {
+                const {spawn} = require('child_process');
                 const pyprog = spawn('python', ['course_generator.py', JSON.stringify(req.query.CRN)]);
 
-                pyprog.stdout.on('data', (data) => success(data) );
-                pyprog.stderr.on('data', (data) => nosuccess(data) );
+                pyprog.stdout.on('data', (data) => success(data));
+                pyprog.stderr.on('data', (data) => nosuccess(data));
             }).catch((error) => {
                 console.log('caught', error.message);
             });
@@ -101,7 +100,7 @@ app.get('/send_email', (req, res) => {
 
     sendEmail.then((data) => {
         console.log(data);
-    }).catch((error) => { 
+    }).catch((error) => {
         console.log('caught', error.message);
     });
 });
