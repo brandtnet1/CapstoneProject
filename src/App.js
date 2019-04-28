@@ -109,11 +109,13 @@ class App extends Component {
   }
 
   /****************End Cart methods*******************/
-
+  
+  // Select more row/s or unselected row/s
   handleSelectChange = (selectedRowKeys,rowInfo) => {
     this.setState({ selectedRowKeys, selectedRows : rowInfo });
   }
 
+  // Used to convert hr:min string time format to military time
   convertTime = (time, modifier) => {
     let [hours, minutes] = time.split(':');
     if (hours === '12') {
@@ -125,6 +127,7 @@ class App extends Component {
     return `${hours}${minutes}`;
   }
 
+  // Changes start time state variable to match military time
   handleSelectStartTime = (value) => {
     if(value) {
       if(value._d.getMinutes() === 0) {
@@ -135,6 +138,7 @@ class App extends Component {
     }
   }
 
+  // Changes end time state variable to match military time
   handleSelectEndTime = (value) => {
     if(value) {
       if(value._d.getMinutes() === 0) {
@@ -145,6 +149,7 @@ class App extends Component {
     }
   }
 
+  // Contains our default Search properties including a special case for our time filter
   getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
       setSelectedKeys, selectedKeys, confirm, clearFilters,
@@ -209,7 +214,7 @@ class App extends Component {
       </div>
     ),
     filterIcon: filtered => <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) => {
+    onFilter: (value, record) => { // The default filter, check if value is included in text
       return record[dataIndex].toString().toLowerCase().includes(value.toLowerCase());
     },
     onFilterDropdownVisibleChange: (visible) => {
@@ -219,21 +224,28 @@ class App extends Component {
     },
   })
 
+  // React's generic filtering search
   handleSearch = (selectedKeys, confirm) => {
     confirm();
     this.setState({ searchText: selectedKeys[0] });
   }
 
+  // Clear specific filter or all filters
   handleReset = (clearFilters) => {
     clearFilters();
     this.setState({ searchText : '' });
   }
 
+  // Send's email containing the exported course schedule
   handleSendEmail = () => {
+    // Send server query containing the email the user wants it sent too
     var query = "?Email=" + document.getElementById('userEmail1').value + "&Subscriber=False&";
+
+    // Query also contains all the courses the user wants to sign up for
     this.state.cart.forEach((course) => {
       query = query + "CRN=" + course.Course_Registration_Number + "&";
     });
+
     fetch('http://localhost:5000/send_email' + query)
     .then(response => {
       return response.json();
@@ -242,28 +254,37 @@ class App extends Component {
     message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
   }
 
-  handleAddSubscriber = () => {
-    var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
-    fetch('http://localhost:5000/send_email' + query)
-    .then(response => {
-      return response.json();
-    })
-    .catch(err => console.log(err));
+  // For future use when we set up subscriber system
+  handleAddSubscriber(record) {
+    if(document.getElementById('userEmail2')) {
+      var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
+      fetch('http://localhost:5000/send_email' + query)
+      .then(response => {
+        return response.json();
+      })
+      .catch(err => console.log(err));
+    }
   }
 
   render = () => {
+    // Query the database on startup to fill courses state variable 
     if (this.state.courses === null || this.state.courses === {}) {
       this.queryDatabase();
     }
+
     const { Header, Content } = Layout;
     const { loading, selectedRowKeys, cart } = this.state;
+
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
       onChange: this.handleSelectChange,
     };
+
     const hasSelected = selectedRowKeys.length > 0;
     const hasItemsInCart = cart.length > 0;
+
+    // Set the loader wheel options
     const loadWheel = React.createElement('div', {className: 'loaderWheel'});
     Spin.setDefaultIndicator(loadWheel);
 
@@ -512,14 +533,14 @@ class App extends Component {
                         </p>
                         <Form layout="inline">
                           <Form.Item>
-                            <Input id="userEmail1" placeholder="Enter email..."/>
+                            <Input id="userEmail2" placeholder="Enter email..."/>
                           </Form.Item>
                           <Form.Item>
                             <Tooltip title="Stay updated on any changes to this course!">
                               <Button
                                 type="primary"
                                 htmlType="submit"
-                                onClick={this.handleAddSubscriber}
+                                onClick={() => this.handleAddSubscriber(record)}
                               >
                                 Subscribe
                               </Button>
