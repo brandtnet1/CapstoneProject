@@ -9,43 +9,44 @@ When they first click the button, the newbie function will be called
 Their email will be added to the course database
 Whenever the course is editted or deleted a notification will be sent to the user
 */
-var nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 //I'm thinking that we will need to add an attribute to the courses, which is a
 //a list of subscribers
 //var subscribers = [];
 
 //Created a dummy gmail for our team
 module.exports.transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'teamarf2019@gmail.com',
-    pass: 'thefoxsays1'
-  }
+    service: 'gmail',
+    auth: {
+        user: 'teamarf2019@gmail.com',
+        pass: 'thefoxsays1'
+    }
 });
 
 //there is also the potential to send html, just swap the text: for html:
 var mailOptions = {
-  from: 'teamarf2019@gmail.com',
-  to: 'gracefulartista@gmail.com', //using my email to test
-  subject: 'Sending Course Information using Node.js',
-  html: '<p/>'
+    from: 'teamarf2019@gmail.com',
+    to: 'gracefulartista@gmail.com', //using my email to test
+    subject: 'Sending Course Information using Node.js',
+    html: '<p/>'
 };
 
 /* The methods below should take the course as a parameter*/
 
 //when the user signs up for notifications
-module.exports.newSubscriber = function(mailOptions){
-//add subscriber
-  //mailOptions.to = email;
-  mailOptions.subject = 'Thank you for Subscribing for Notifications';
-  mailOptions.html = '<body>'
-                      +'<p>'
-                      +'You have just signed up for notifications for the class:'
-                      +'If you wish to unsubscribe, please click the link below'
-                      +'</p>'
-                      +'<button onclick="subscriberLeaves(course, email)"> Unsubscribe</button>'
-                    +'</body>'
-}
+module.exports.newSubscriber = function (mailOptions) {
+    //add subscriber
+    //mailOptions.to = email;
+    mailOptions.subject = 'Thank you for Subscribing for Notifications';
+    mailOptions.html = '<body>'
+            + '<p>'
+            + 'You have just signed up for notifications for the class:'
+            + 'If you wish to unsubscribe, please click the link below'
+            + '</p>'
+            + '<button onclick="subscriberLeaves(course, email)"> Unsubscribe</button>'
+            + '</body>';
+};
+
 /*
 function subscriberLeaves(course, email){
 //remove subscriber
@@ -99,15 +100,13 @@ function courseDeletion(course){
 */
 // We will need 2 methods for adding and removing subscribers from the database objects
 module.exports.send = function (transporter, mailOptions) {
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  });
-}
-
-
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+};
 
 // https://www.w3schools.com/nodejs/nodejs_email.asp

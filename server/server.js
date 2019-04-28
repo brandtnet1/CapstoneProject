@@ -69,7 +69,7 @@ app.get('/send_email', (req, res) => {
             html: '<p/>'
         };
 
-        // For future use with subscriber 
+        // For future use with subscriber
         if(req.query.Subscriber === "True"){
             emailer.newSubscriber(mailOptions) //this changes the email content
             .then(() => {
@@ -83,7 +83,7 @@ app.get('/send_email', (req, res) => {
 
                 pyprog.stdout.on('data', (data) => success(data) );
                 pyprog.stderr.on('data', (data) => nosuccess(data) );
-            }).catch(error => {
+            }).catch((error) => {
                 console.log('caught', error.message);
             });
 
@@ -93,15 +93,15 @@ app.get('/send_email', (req, res) => {
                 mailOptions.html = data.toString();
             }).then(() => {
                 emailer.send(emailer.transporter, mailOptions);
-            }).catch(error => {
+            }).catch((error) => {
                 console.log('caught', error.message);
             });
         }
     });
 
-    sendEmail.then((data)=> {
+    sendEmail.then((data) => {
         console.log(data);
-    }).catch(error => { 
+    }).catch((error) => { 
         console.log('caught', error.message);
     });
 });
