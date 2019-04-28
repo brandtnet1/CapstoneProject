@@ -6,13 +6,13 @@ import "./style.css";
 
 class App extends Component {
   state = {
-    data: null,
+    // data: null,
     courses: null,
     collapsed: true,
     selectedRowKeys: [], // Check here to configure the default column
     selectedRows: [],
-    startTime: null,
-    endTime: null,
+    startTime: null, // Time filter beginning time
+    endTime: null,   // Time filter ending time
     cart: [],
     loading: true,
     searchText: '',
