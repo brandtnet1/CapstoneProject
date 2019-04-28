@@ -83,8 +83,7 @@ class App extends Component {
     this.setState({ visible });
   };
 
-  // Remove courses from course cart
-  onDelete = (item) => {
+  handleDelete = (item) => {
     var index = this.state.cart.indexOf(item);
     this.state.cart.splice(index,1);
     this.setState({cart : this.state.cart});
@@ -340,7 +339,7 @@ class App extends Component {
           time = time.slice(0, -1).split("-");
 
           var end = this.convertTime(time[1], modifier);
-          if(end.includes("12")){
+          if (end.includes("12")){
             modifier = "A"
           }
           var start = this.convertTime(time[0], modifier);
@@ -350,7 +349,7 @@ class App extends Component {
           else if (filter_times[1] === 'null' && parseInt(filter_times[0].replace(":", "")) <= parseInt(start)) {
             t = true;
           }
-          else if(parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
+          else if (parseInt(filter_times[0].replace(":", "")) <= parseInt(start) && parseInt(filter_times[1].replace(":","")) >= parseInt(end)) {
             t = true;
           }
         });
@@ -409,7 +408,7 @@ class App extends Component {
                     actions={[
                     <a>
                       <Icon
-                        onClick={() => this.onDelete(item)}
+                        onClick={() => this.handleDelete(item)}
                         type="delete"
                         theme="twoTone" 
                       />
