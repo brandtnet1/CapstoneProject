@@ -476,8 +476,9 @@ class App extends Component {
               <Button className="shoppingcart" id="shoppingCart">Course Cart</Button>
             </Popover>
           </Header>
-          <Layout className="sider-and-content-container">
-            <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
+          <div className="header-and-content-divider">
+          </div>
+          <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
             <Content style={{
               background: '#fff',
               padding: 24,
@@ -558,7 +559,6 @@ class App extends Component {
                 </div>}
             </Content>
           </Layout>
-        </Layout>
       </Layout>
      </div>
     );

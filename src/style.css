@@ -24,7 +24,6 @@
   padding: 5px;
   background-color: #f44336;
 }
-
 .timeButtons{
   left: 50%;
 }
@@ -49,9 +48,12 @@ I also plan on making a running fox animation for it :)*/
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
-
 .content-container {
   background-image: url("bg-discover.jpg");
+}
+.header-and-content-divider{
+  height: 5px;
+  background-color: #facf00;
 }
 
 /*This controls the animation, source https://www.w3schools.com/howto/howto_css_loader.asp*/
