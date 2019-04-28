@@ -256,13 +256,15 @@ class App extends Component {
   }
 
   // For future use when we set up subscriber system
-  handleAddSubscriber = () => {
-    var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
-    fetch('http://localhost:5000/send_email' + query)
-    .then(response => {
-      return response.json();
-    })
-    .catch(err => console.log(err));
+  handleAddSubscriber(record) {
+    if(document.getElementById('userEmail2')) {
+      var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True";
+      fetch('http://localhost:5000/send_email' + query)
+      .then(response => {
+        return response.json();
+      })
+      .catch(err => console.log(err));
+    }
   }
 
   render = () => {
@@ -532,14 +534,14 @@ class App extends Component {
                         </p>
                         <Form layout="inline">
                           <Form.Item>
-                            <Input id="userEmail1" placeholder="Enter email..."/>
+                            <Input id="userEmail2" placeholder="Enter email..."/>
                           </Form.Item>
                           <Form.Item>
                             <Tooltip title="Stay updated on any changes to this course!">
                               <Button
                                 type="primary"
                                 htmlType="submit"
-                                onClick={this.handleAddSubscriber}
+                                onClick={() => this.handleAddSubscriber(record)}
                               >
                                 Subscribe
                               </Button>
