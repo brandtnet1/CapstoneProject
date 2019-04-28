@@ -4,13 +4,16 @@ const cors = require('cors');
 const port = process.env.PORT || 5000;
 const Course = require("./models/Course");
 
+// Must use CORS "Cross Origin Resource Sharing" 
+// Allows us to use our "Proxy" method of connecting to server
+// through react front end
 var app = express();
 app.use(cors());
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-// mongoose.connect('mongodb://localhost/capstone')
+// Connecting to cloud MongoDB
 mongoose.connect('mongodb+srv://admin:root@cluster0-pmazi.mongodb.net/Capstone?retryWrites=true')
 .then(() => console.log('connection successful'))
 .catch((err) => console.error(err));
@@ -24,6 +27,7 @@ app.get('/query_db', (req, res) => {
 
     var courses = {};
     // https://docs.mongodb.com/manual/reference/method/db.collection.find/
+    // Find everything that looks like Course object in database
     Course.find({}, function (err, course) {
         course.forEach((c) => {
             courses[c._id] = c;
@@ -34,6 +38,8 @@ app.get('/query_db', (req, res) => {
 
 });
 
+// Using the list of CRN's from the front end
+// Run our python script to generate an html file that shows the course schedule
 app.get('/export_cart', (req, res) => {
     let runExport = new Promise(function(success, nosuccess) {
         const { spawn } = require('child_process');
@@ -46,12 +52,14 @@ app.get('/export_cart', (req, res) => {
     });
 
     runExport.then((data) => {
+        // Send html file as text to front-end
         res.send(data.toString());
     }).catch((error) => {
         console.log('caught', error.message);
     });
 });
 
+// First run the export python function then send email to the requested email
 app.get('/send_email', (req, res) => {
     let sendEmail = new Promise(function(success, nosuccess){
         var mailOptions = {
@@ -61,12 +69,14 @@ app.get('/send_email', (req, res) => {
             html: '<p/>'
         };
 
+        // For future use with subscriber 
         if(req.query.Subscriber === "True"){
             emailer.newSubscriber(mailOptions) //this changes the email content
             .then(() => {
                 emailer.send(emailer.transporter, mailOptions);
             });
-        } else {
+        } 
+        else { // Run the exporter (course_generator) then send email using generated data
             let runExport = new Promise(function(success, nosuccess) {
                 const { spawn } = require('child_process');
                 //console.log(req.query);
@@ -78,6 +88,8 @@ app.get('/send_email', (req, res) => {
                 console.log('caught', error.message);
             });
 
+            // Set up email to contain returned information from exporter
+            // Then send email
             runExport.then((data) => {
                 mailOptions.html = data.toString();
             }).then(() => {
