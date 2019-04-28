@@ -14,6 +14,7 @@ mydb = myclient['Capstone']
 mycol = mydb['courses']
 
 #x = mycol.find_one({"Course_Title": "Human Evolution"})
+# get CRN's from the command line
 crns = re.findall(r'"(.*?)"', str(sys.argv[1]))
 crns = crns[0:]
 

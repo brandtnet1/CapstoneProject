@@ -6,6 +6,7 @@ import pymongo
 from collections import OrderedDict
 import requests
 
+# Connect to database and set variable for specific object
 myclient = pymongo.MongoClient('mongodb+srv://admin:root@cluster0-pmazi.mongodb.net/Capstone?retryWrites=true')
 mydb = myclient['Capstone']
 mycol = mydb['courses']
@@ -18,6 +19,7 @@ except:
     f=codecs.open("html/rollins_course_schedule_fall_2019.html", 'r')
     sections = f.read()
 
+# split html by table rows
 sections = sections.split("</tr>")
 
 #skip over intersession courses
@@ -28,9 +30,8 @@ for first in range(0, len(sections)):
 first += 3
 sections = sections[first:]
 
-
 def parseCourse(section):
-
+    # break the row down into individual columns
     parts = section.split("<td")
 
     #get status of course
@@ -74,7 +75,7 @@ def parseCourse(section):
     times = parts[6]
     times = re.findall('([0-9]. ?:[0-9][0-9]-[0-9]. ?:[0-9][0-9][a-zA-z])', times)
     times = [x.replace(' ', '') for x in times if x]
-    # Chris is the time master
+    # Chris is the time master, REGEX
     # ([0-9].:[0-9][0-9]-[0-9][0-9]:[0-9][0-9][a-zA-z]) first, incorrect
     # ([0-9]. ?:[0-9][0-9]-[0-9]. ?:[0-9][0-9][a-zA-z])
 
@@ -108,7 +109,7 @@ def parseCourse(section):
     if "nbsp" in note:
         note = "n/a"
 
-
+    # Course object to be added to database
     course = [("Status", status), ("Seats_Available", seats_available),
              ("Course_Registration_Number", course_number),
              ("Course_Department", department), ("Course_Level", level),
@@ -118,6 +119,7 @@ def parseCourse(section):
              ("Competency", competency), ("Comments", note)]
 
     # https://www.w3schools.com/python/python_mongodb_insert.asp
+    # insert one course into the database
     mycol.insert_one(OrderedDict(course))
 
 #loop through all sections in HTML file
