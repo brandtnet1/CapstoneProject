@@ -555,7 +555,7 @@ class App extends Component {
                     size={"medium"}
                     rowKey = "_id"
                     />
-                  </div>}
+                  </div>} 
                 </div>}
             </Content>
           </Layout>
