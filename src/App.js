@@ -395,7 +395,7 @@ class App extends Component {
     return (
       <div className="app-container">
         <Layout className="app">
-          <Header className="header" style={{background: '#0071ba'}}>
+          <Header className="header">
             <a href="https://www.rollins.edu" target="_blank">
             <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg">
             </img>
@@ -515,14 +515,15 @@ class App extends Component {
                 <Spin>
                   {/* This is just to create the table in the background behind the loading animation */}
                     <Table
+                    className="table"
                     columns={ columns }
                     pagination={ false }
                     size={ "medium" }
                     />
               </Spin>
               : <div> { this.state.courses &&
-                  <div className='table'>
                     <Table
+                    className="table"
                     dataSource={ this.state.courses }
                     columns={ columns }
                     rowSelection={ rowSelection }
@@ -557,8 +558,7 @@ class App extends Component {
                     pagination={false}
                     size={"medium"}
                     rowKey = "_id"
-                    />
-                  </div>}
+                    />}
                 </div>}
             </Content>
           </Layout>

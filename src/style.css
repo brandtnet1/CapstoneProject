@@ -1,15 +1,24 @@
-.content-container {
-  background-image: url("bg-discover.jpg");
+.header {
+  background-color: #0071ba;
 }
 .header-and-content-divider{
   height: 5px;
   background-color: #facf00;
 }
+.content-container {
+  background-image: url("bg-discover.jpg");
+}
+/* .footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  background-color: #2a3e4c;
+} */
 .logo {
   height: 30px;
 }
 .table {
-  height: 530px;
+  height: 80vh;
   width: 100%;
   overflow: auto;
 }
