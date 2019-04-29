@@ -518,7 +518,7 @@ class App extends Component {
                     />
               </Spin>
               : <div> { this.state.courses &&
-                  <div className='table' >
+                  <div className='table'>
                     <Table
                     dataSource={ this.state.courses }
                     columns={ columns }
