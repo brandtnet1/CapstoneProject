@@ -396,10 +396,12 @@ class App extends Component {
       <div className="app-container">
         <Layout className="app">
           <Header className="header">
-            <a href="https://www.rollins.edu" target="_blank">
-            <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg">
-            </img>
+            <a href="https://www.rollins.edu" target="_blank" rel="noopener noreferrer">
+              <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
             </a>
+            <span className="app-name">
+              Course Schedule Planner | Fall 2019
+            </span>
             <Popover
               placement="bottom"
               content={
@@ -558,6 +560,7 @@ class App extends Component {
                     pagination={false}
                     size={"medium"}
                     rowKey = "_id"
+                    bordered
                     />}
                 </div>}
             </Content>

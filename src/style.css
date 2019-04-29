@@ -1,5 +1,20 @@
+.app {
+  height: 100vh;
+}
 .header {
   background-color: #0071ba;
+}
+.app-name {
+  position: relative;
+  left: 2.5%;
+  top: 14%;
+  color: white;
+  font-family: serif;
+  font-size: x-large;
+}
+a { 
+  color: white; 
+  text-decoration: none; 
 }
 .header-and-content-divider{
   height: 5px;
