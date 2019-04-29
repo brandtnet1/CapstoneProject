@@ -71,10 +71,9 @@ app.get('/send_email', (req, res) => {
 
         // For future use with subscriber
         if (req.query.Subscriber === "True") {
-            emailer.newSubscriber(mailOptions) //this changes the email content
-                .then(() => {
-                    emailer.send(emailer.transporter, mailOptions);
-                });
+          
+            emailer.newSubscriber(mailOptions,req.query.Course);//this changes the email content
+            emailer.send(emailer.transporter, mailOptions);
         } else { // Run the exporter (course_generator) then send email using generated data
             var runExport = new Promise(function (success, nosuccess) {
                 const {spawn} = require('child_process');
