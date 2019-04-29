@@ -396,7 +396,10 @@ class App extends Component {
       <div className="app-container">
         <Layout className="app">
           <Header className="header" style={{background: '#0071ba'}}>
-            <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
+            <a href="https://www.rollins.edu" target="_blank">
+            <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg">
+            </img>
+            </a>
             <Popover
               placement="bottom"
               content={
