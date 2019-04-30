@@ -6,10 +6,10 @@
 }
 .app-name {
   position: relative;
-  left: 2.5%;
+  left: 3%;
   top: 14%;
   color: white;
-  font-family: serif;
+  font-family: fantasy;
   font-size: x-large;
 }
 a { 
@@ -23,12 +23,6 @@ a {
 .content-container {
   background-image: url("bg-discover.jpg");
 }
-/* .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-  background-color: #2a3e4c;
-} */
 .logo {
   height: 30px;
 }

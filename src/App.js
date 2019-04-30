@@ -393,180 +393,177 @@ class App extends Component {
     }];
 
     return (
-      <div className="app-container">
-        <Layout className="app">
-          <Header className="header">
-            <a href="https://www.rollins.edu" target="_blank" rel="noopener noreferrer">
-              <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
-            </a>
-            <span className="app-name">
-              Course Schedule Planner | Fall 2019
-            </span>
-            <Popover
-              placement="bottom"
-              content={
-                <List
-                  size="small"
-                  head={<div>Course Cart</div>}
-                  dataSource={this.state.cart}
-                  renderItem={item => (
-                  <List.Item
-                    actions={[
-                    <a>
-                      <Icon
-                        onClick={() => this.handleDelete(item)}
-                        type="delete"
-                        theme="twoTone"
-                      />
-                    </a>]}
-                    key={item._id}
-                  >
-                    {item.Course_Title}
-                  </List.Item>)}
-                  footer={
-                    <Button.Group>
-                      <Button
-                        size="small"
-                        disabled={!hasItemsInCart}
-                        onClick={this.handleExportCart}
-                      >
-                        Export
-                      </Button>
-                      <Popover
-                        placement="bottom"
-                        trigger="click"
-                        content={
-                          <Form layout="inline">
-                            <Form.Item>
-                                <Input id="userEmail1" placeholder="Enter email..."/>
-                            </Form.Item>
-                            <Form.Item>
-                              <Tooltip title="Enter an email to receive your course cart at. You can enter your own email or your advisor's!">
-                                <Button
-                                  size="small"
-                                  type="primary"
-                                  disabled={!hasItemsInCart}
-                                  htmlType="submit"
-                                  onClick={this.handleSendEmail}
-                                >
-                                  Send
-                                </Button>
-                              </Tooltip>
-                            </Form.Item>
-                          </Form>
-                        }
-                      >
-                        <Button
-                          size="small"
-                          disabled={!hasItemsInCart}
-                        >
-                          Email
-                        </Button>
-                      </Popover>
-                      <Button
-                        size="small"
-                        type="danger"
-                        disabled={!hasItemsInCart}
-                        onClick={this.handleClearCart}
-                      >
-                        Clear
-                        </Button>
-                    </Button.Group>}
-                />
-              }
-              trigger="click"
-              visible={this.state.visible}
-              onVisibleChange={this.handleVisibleChange}
-            >
-              <Button className="shopping-cart" id="shoppingCart">Course Cart</Button>
-            </Popover>
-          </Header>
-          <div className="header-and-content-divider">
-          </div>
-          <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
-            <Content style={{
-              background: '#fff',
-              padding: 15,
-              margin: 0,
-              minHeight: 280,}}
-            >
-              <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
-                <Button
-                  type="primary"
-                  onClick={this.handleAddToCart}
-                  disabled={!hasSelected}
-                  loading={loading}
-                >
-                  Add to Cart
-                </Button>
-              </Tooltip>
-              <Tooltip title="Clear your current selection">
-                <Button
-                  type="primary"
-                  onClick={this.handleClearSelection}
-                  disabled={!hasSelected}
-                  loading={loading}
-                >
-                  Clear
-                </Button>
-              </Tooltip>
-              <span style={{ marginLeft: 8 }}>
-                {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
-              </span>
-              { loading ?
-                <Spin>
-                  {/* This is just to create the table in the background behind the loading animation */}
-                    <Table
-                    className="table"
-                    columns={ columns }
-                    pagination={ false }
-                    size={ "medium" }
+      <Layout className="app">
+        <Header className="header">
+          <a href="https://www.rollins.edu" target="_blank" rel="noopener noreferrer">
+            <img className="logo" alt="rollins-logo" src="../logo-rollins-college-nav.svg"></img>
+          </a>
+          <span className="app-name">
+            Course Schedule Planner | Fall 2019
+          </span>
+          <Popover
+            placement="bottom"
+            content={
+              <List
+                size="small"
+                head={<div>Course Cart</div>}
+                dataSource={this.state.cart}
+                renderItem={item => (
+                <List.Item
+                  actions={[
+                  <a>
+                    <Icon
+                      onClick={() => this.handleDelete(item)}
+                      type="delete"
+                      theme="twoTone"
                     />
-              </Spin>
-              : <div> { this.state.courses &&
-                    <Table
-                    className="table"
-                    dataSource={ this.state.courses }
-                    columns={ columns }
-                    rowSelection={ rowSelection }
-                    hideDefaultSelections= { true }
-                    expandedRowRender={record =>
-                      <div>
-                        <p style={{ margin: 0 }}>
-                        Credits: {record.Course_Credits} <br />
-                        CRN: {record.Course_Registration_Number} <br />
-                        Section: {record.Course_Section} <br />
-                        Prereqs/Comments:{record.Comments}
-                        </p>
+                  </a>]}
+                  key={item._id}
+                >
+                  {item.Course_Title}
+                </List.Item>)}
+                footer={
+                  <Button.Group>
+                    <Button
+                      size="small"
+                      disabled={!hasItemsInCart}
+                      onClick={this.handleExportCart}
+                    >
+                      Export
+                    </Button>
+                    <Popover
+                      placement="bottom"
+                      trigger="click"
+                      content={
                         <Form layout="inline">
                           <Form.Item>
-                            <Input id="userEmail2" placeholder="Enter email..."/>
+                              <Input id="userEmail1" placeholder="Enter email..."/>
                           </Form.Item>
                           <Form.Item>
-                            <Tooltip title="Stay updated on any changes to this course!">
+                            <Tooltip title="Enter an email to receive your course cart at. You can enter your own email or your advisor's!">
                               <Button
+                                size="small"
                                 type="primary"
+                                disabled={!hasItemsInCart}
                                 htmlType="submit"
-                                onClick={() => this.handleAddSubscriber(record)}
+                                onClick={this.handleSendEmail}
                               >
-                                Subscribe
+                                Send
                               </Button>
                             </Tooltip>
                           </Form.Item>
                         </Form>
-                      </div>}
-                    expandRowByClick={true}
-                    expandIconAsCell={false}
-                    pagination={false}
-                    size={"medium"}
-                    rowKey = "_id"
-                    bordered
-                    />}
-                </div>}
-            </Content>
-          </Layout>
+                      }
+                    >
+                      <Button
+                        size="small"
+                        disabled={!hasItemsInCart}
+                      >
+                        Email
+                      </Button>
+                    </Popover>
+                    <Button
+                      size="small"
+                      type="danger"
+                      disabled={!hasItemsInCart}
+                      onClick={this.handleClearCart}
+                    >
+                      Clear
+                      </Button>
+                  </Button.Group>}
+              />
+            }
+            trigger="click"
+            visible={this.state.visible}
+            onVisibleChange={this.handleVisibleChange}
+          >
+            <Button className="shopping-cart" id="shoppingCart">Course Cart</Button>
+          </Popover>
+        </Header>
+        <div className="header-and-content-divider"></div>
+        <Layout className="content-container" style={{ padding: '0 24px 24px' }}>
+          <Content style={{
+            background: '#fff',
+            padding: 15,
+            margin: 0,
+            minHeight: 280,}}
+          >
+            <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
+              <Button
+                type="primary"
+                onClick={this.handleAddToCart}
+                disabled={!hasSelected}
+                loading={loading}
+              >
+                Add to Cart
+              </Button>
+            </Tooltip>
+            <Tooltip title="Clear your current selection">
+              <Button
+                type="primary"
+                onClick={this.handleClearSelection}
+                disabled={!hasSelected}
+                loading={loading}
+              >
+                Clear
+              </Button>
+            </Tooltip>
+            <span style={{ marginLeft: 8 }}>
+              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+            </span>
+            { loading ?
+              <Spin>
+                {/* This is just to create the table in the background behind the loading animation */}
+                  <Table
+                  className="table"
+                  columns={ columns }
+                  pagination={ false }
+                  size={ "medium" }
+                  />
+            </Spin>
+            : <div> { this.state.courses &&
+                  <Table
+                  className="table"
+                  dataSource={ this.state.courses }
+                  columns={ columns }
+                  rowSelection={ rowSelection }
+                  hideDefaultSelections= { true }
+                  expandedRowRender={record =>
+                    <div>
+                      <p style={{ margin: 0 }}>
+                      Credits: {record.Course_Credits} <br />
+                      CRN: {record.Course_Registration_Number} <br />
+                      Section: {record.Course_Section} <br />
+                      Prereqs/Comments:{record.Comments}
+                      </p>
+                      <Form layout="inline">
+                        <Form.Item>
+                          <Input id="userEmail2" placeholder="Enter email..."/>
+                        </Form.Item>
+                        <Form.Item>
+                          <Tooltip title="Stay updated on any changes to this course!">
+                            <Button
+                              type="primary"
+                              htmlType="submit"
+                              onClick={() => this.handleAddSubscriber(record)}
+                            >
+                              Subscribe
+                            </Button>
+                          </Tooltip>
+                        </Form.Item>
+                      </Form>
+                    </div>}
+                  expandRowByClick={true}
+                  expandIconAsCell={false}
+                  pagination={false}
+                  size={"medium"}
+                  rowKey = "_id"
+                  bordered
+                  />}
+              </div>}
+          </Content>
+        </Layout>
       </Layout>
-     </div>
     );
   }
 }
