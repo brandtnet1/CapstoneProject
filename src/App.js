@@ -411,13 +411,11 @@ class App extends Component {
                 renderItem={item => (
                 <List.Item
                   actions={[
-                  <a>
                     <Icon
                       onClick={() => this.handleDelete(item)}
                       type="delete"
                       theme="twoTone"
-                    />
-                  </a>]}
+                    />]}
                   key={item._id}
                 >
                   {item.Course_Title}
