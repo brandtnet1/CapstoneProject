@@ -97,6 +97,13 @@ class App extends Component {
     this.setState({cart: []});
   }
 
+  /****************End Cart methods*******************/
+
+  // Select more row/s or unselected row/s
+  handleSelectChange = (selectedRowKeys,rowInfo) => {
+    this.setState({ selectedRowKeys, selectedRows : rowInfo });
+  }
+
   // Removes checked classes
   handleClearSelection = () => {
     this.setState({ loading: true });
@@ -106,13 +113,6 @@ class App extends Component {
         loading: false,
       });
     }, 1000);
-  }
-
-  /****************End Cart methods*******************/
-
-  // Select more row/s or unselected row/s
-  handleSelectChange = (selectedRowKeys,rowInfo) => {
-    this.setState({ selectedRowKeys, selectedRows : rowInfo });
   }
 
   // Used to convert hr:min string time format to military time
@@ -129,8 +129,8 @@ class App extends Component {
 
   // Changes start time state variable to match military time
   handleSelectStartTime = (value) => {
-    if(value) {
-      if(value._d.getMinutes() === 0) {
+    if (value) {
+      if (value._d.getMinutes() === 0) {
         this.setState({ startTime : value._d.getHours() + ":00" });
       } else {
         this.setState({ startTime : value._d.getHours() + ":" + value._d.getMinutes() });
@@ -140,8 +140,8 @@ class App extends Component {
 
   // Changes end time state variable to match military time
   handleSelectEndTime = (value) => {
-    if(value) {
-      if(value._d.getMinutes() === 0) {
+    if (value) {
+      if (value._d.getMinutes() === 0) {
         this.setState({ endTime : value._d.getHours() + ":00" });
       } else {
         this.setState({ endTime : value._d.getHours() + ":" + value._d.getMinutes() });
@@ -192,7 +192,7 @@ class App extends Component {
         <Button
           type="primary"
           onClick={() => {
-            if(dataIndex === "Times") {
+            if (dataIndex === "Times") {
               setSelectedKeys([this.state.startTime + "-" + this.state.endTime]);
             }
             this.handleSearch(selectedKeys, confirm)
@@ -256,7 +256,7 @@ class App extends Component {
 
   // For future use when we set up subscriber system
   handleAddSubscriber(record) {
-    if(document.getElementById('userEmail2')) {
+    if (document.getElementById('userEmail2')) {
       var query = "?Email=" + document.getElementById('userEmail2').value + "&Subscriber=True" +"&Course="+JSON.stringify(record);
       fetch('http://localhost:5000/send_email' + query)
       .then(response => {
@@ -275,18 +275,18 @@ class App extends Component {
     const { Header, Content } = Layout;
     const { loading, selectedRowKeys, cart } = this.state;
 
+    // Set the loader wheel options
+    const loadWheel = React.createElement('div', {className: 'loader-wheel'});
+    Spin.setDefaultIndicator(loadWheel);
+
+    const hasSelected = selectedRowKeys.length > 0;
+    const hasItemsInCart = cart.length > 0;
+
     //specify rowSelection behavior for table
     const rowSelection = {
       selectedRowKeys,
       onChange: this.handleSelectChange,
     };
-
-    const hasSelected = selectedRowKeys.length > 0;
-    const hasItemsInCart = cart.length > 0;
-
-    // Set the loader wheel options
-    const loadWheel = React.createElement('div', {className: 'loader-wheel'});
-    Spin.setDefaultIndicator(loadWheel);
 
     //specify columns format/behaviors for table
     const columns = [{
@@ -514,52 +514,52 @@ class App extends Component {
             { loading ?
               <Spin>
                 {/* This is just to create the table in the background behind the loading animation */}
-                  <Table
-                  className="table"
-                  columns={ columns }
-                  pagination={ false }
-                  size={ "medium" }
-                  />
-            </Spin>
+                <Table
+                className="table"
+                columns={ columns }
+                pagination={ false }
+                size={ "medium" }
+                />
+              </Spin>
             : <div> { this.state.courses &&
-                  <Table
-                  className="table"
-                  dataSource={ this.state.courses }
-                  columns={ columns }
-                  rowSelection={ rowSelection }
-                  hideDefaultSelections= { true }
-                  expandedRowRender={record =>
-                    <div>
-                      <p style={{ margin: 0 }}>
-                      Credits: {record.Course_Credits} <br />
-                      CRN: {record.Course_Registration_Number} <br />
-                      Section: {record.Course_Section} <br />
-                      Prereqs/Comments:{record.Comments}
-                      </p>
-                      <Form layout="inline">
-                        <Form.Item>
-                          <Input id="userEmail2" placeholder="Enter email..."/>
-                        </Form.Item>
-                        <Form.Item>
-                          <Tooltip title="Stay updated on any changes to this course!">
-                            <Button
-                              type="primary"
-                              htmlType="submit"
-                              onClick={() => this.handleAddSubscriber(record)}
-                            >
-                              Subscribe
-                            </Button>
-                          </Tooltip>
-                        </Form.Item>
-                      </Form>
-                    </div>}
-                  expandRowByClick={true}
-                  expandIconAsCell={false}
-                  pagination={false}
-                  size={"medium"}
-                  rowKey = "_id"
-                  bordered
-                  />}
+                <Table
+                className="table"
+                dataSource={ this.state.courses }
+                columns={ columns }
+                rowSelection={ rowSelection }
+                hideDefaultSelections= { true }
+                expandedRowRender={record =>
+                  <div>
+                    <p style={{ margin: 0 }}>
+                    Credits: {record.Course_Credits} <br />
+                    CRN: {record.Course_Registration_Number} <br />
+                    Section: {record.Course_Section} <br />
+                    Prereqs/Comments:{record.Comments}
+                    </p>
+                    <Form layout="inline">
+                      <Form.Item>
+                        <Input id="userEmail2" placeholder="Enter email..."/>
+                      </Form.Item>
+                      <Form.Item>
+                        <Tooltip title="Stay updated on any changes to this course!">
+                          <Button
+                            type="primary"
+                            htmlType="submit"
+                            onClick={() => this.handleAddSubscriber(record)}
+                          >
+                            Subscribe
+                          </Button>
+                        </Tooltip>
+                      </Form.Item>
+                    </Form>
+                  </div>}
+                expandRowByClick={true}
+                expandIconAsCell={false}
+                pagination={false}
+                size={"medium"}
+                rowKey = "_id"
+                bordered
+                />}
               </div>}
           </Content>
         </Layout>
