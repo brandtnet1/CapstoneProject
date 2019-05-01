@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { message, List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker } from 'antd';
+import { message, List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker, Modal } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
@@ -261,7 +261,12 @@ class App extends Component {
       return response.json();
     })
     .catch(err => console.log(err));
-    message.success("Course cart sent to " + document.getElementById('userEmail1').value + "!");
+    // Display success message
+    // Right now, this message is displayed regardless of whether the course was sent successfully or not
+    Modal.success({
+      title: "Successful!",
+      content: "Course cart was sent to " + document.getElementById('userEmail1').value + " successfully!",
+    });
   }
 
   // For future use when we set up subscriber system
@@ -503,7 +508,10 @@ class App extends Component {
             margin: 0,
             minHeight: 280,}}
           >
-            <Tooltip title="Add your current selection to cart. You can then send this cart to your advisor or to youself with one click!">
+            <Tooltip 
+              title="Add your selected courses to cart"
+              placement="top"
+            >
               <Button
                 type="primary"
                 onClick={this.handleAddToCart}
