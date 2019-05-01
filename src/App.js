@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { message, List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker, Modal } from 'antd';
+import { List, Form, Tooltip, Popover, Spin, Button, Input, Icon, Layout, Table, TimePicker, Modal } from 'antd';
 
 import "antd/dist/antd.css";
 import "./style.css";
