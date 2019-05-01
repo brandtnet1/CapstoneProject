@@ -165,7 +165,7 @@ class App extends Component {
             style={{ width: 188, marginBottom: 8, display: 'block' }}
             />
         }
-        { (dataIndex == "Course_Level") && 
+        { (dataIndex === "Course_Level") && 
           <Tooltip title="To find a course level above a number, just add '+' to it! Ex: Use '200+' to find all 200-level courses">
             <Input
             ref={node => { this.searchInput = node; }}
