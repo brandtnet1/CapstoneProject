@@ -155,7 +155,7 @@ class App extends Component {
       setSelectedKeys, selectedKeys, confirm, clearFilters,
     }) => (
       <div style={{ padding: 8 }}>
-        { dataIndex !== "Times" &&
+        { (dataIndex !== "Times" && dataIndex !== "Course_Level") &&
           <Input
             ref={node => { this.searchInput = node; }}
             placeholder={`Search ${dataIndex}`}
@@ -164,6 +164,18 @@ class App extends Component {
             onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
             style={{ width: 188, marginBottom: 8, display: 'block' }}
             />
+        }
+        { (dataIndex == "Course_Level") && 
+          <Tooltip title="To find a course level above a number, just add '+' to it! Ex: Use '200+' to find all 200-level courses">
+            <Input
+            ref={node => { this.searchInput = node; }}
+            placeholder={`Search ${dataIndex}`}
+            value={selectedKeys[0]}
+            onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+            style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+          </Tooltip>
         }
         { dataIndex === "Times" &&
           <Input.Group compact>
@@ -315,7 +327,7 @@ class App extends Component {
       key: 'Course_Level',
       ...this.getColumnSearchProps('Course_Level'),
       onFilter: (value, record) => {
-        if(value.includes("+")){
+        if (value.includes("+")) {
             value = value.substring(0, value.length - 1)
             return record.Course_Level >= parseInt(value) && record.Course_Level <= ((parseInt(value)/100) * 100) + 99
         } else {
@@ -347,7 +359,7 @@ class App extends Component {
           time = time.slice(0, -1).split("-");
 
           var end = this.convertTime(time[1], modifier);
-          if (end.includes("12")){
+          if (end.includes("12")) {
             modifier = "A"
           }
           var start = this.convertTime(time[0], modifier);
