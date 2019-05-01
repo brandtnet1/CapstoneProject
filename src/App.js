@@ -208,9 +208,7 @@ class App extends Component {
               setSelectedKeys([this.state.startTime + "-" + this.state.endTime]);
             }
             this.handleSearch(selectedKeys, confirm)
-          }
-        }
-          icon="search"
+          }}
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
